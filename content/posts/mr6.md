@@ -1,0 +1,13 @@
+---
+author: "Coleton O'Donnell"
+title: 'Music Review #6: "Tokyo" by The Books on The Lemon of Pink'
+date: "2021-11-27"
+ShowToc: false
+tags: ["music review"]
+---
+
+[Track](https://youtu.be/_cVFmpbcKIY)
+
+Nick Zammuto and Paul de Jong, the duo behind The Books, are pretty eclectic dudes. The Books made what can be roughly considered "collage" music, meaning that the music is made by combining sounds together, like samples of instruments, voices, etc. The instruments are almost always folk instruments like guitar, banjo, cello, etc. combined with the samples. Putting this all together, The Books make incredibly complex music by piecing together samples in an almost devious manner. Elegant chaos is what I'd use when describing The Books, their music if analysed in 5-10 second increments comes off almost nonsensical and littered with an almost endless depth, but taken into the broader view make up beautiful and moving landscapes of sound. The skill The Books possess in their production is something I rarely see. 
+
+When I consider a track such as "Tokyo" by The Books, I can't just consider the instruments, because the voices found within the track almost make up the instrumentation. For instance, in the beginning a sample of a flight attendant from Japan Airlines interjects the instrumental for a strangely long period. This doesn't feel unnatural within the context of the track, and in many ways I believe the track would not be anywhere near as complex without its addition. Littering the composition is a plucky sound which I can only presume is guitar. The pluck though feels to me as though it switches instruments, adding even more of a mind blow factor when you listen and try to consider what is happening. As well as this plucky sound that follows the entire composition, some cello work is done to imitate in many ways a classic synth sound. The abrupt beginnings and endings of the instruments leads to many of the instruments coming off as though they aren't physical, but they are and this adds an even greater amount of amazement when looking at the track from a technical angle. As well as the airlines sample, other samples line the song in a way that feels natural. Although I described The Books as being "collage" music, they are in many aspects their own thing, and this is seen within their unique style of sampling and splicing said samples. They are unique in the fact that much of the instrumentation work is done in house by Zammuto and Jong, and the sampling is primarily fulfilled by interviews, conversations, and other odd ball sounds. This leads to a mesmerising and incredibly consistent album. Listen to it and give it a shot, it is a pretty fun song.
