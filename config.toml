@@ -1,3 +1,142 @@
-baseURL = "http://example.org/"
-languageCode = "en-us"
-title = "My New Hugo Site"
+baseURL: "https://coleton.io/"
+title: "coleton.io" 
+paginate: 5
+theme: "PaperMod"
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+
+minify:
+    disableXML: true
+
+languages:
+    en:
+        languageName: "English"
+        weight: 1
+        menu:
+            main:
+                - name: Blog 
+                  url: blog 
+                  weight: 5
+                - name: Tags
+                  url: tags/
+                  weight: 10
+                - name: Search
+                  url: search/
+                  weight: 15
+                - name: My Bookmarks
+                  url: /bookmarks/
+                  weight: 20
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON
+
+params:
+    env: production # to enable google analytics, opengraph, twitter-cards and schema.
+    description: "Coleton O'Donnell's Site"
+    author: Coleton
+    # author: ["Me", "You"] # multiple authors
+        
+    ShowToc: true
+    defaultTheme: dark 
+    disableThemeToggle: true
+    ShowShareButtons: false 
+    ShowReadingTime: false 
+    # disableSpecial1stPost: true
+    displayFullLangName: false
+    ShowPostNavLinks: false 
+    comments: false 
+    images: ["papermod-cover.png"]
+    ShowCodeCopyButtons: true 
+    buttons:
+            - name: Tags
+            - url: tags  
+    mainSections:
+            - posts
+    homeInfoParams:
+        enabled: true
+        Title: "Hi."
+        Content: > 
+                Welcome to my site! My name is Coleton O'Donnell, I am a student at the University of Florida, studying Computer Science. My interests include music, data archiving, math, advocating for privacy, Linux, and all things low level. This site acts as a hub for my online presence and doubles as a blog. If you'd like to contact me, my email is the best way to reach me, though you can utilize my socials but it may take longer. When contacting me, feel free to [use my PGP key :)](https://coleton.io/publickey.txt)
+                
+    socialIcons:
+        - name: email
+          url: "mailto:contact@coleton.io"
+        - name: github
+          url: "https://github.com/coletonodonnell"
+        - name: linkedin
+          url: "https://www.linkedin.com/in/coleton-odonnell"
+        - name: reddit
+          url: "https://www.reddit.com/user/coletonodonnell"
+        - name: twitter
+          url: "https://twitter.com/coletonodonnell"
+        - name: discogs
+          url: "https://www.discogs.com/user/coleton"
+
+    assets:
+         favicon: "/favicon.ico"
+         favicon16x16: "/favicon-16x16.png"
+         favicon32x32: "/favicon-32x32.png"
+         apple_touch_icon: "/apple-touch-icon.png"
+
+    #cover:
+    #    responsiveImages: false
+    # fuseOpts:
+    #     isCaseSensitive: false
+    #     shouldSort: true
+    #     location: 0
+    #     distance: 1000
+    #     threshold: 0.4
+    #     minMatchCharLength: 0
+    #     keys: ["title", "permalink", "summary", "content"]
+
+taxonomies:
+    category: categories
+    tag: tags
+    series: series
+
+privacy:
+    vimeo:
+        disabled: false
+        simple: true
+
+    twitter:
+        disabled: false
+        enableDNT: true
+        simple: true
+
+    instagram:
+        disabled: false
+        simple: true
+
+    youtube:
+        disabled: false
+        privacyEnhanced: true
+
+services:
+    instagram:
+        disableInlineCSS: true
+    twitter:
+        disableInlineCSS: true
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: false
+    hl_Lines: ""
+    lineAnchors: ""
+    lineNoStart: 1
+    lineNos: true 
+    lineNumbersInTable: true
+    noClasses: true
+    style: monokai
+    tabWidth: 4
