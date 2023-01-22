@@ -28,9 +28,9 @@ languages:
                 - name: Search
                   url: search/
                   weight: 15
-                - name: My Bookmarks
-                  url: /bookmarks/
-                  weight: 20
+               #- name: My Bookmarks
+               #  url: /bookmarks/
+               #  weight: 20
 outputs:
     home:
         - HTML
