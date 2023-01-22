@@ -1,6 +1,6 @@
 ---
 author: "Coleton O'Donnell"
-title: "Data Structures and Algorithms Lecture Notes"
+title: "Data Structures and Algorithms Notes"
 date: "2022-07-01"
 description: "These are my notes for Data Structures and Algorithms. Current notes are for Abdul Bari's excellent DSA Udemy Course, but will include COP3530 at UF whenever I take it next semester."
 tags: ["math", "algorithms", "programming"]
@@ -9,17 +9,198 @@ math: true
 
 # Introduction
 
-All notes are on [Abdul Bari's DSA Course on Udemy](https://www.udemy.com/course/datastructurescncpp). He also has a free YouTube version that is [consolidated](https://youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O).
+These notes are on the COP3530 Data Structures and Algorithm class with the excellent Professor Kapoor at the University of Florida as well as on [Abdul Bari's DSA Course on Udemy](https://www.udemy.com/course/datastructurescncpp). What I have learned from each has been compounded into one living document. If you are interested in Abdul Bari's course but want a bit of a taste for it, there is also a free YouTube version that is [consolidated](https://youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O). Please note that these are **notes**, I can't stress this enough. These are written with prior knowledge in mind, and are basically useless if you aren't following along with a textbook or a course. They won't be teaching you well. These can act as a good reference for concepts and important explanations. Think of it as a TL;DR on things, but you're doing yourself a disservice if you even think of using these as your main source of info. For textbooks, check out the excellent [OpenDSA Book](https://opendsa-server.cs.vt.edu/ODSA/Books/Everything/html/index.html). If you prefer paper, check out "Introduction to Algorithms" by Cormen & Leiserson and "Data Structures and Algorithm Analysis in C++" by Weiss.
 
 ## Definition of the Data Structure and the Algorithm
 
 * What is a Data Structure?
   
-  * Can be defined as the arrangement of a collection of data items so that they can be utilized efficiently. It is all about data and the operations of the data.
+  * A **data structure** can be defined as the arrangement of a collection of data items so that they can be utilized efficiently. It is all about data and the operations of the data.
 
 * What is an Algorithm?
   
-  * Can be defined as a procedure used for solving a problem or performing a computation. It is a fininte set of instructions to execute a task.
+  * An **algorithm** can be defined as a procedure used for solving a problem or performing a computation. It is a fininte set of instructions to execute a task. All algorithms have an input, an output, and are definite and unambiguous. This means that they always have the same output for a given input.
+
+## Algorithm vs. Program
+
+|                         | Algorithm           | Code or Program      |
+| ----------------------- | ------------------- | -------------------- |
+| Focus                   | Design              | Implement a Solution |
+| Form                    | Psuedocode          | Language Specific    |
+| Dependence on H/W or OS | No                  | Yes                  |
+| Cognitive State         | Thinking            | Doing                |
+| Correctness/Performance | Mathematical Proofs | Test Cases           |
+
+Algorithms focus more on how to solve versus programs which is how we implement the solution.
+
+## Multiple Solutions to a Problem
+
+The proverb "more than one way to skin a cat" holds very true here, and there is definitely some more efficient ways to solve a problem. This is the difference between solutions, some are **naïve**, or silly, whereas others are more artful, or better. For instance, imagine we are given this objective:
+
+* Determine if a sorted array contains any duplicates.
+
+One possible solution is to compare every element to every other following element so as to create pairs, and if a pair shares identical elements, then there is a duplicate. The issue with this solution is that it is not taking full advantage of the **characteristics** of the data it has been given. Note that this array is **sorted.** This means that another, much better solution, is to compare each value with the value immediately proceeding it. Because it is sorted, duplicates will be right next to each other! Each solution yields the same result, but our latter solution is much more efficient. So this yields a very important question? Are all algorithms equal in terms of performance? And if not, how do we evaluate performance in a meaningful way?
+
+## What is Performance and Why Should We Care?
+
+Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligable at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year. 
+
+## How to Measure Performance?
+
+It is great that we know the importance of performance, but what are some ways that we can truly understand performance in a meaningful way? 
+
+### Approach 1: Simulation with Timing
+
+A logical way of checking performance is to just time two solutions, and then compare the times. 
+
+Code #1:
+
+```cpp
+auto t1 = Clock::now();
+for (int i=0; i < 1000; i++);
+auto t2 = Clock::now();
+```
+
+Code #2
+
+```cpp
+auto t1 = Clock::now();
+for (long i = 0; i < 1000000; i++);
+auto t2 = Clock::now();
+```
+
+Looking at the difference between `t2` and `t1` for each snippet:
+
+* Code 1: 1873 nanoseconds
+* Code 2: 1644295 nanoseconds
+
+The pros of timing is that it is easy to measure and interpret. The cons are that results vary across machines, compilers, and implementations. It isn't predictable for smaller inputs. There isn't a clear relationship between input and time.
+
+### Approach 2: Modeling by Counting
+
+Instead of counting time, we count the number of operations there are:
+
+```cpp
+int sum = 0;
+for (int i = 0; i < n; i++)
+    sum += i;
+std::cout << sum;
+```
+
+| Operation           | Symbolic Count |
+| ------------------- | -------------- |
+| `int sum = 0;`      | 1              |
+| `int i = 0;`        | 1              |
+| `i < n;`            | $0..n = n + 1$ |
+| `i++`               | $n$            |
+| `sum += i;`         | $n$            |
+| `std::cout << sum;` | 1              |
+| $T(n)$              | $3n + 4$       |
+
+The pros of counting is that it is independent of the computer and its input dependence is captured in modeling. The cons is that there is no formal definition of which operation to count, and it is tedious to compute. Also results still vary across implementation and it doesn't really tell you the time.
+
+### Approach 3: Asymptotic Behavior: Order of Growth
+
+An order of growth are functions whose asymptotic behavior is seen as equivalent. For example, $8n$, $100n$, and $n + 1$ all fall into the same order of growth, $n$. The major order of growths that algorithms follow with inputs are:
+
+| Inputs: $n$ | $O(1)$, Constant | $O(\log n)$, Logarithmic | $O(n)$, Linear | $O(n \log n)$, Linearithmic | $O(n^2)$, Quadratic | $O(n^3)$, Cubic | $O(2^n)$, Exponential | $O(n!)$, Factorial |
+|:-----------:|:----------------:|:------------------------:|:--------------:|:---------------------------:|:-------------------:|:---------------:|:---------------------:|:------------------:|
+| 1           | 1                | 0                        | 1              | 0                           | 1                   | 1               | 2                     | 1                  |
+| 10          | 1                | 3                        | 10             | 30                          | 100                 | 1000            | 1024                  | 3628800            |
+| 100         | 1                | 7                        | 100            | 700                         | 10000               | 1000000         | 1.26765E+30           | 9.3326E+157        |
+| 1000        | 1                | 10                       | 1000           | 10000                       | 1000000             | 1E+9            | 1.0715E+301           | Too Big            |
+| 10000       | 1                | 13                       | 10000          | 130000                      | 1E+8                | 1E+12           | Too Big               | Too Big            |
+| 100000      | 1                | 17                       | 100000         | 1700000                     | 1E+10               | 1E+15           | Too Big               | Too Big            |
+| 1000000     | 1                | 20                       | 1000000        | 20000000                    | 1E+12               | 1E+18           | Too Big               | Too Big            |
+| 10000000    | 1                | 23                       | 10000000       | 230000000                   | 1E+14               | 1E+21           | Too Big               | Too Big            |
+| 100000000   | 1                | 27                       | 100000000      | 2700000000                  | 1E+16               | 1E+24           | Too Big               | Too Big            |
+
+This can be further illustrated by:
+
+![How to find time complexity of an algorithm?  Adrian Mejia Blog](https://adrianmejia.com/images/time-complexity-examples.png)
+
+So if we return to the example in Approach 2, we note that $T(n) = 3n + 4$. How would we express the time complexity of this algorithm utilizing order of growth? This can be done with the **Big O** notation, which represents the **upper bound** of a function's growth rate. There are other notations that describe other aspects of a function, but for the sake of algorithm performance, Big O is usually what is considered. In this way, Big O notation represents the **worst case** of an algorithm. Let's look at how these notation sare formally defined and how to use them to describe the performance of an algorithm.
+
+## Asymptotic Analysis (Time Complexity)
+
+Asymptotic Analysis (aka. asymptotics) is a mathematical method to describe the limiting behavior of functions. For instance, imagine we are considering a function $f(x) = x^2 + 3x$, as $x \rightarrow \infin$, the term $3x$ becomes more and more insignificant when compared to the term $x^2$. In this way, it is said that $f(x)$ is *asymptotically equivalent to $x^2$* as $x \rightarrow \infin$. In Computer Science, we are especially interested in asymptotic analysis because it allows us to analyze algorithms in a meaningful and quantifiable way.
+
+### Notation
+
+#### Big O
+
+Let $T(n)$, $f(n)$ be functions. Therefore, $T(n) \in O(f(n))$ if there exists two positive constants $n_0$ and $M$ such that $T(n) \le Mf(n)$ for all $n \ge n_0$. Formally speaking, this is a more restrictive definition that is of most concern to us as Computer Scientists, but if you are interested in other definitions check out [the formal definition for Big O notation here.](https://en.wikipedia.org/wiki/Big_O_notation#Formal_definition) With this definition, a function $T(n) = n$ will yield $T(n) \in O(n!)$, but although true, isn't terribly useful. As a result, when figuring out the Big O of a function, it is best to figure out the tightest upperbound, so in the previous case, $T(n) \in O(n)$. Taking a look at our example from Approach 2, $T(n) = 3n+4$. When considering this, what should the value $M$ be? The easiest way to do this is to set $M$ to equal each of the integers in the function, so $M = 3 + 4 = 7$, and we set $n_0 = 0$. So, $3n+4 \le 7n$ for all $n > 1$, so $T(n) \in O(n)$. The function $f(n)$ always acts as an upper bound on performance, and $T(n)$ will grow no faster than the constant $M$ times $f(n)$.
+
+#### Big Ω
+
+Let $T(n), g(n)$ be functions. Therefore, $T(n) \in \Omega(g(n))$ if there exists two positive constants $n_0$ and $M$ such that $T(n) \ge Mg(n)$ for all $n \ge n_0$. Similar to Big O, this means that when $T(n) = n^3$, $T(n) \in \Omega(1)$, but that isn't useful. So, whenever you figure out the Big Ω of a function, find the tightest lowerbound, so in the previous case, $T(n) \in \Omega(n^3)$. The function $g(n)$ always acts as a lower bound on growth rate of $T(n)$, and $T(n)$ will grow no slower than the constant $M$ times $g(n)$.
+
+#### Big Θ
+
+Let $T(n), g(n)$ be functions. Therefore, $T(n) \in \Theta(g(n))$ if $T(n) = O(g(n))$ and $T(n) = \Omega(g(n))$. Another way of expressing it is $T(n) \in \Theta(g(n))$ if there exists two positive constants $n_0$ and $M$ such that $Mg(n) \le T(n) \le Mg(n)$ for all $n \ge n_0$. This function represents the upper *and* lower bound on the growth rate of $T(n)$.
+
+### Rules
+
+The rules for Asymptotic Analysis are pretty simple, but are incredibly important to learn.
+
+1. Addition (Independence): $T(n) = O(n+m)$
+
+Given different parts of an algorithm, their time complexities can be added:
+
+```cpp
+void my_function(int n, int m)
+{
+    for (int i = 0; i < n; i++)
+        // Do stuff
+
+    for (int i = 0; i < m; i++_
+        // Do more stuff
+}
+```
+
+The time complexity of lines 3 and 4 is $O(n)$ and the time complexity of lines 6 and 7 is $O(m)$, the time complexity for this algorithm is $O(n+m)$
+
+2. Drop Constant Multipliers: $T(n) = O(n+n) = O(2n) = O(n)$
+
+Given the following algorithm:
+
+```cpp
+void my_function(int n)
+{
+    for (int i = 0; i < n; i++)
+        // Do stuff
+
+    for (int i = 0; i < n; i++_
+        // Do more stuff
+}
+```
+
+Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(n)$, which is $O(n+n) = O(2n) = O(n)$
+
+3. Always Differentiate Input Variables
+
+Using the algorithm from Rule #1, we would never write the time complexity as $O(n)$ or $O(m)$, but always $O(n + m)$ unless there is an indication of a relationship between the variables given.
+
+4. Dropping Lower Order Terms
+
+Given the following algorithm:
+
+```cpp
+void my_function(int n, int m)
+{
+    for (int i = 0; i < n; i++)
+        // Do stuff
+
+    for (int j = 0; j < m; j *= 2)
+        // Do stuff
+}
+```
+
+Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time complexity for this algorithm is $O(n + log_2 m) = O(n)$. No matter if they are identical or different variables, if they are of a lower order they should be dropped.
+
+### Cases
+
+Algorithms that have a purpose that allows them to stop their process (eg. searching algorithms, they stop once they find what they are looking for) due to a condition have different cases. These are the best case, average case, and worst case. The best case is the lowest cost, average case is the average cost for all n, and worst case is the highest possible cost.   
 
 ## Stack and Heap
 
@@ -30,6 +211,19 @@ In a stack, memory is allocated in blocks that are of fixed size. Accessing this
 ### What is the Heap?
 
 In a heap, memory is allocated in random order in dynamic size. In other words, it isn't fixed and the size of what is stored on there can be changed. The heap is slow and costs a lot, but it is very flexable.
+
+## What is an Abstract Data Type?
+
+A data type consists of its representation and its operation. The 
+representation is what it actually is and how it is implemented. The 
+operation portion is what can be done with the data. In other words, the
+ representation is the technical details of a data type, and the 
+operation is what we can actually do with it. An Abstract Data Type is a
+ Data Type where the operation is known, but the representation is not. A
+ real life example is a book, a book is Abstract, but a Telephone Book 
+is a representation. We will look at all of these Logical Data 
+Structures as ADT first, so we can understand them, and then we can 
+delve into how they work.
 
 ## Physical and Logical Data Structures
 
@@ -46,61 +240,6 @@ A linked list also a collection of memory locations as well, but it is created d
 ### Logical Data Structures
 
 There are linear, non-linear, and tabular Logical Data Structures. The linear ones are the Stack and Queues. The non linear ones are the Tree and Graph. The tabular one is the Hash Table. We will delve into these later, but it is important to understand that the Physical Data Structures build these Logical Data Structures.
-
-# Abstract Data Type
-
-A data type consists of its representation and its operation. The representation is what it actually is and how it is implemented. The operation portion is what can be done with the data. In other words, the representation is the technical details of a data type, and the operation is what we can actually do with it. An Abstract Data Type is a Data Type where the operation is known, but the representation is not. A real life example is a book, a book is Abstract, but a Telephone Book is a representation. We will look at all of these Logical Data Structures as ADT first, so we can understand them, and then we can delve into how they work.
-
-## Time and Space Complexity
-
-### Time Complexity
-
-What is the purpose of the Computer? To compute, obviously. It is to automate a task we'd do on pen and paper. Time complexity is a measurement that explains the number of times a statement is executed. The greener the arrow, the better. If we are analyzing an algorithm and we decide that it takes, at worst, $n + 1$ operations, we just state that it is $O(n)$. We drop constants. Similarly, if we determine that it takes $\frac{n^2 -n}{2}$ operations, we just state that it is $O(n^2)$. So the largest degree is chosen. If we determine that an algorithm is constantly halfing operations, then we state that it is $O(\log_2 ~n)$. 
-
-![How to find time complexity of an algorithm? | Adrian Mejia Blog](https://adrianmejia.com/images/time-complexity-examples.png)
-
-Let's look at some examples:
-
-```cpp
-void swap(int x, int y) {
-    int t;
-    t = x; // 1 step
-    x = y; // 1 step
-    y = t; // 1 step
-}
-```
-
-In this example, no matter our input size, the number of steps is constant, it is 3 steps. Thus, the time complexity for this function is $O(1)$. Next example:
-
-```cpp
-void sum(int A[], int n) {
-    int s, i;
-    s = 0; // 1 step
-    for(i = o; i < n; i++) { // n + 1 steps
-        s = s + A[i]; // n steps
-    } // for loop is equal to 2n + 1 steps
-    return s; // 1 step
-}
-```
-
-So in this example, we have $2n + 3$ steps, but we drop constants so the time complexity is $O(n)$. Next example:
-
-```cpp
-void add(int n) {
-    int i, j;
-    for(i = 0; i < n; i++) { // n + 1 steps
-        for(j = 0; j < n; j++) { // n(n + 1) steps
-            C[i][j] = A[i][j] + B[i][j]; // n*n steps
-        } // for loop is equal to n^2 + n^2 + n steps
-    } // for loop is equal to 2n^2 + 2n + 1 steps
-}
-```
-
-So in this example, we have $2n^2 + 2n + 1$ steps, but we drop constants so the time complexity is $O(n^2)$.
-
-### Space Complexity
-
-Space complexity is similar to time complexity in the way that it describes something with respect to the input size. As the name suggests, though, space complexity states the total space taken by an algorithm. 
 
 # Recursion
 
@@ -2594,7 +2733,7 @@ class Node {
 class Tree {
   public:
     Node *root;
-  
+
   Tree() {
     root = nullptr;
   }
@@ -2618,7 +2757,7 @@ CreateTree() {
   root->lchild = nullptr;
   root->rchild = nullptr;
   q.emplace(root);
-  
+
   while (!q.empty()) {
     p = q.front();
     q.pop();
@@ -2651,6 +2790,7 @@ CreateTree() {
 Next, we code the traversals, the traversals implementations are pretty similar to how they are described above.
 
 ##### `Preorder`
+
 ```cpp
 void Preorder(Node *p) {
   if (p) {
@@ -2662,6 +2802,7 @@ void Preorder(Node *p) {
 ```
 
 ##### `Postorder`
+
 ```cpp
 void Postorder(Node *p) {
   if (p) {
@@ -2673,6 +2814,7 @@ void Postorder(Node *p) {
 ```
 
 ##### `Inorder`
+
 ```cpp
 void Inorder(Node *p) {
   if (p) {
@@ -2684,6 +2826,7 @@ void Inorder(Node *p) {
 ```
 
 ##### `Levelorder`
+
 ```cpp
 void Levelorder(Node *p) {
   queue<Node*> q;
@@ -2708,6 +2851,7 @@ void Levelorder(Node *p) {
 ```
 
 ##### `Height`
+
 int Height(Node *p) {
   int l = 0;
   int r = 0;
@@ -2740,28 +2884,32 @@ For a given n-ary tree (where $n$ is given as $m$) and height, the minimum numbe
 ## Search Trees
 
 ### Binary Search Tree
+
 ```
               [30]
     [15]               [50]
 [10]    [20]       [40]    [60]     
 ```
+
 This is an example of a Binary Search Tree. Notice that to the left of each node, the value is less than the right. Notice the following:
+
 1. No duplicates
 2. Inorder traversal would give a sorted list of the elements, least to greatest.
 
 #### Implementation
+
 ```cpp
 #include <iostream>
 
 using namespace std;
- 
+
 class Node{
   public:
     Node* lchild;
     int data;
     Node* rchild;
 };
- 
+
 class BST{
   private:
     Node* root;
@@ -2863,7 +3011,7 @@ Node* rInsert(Node *p, int key) {
   }
   return p;  // key == p->data?
 }
- 
+
 Node* rSearch(Node *p, int key) {
   if (p == nullptr) {
     return nullptr;
@@ -2921,7 +3069,7 @@ Node* InPre(Node *p) {
   }
   return p;
 }
- 
+
 Node* InSucc(Node *p) {
   while (p && p->lchild != nullptr) {
     p = p->lchild;
@@ -2931,6 +3079,7 @@ Node* InSucc(Node *p) {
 ```
 
 ##### Create From Preorder
+
 ```cpp
 void createFromPreorder(int *pre, int n) {
   // Create root node
@@ -2974,11 +3123,13 @@ void createFromPreorder(int *pre, int n) {
 ```
 
 #### Drawbacks of Binary Search Tree
+
 A drawback of a standard Binary Search Tree is the fact that they can't control their own height. Ideally, the time complexity to search the tree is $O(\log n)$, but at worst, the time complexity is $O(n)$. This is what the use of an AVL tree is. It forces the height to be more efficient.
 
 ### AVL Tree
 
 #### Balance Factor
+
 A balance factor of a tree is equal to the height of the left sub tree minus the height of the right subtree, or $bf = hl - hr$. A balanced node is equal to {-1, 0, 1}, or $bf = |hf - hr| \le 1$. If the |bf| at any node is greater than 1, it is imbalanced. Let's first learn to calculate balance factor.
 
 ```
@@ -3039,6 +3190,7 @@ We will go over the steps for all types of rotation. Note that rotation is done 
 2. After Inserting
 
 Let's say we insert 10:
+
 ```
           [30]
      [20]
@@ -3050,6 +3202,7 @@ Our BF is now 2, which makes this AVL tree invalid as it is imbalanced. Notice t
 3. Rotation
 
 So we now have our tree, how do we perform the rotation? Imagine holding your finger on 30, and then pulling on the tree like it is a string. Thus the tree looks like this:
+
 ```
      [20]
 [10]      [30]
@@ -3069,6 +3222,7 @@ Now, the BF for each node is 0.
 2. After Inserting
 
 Let's say we insert 30:
+
 ```
 [10]
       [20]
@@ -3080,6 +3234,7 @@ Our BF is now -2, which makes this AVL tree invalid as it is imbalanced. Notice 
 3. Rotation
 
 So we now have our tree, lets perform the rotation. For this one, we shift it counterclockwise:
+
 ```
      [20]
 [10]      [30]
@@ -3162,10 +3317,11 @@ If we notice, this rotation was a two step process, first we rotated it into a R
 Something that can be hard to determine is what rotation should be used, especially if we are using this in an algorithm. Something of note is that any rotation is just with 3 nodes. Nodes can have children, but when we are analyzing a node that is unbalanced, we only balance it using 2 other nodes. It's positions are important for the rotation, but determining this rotation can be hard to determine. The general idea is once we insert, we don't care where the node went past 3 nodes. Eg. if we insert a node, and it goes left, then right, then left, then left again, we don't care at all about the last two lefts, just the first two directions, left and right. In this case, on the node that has become unbalanced, we perform a LR Rotation.
 
 #### Implementation
+
 ```cpp
 #include <iostream>
 using namespace std;
- 
+
 class Node {
   public:
     Node* lchild;
@@ -3173,7 +3329,7 @@ class Node {
     Node* rchild;
     int height; // Add height variable
 };
- 
+
 class AVL {
   public:
     Node* root;
@@ -3184,6 +3340,7 @@ class AVL {
 The AVL class is very similar to the normal Binary Tree class, just with some modifications.
 
 ##### `NodeHeight`
+
 ```cpp
 int NodeHeight(Node *p) {
   int hl;
@@ -3199,6 +3356,7 @@ int NodeHeight(Node *p) {
 ##### Rotations
 
 ###### `RR`
+
 ```cpp
 Node* LLRotation(Node *p) {
   Node* pl = p->lchild;
@@ -3220,6 +3378,7 @@ Node* LLRotation(Node *p) {
 ```
 
 ###### `LL`
+
 ```cpp
 Node* RRRotation(Node *p) {
   Node* pr = p->rchild;
@@ -3241,6 +3400,7 @@ Node* RRRotation(Node *p) {
 ```
 
 ###### `LR`
+
 ```cpp
 Node* LRRotation(Node *p) {
   Node* pl = p->lchild;
@@ -3266,6 +3426,7 @@ Node* LRRotation(Node *p) {
 ```
 
 ###### `RL`
+
 ```cpp
 Node* AVL::RLRotation(Node *p) {
   Node* pr = p->rchild;
@@ -3291,6 +3452,7 @@ Node* AVL::RLRotation(Node *p) {
 ```
 
 ###### `Insert`
+
 ```cpp
 Node* rInsert(Node *p, int key) {
   Node* t;
@@ -3329,6 +3491,7 @@ Node* rInsert(Node *p, int key) {
 ```
 
 ##### Display
+
 ```cpp
 void Inorder(Node *p) {
   if (p) {
@@ -3340,6 +3503,7 @@ void Inorder(Node *p) {
 ```
 
 ##### `Delete`
+
 ```cpp
 Node* InPre(Node *p) {
   while (p && p->rchild != nullptr) {
@@ -3347,7 +3511,7 @@ Node* InPre(Node *p) {
   }
   return p;
 }
- 
+
 Node* InSucc(Node *p) {
   while (p && p->lchild != nullptr) {
     p = p->lchild;
@@ -3359,7 +3523,7 @@ Node* Delete(Node *p, int key) {
     if (p == nullptr) {
         return nullptr;
     }
- 
+
     if (p->lchild == nullptr && p->rchild == nullptr) {
         if (p == root) {
             root = nullptr;
@@ -3367,7 +3531,7 @@ Node* Delete(Node *p, int key) {
         delete p;
         return nullptr;
     }
- 
+
     if (key < p->data) {
         p->lchild = Delete(p->lchild, key);
     } else if (key > p->data) {
@@ -3384,10 +3548,10 @@ Node* Delete(Node *p, int key) {
             p->rchild = Delete(p->rchild, q->data);
         }
     }
- 
+
     // Update height
     p->height = NodeHeight(p);
- 
+
     // Balance Factor and Rotation
     if (BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == 1) {  // L1 Rotation
         return LLRotation(p);
@@ -3402,7 +3566,7 @@ Node* Delete(Node *p, int key) {
     } else if (BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == 0) {  // R0 Rotation
         return RRRotation(p);
     }
- 
+
     return p;
 }
 ```
@@ -3446,18 +3610,21 @@ B | 30 20 15 5  10 12 6  40
 This is nice and easy, but there is one crucial problem, this makes 40 a child of 5. It cannot be a child of 5, that doesn't work. How do we go about remedying this problem? Well, we compare 40 with its parents, if it is greater than the parent element, we swap the parent with 40, lets see how this operation would take place:
 
 40 > 5, Swap:
+
 ```
 B | 30 20 15 40 10 12 6  5
     1  2  3  4  5  6  7  8
 ```
 
 40 > 20, Swap:
+
 ```
 B | 30 40 15 20 10 12 6  5
     1  2  3  4  5  6  7  8
 ```
 
 40 > 30, Swap:
+
 ```
 B | 40 30 15 20 10 12 6  5
     1  2  3  4  5  6  7  8
@@ -3475,6 +3642,7 @@ Now the tree looks like:
 #### Implementation with Array
 
 ##### `Insert`
+
 ```cpp
 void Insert(int A[], int n) {
   int i = n;
@@ -3489,6 +3657,7 @@ void Insert(int A[], int n) {
 ```
 
 ##### `CreateHeap`
+
 ```cpp
 void CreateHeap(int A[], int n) {
   for (int i = 0; i < n; i++) {
@@ -3579,7 +3748,7 @@ void Insert(vector<int>& vec, int key) {
     // Insert key at the end
     auto i = vec.size();
     vec.emplace_back(key);
- 
+
     // Rearrange elements: O(log n)
     while (i > 0 && key > vec[i % 2 == 0 ? (i / 2) - 1 : i / 2]) {
         vec[i] = vec[i % 2 == 0 ? (i / 2) - 1 : i / 2];
@@ -3621,6 +3790,7 @@ void Print(T& vec, int n, char c) {
 ```
 
 #### Heap As a Priority Queue
+
 Due to the very nature of the binary heap, whenever we insert into it, the largest or smallest value takes precedence. This allows us to build a priority queue. Insert is $O\log n$ and Delete is $O(\log n)$. This makes a binary heap the best structure for a priority queue.
 
 # Sorting
@@ -3644,12 +3814,14 @@ The definition of sorting is pretty easy to understand, it is an algorithm that 
 3. Selection Sort
 
 #### $O(n \log n)$
+
 1. Heap Sort
 2. Merge Sort
 3. Quick Sort
 4. Tree Sort
 
 #### $O(n^{\frac{3}{4}})$
+
 1. Shell Sort
 
 ### Index Based Sorts
@@ -3661,9 +3833,11 @@ The definition of sorting is pretty easy to understand, it is an algorithm that 
 3. Radix Sort
 
 ## Stable
+
 Stable sorting algorithms preserve the relative order of equal elements. For example, imgaine I have a list of student names with corresponding grades. Currently, the list is sorted alphabetically, but imagine I want to sort numerically. A stable sorting algorithm would not change the relative order of duplicates, thus a student with a first name A with a score of say 80 would be ahead of a student with a first name B with a score of 80. The use of a stable algorithm is that it makes it more efficient when there are duplicate cases, as we don't have to sort by another key when a duplicate is present.
 
 ## Adaptive
+
 Adaptive sorting algorithms take advantage of existing order in its inputs, and this advantage makes it faster by not trying to reorder if it is already ordered. Bubble Sort and Insertion Sort are examples of adaptive sorting algorithms.
 
 ## Synopsis and Implementation of Each Sort
@@ -3671,11 +3845,12 @@ Adaptive sorting algorithms take advantage of existing order in its inputs, and 
 ### Bubble Sort
 
 #### Synopsis
+
 Bubble sort is the most intuitive sorting algorithm, it basically just passes over a list of elements, comparing the first element with every other element, and then does the same thing for the second, third, fourth, etc.
 
 #### Implementation
 
-```cpp 
+```cpp
 void BubbleSort(int A[], int n) {
   int flag = 0;
   for (int i = 0; i < n - 1; i++) {
@@ -3695,11 +3870,12 @@ void BubbleSort(int A[], int n) {
 ##### `Print`
 
 It can be assumed that this print method will be included with every implementation from here onwards:
+
 ```cpp
 #include <iostream>
 
 using namespace std;
- 
+
 template <class T>
 void Print(T& vec, int n, string s) {
   cout << s << ": [" << flush;
@@ -3716,6 +3892,7 @@ void Print(T& vec, int n, string s) {
 ##### `swap`
 
 It can be assumed that this swpa method will be included with every implementation from here onwards (when required):
+
 ```cpp
 void swap(int* x, int* y) {
   int temp = *x;
@@ -3840,6 +4017,7 @@ void InsertionSort(int A[], int n) {
 ```
 
 ### Bubble Sort vs. Insertion Sort
+
 | Comparisons | Bubble Sort | Insertion Sort |
 | ----------- | ----------- | -------------- |
 | Min Comp    | $O(n)$      | $O(n)$         |
@@ -3923,6 +4101,7 @@ void SelectionSort(int A[], int n) {
 ### Quick Sort
 
 #### Synopsis
+
 Quick Sort can be confusing, but this is because the sort has a lot of steps that aren't intuitive. But, once you understand the steps, it becomes rather easy. To begin, let's look at this array:
 
 ```
@@ -3932,11 +4111,10 @@ A | 50  70  60  90  40  80  10  20  30
 
 To begin, set the first element as the pivot element. The idea behind quicksort is that we determine a place that is sorted, so each value left of the pivot is less than or equal to the pivot, and eveything to the right of the pivot is greater than or equal to the pivot. So, `i` looks for everything greater than to the pivot, and `j` looks for everything less than or equal to the pivot. So i starts at 0, and j starts at length of array:
 
-1. 
-
-```
-// First element greater than 50 is 70 at 1:
-i = 1
+1. ```
+   // First element greater than 50 is 70 at 1:
+   i = 1
+   ```
 
 // First element less than or equal to 50 is 30 at 8:
 j = 8
@@ -3944,11 +4122,11 @@ j = 8
 Swap:
 A | 50  30  60  90  40  80  10  20  70
     0   1   2   3   4   5   6   7   8
-```
 
+```
 2.
-
 ```
+
 // Next element greater than 50 is 60 at 2:
 i = 2
 
@@ -3958,11 +4136,11 @@ j = 8
 Swap:
 A | 50  30  20  90  40  80  10  60  70
     0   1   2   3   4   5   6   7   8
-```
 
+```
 3.
-
 ```
+
 // Next element greater than 50 is 90 at 3:
 i = 3
 
@@ -3972,11 +4150,11 @@ j = 6
 Swap:
 A | 50  30  20  10  40  80  90  60  70
     0   1   2   3   4   5   6   7   8
-```
 
+```
 4.
-
 ```
+
 // Next element greater than 50 is 80 at 5:
 i = 5
 
@@ -3986,8 +4164,8 @@ j = 4
 j < i, swap pivot with j:
 A | 40  30  20  10  50  80  90  60  70
     0   1   2   3   4   5   6   7   8
-```
 
+```
 Now that we have swapped pivot with j, we are in a position where pivot is sorted. Everything to the left of 50 is less than or equal to 50, and everything to the right 50 is greater than or equal to 50. This position is called the partitioning position. And with it, we can apply, recursively, quick sort to the left and quick sort to the right. If the list is already sorted, Quick Sort is at worst time, which is $O(n^2)$. The average and best case time complexity is $O(n\log n)$
 
 #### Implementation
@@ -4015,7 +4193,7 @@ int partition(int A[], int low, int high) {
   swap(&A[low], &A[j]);
   return j;
 }
- 
+
 void QuickSort(int A[], int low, int high) {
   if (low < high) {
     int p = partition(A, low, high);
@@ -4026,6 +4204,7 @@ void QuickSort(int A[], int low, int high) {
 ```
 
 ##### Pivot Last
+
 ```cpp
 int partitionLast(int A[], int low, int high) {
   int pivot = A[high];
@@ -4039,7 +4218,7 @@ int partitionLast(int A[], int low, int high) {
   swap(&A[i + 1], &A[high]);
   return i + 1;
 }
- 
+
 void QuickSortLast(int A[], int low, int high) {
   if (low < high) {
     int p = partitionLast(A, low, high);
@@ -4048,7 +4227,6 @@ void QuickSortLast(int A[], int low, int high) {
   }
 }
 ```
-
 
 ### Merge Sort
 
@@ -4141,7 +4319,7 @@ void Merge(int x[], int y[], int z[], int m, int n) {
   int i = 0;
   int j = 0;
   int k = 0;
-  
+
   // Copy least greatest element from each array at each index pair
   while (i < m && j < n) {
     if (x[i] < y[j]) {
@@ -4162,7 +4340,7 @@ void Merge(int x[], int y[], int z[], int m, int n) {
     z[k++] = x[j++];
   }
 }
- 
+
 void MergeSingle(int A[], int low, int mid, int high) {
   // Lowest Index
   int i = low;
@@ -4194,6 +4372,7 @@ void MergeSingle(int A[], int low, int mid, int high) {
 #### Implementation
 
 ##### Iterative Merge Sort
+
 ```cpp
 void IterativeMergeSort(int A[], int n) {
   int p;
@@ -4212,6 +4391,7 @@ void IterativeMergeSort(int A[], int n) {
 ```
 
 ##### Recursive Merge Sort
+
 ```cpp
 void RecursiveMergeSort(int A[], int low, int high) {
   if (low < high) {
@@ -4252,6 +4432,7 @@ A | 6   3   9   10  15  6   8   12  3   6
 C | 0   0   0   2   0   0   3   0   1   1   1   1   0   0   0   1
     0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
 ```
+
 Notice, there are 3 6 values in our `A` array, and there is only one 8. We denote each count. Next, we clear the `A` array, and scan the `B` array, copying the number of times we see each value:
 
 ```
@@ -4273,7 +4454,7 @@ int Max(int A[], int n) {
   }
   return max;
 }
- 
+
 void CountSort(int A[], int n) {
   int max = Max(A, n);
 
@@ -4314,6 +4495,7 @@ void CountSort(int A[], int n) {
 Bucket Sort is very similar to Count Sort, especially with the initial step, where we create an array the size of the max step. Each value will be set to null. The type of array is a linked list, it is an array of linked lists. So the "buckets" are linked lists, so at L[6], where L is an array of linked lists, there is a linked list of every 6 element in the list.
 
 #### Implementation
+
 Include the nodes:
 
 ```cpp
@@ -4324,7 +4506,7 @@ int Delete(Node** ptrBins, int idx) {
   delete p;
   return x;
 }
- 
+
 void BinSort(int A[], int n) {
   int max = Max(A, n);
 
@@ -4355,6 +4537,7 @@ void BinSort(int A[], int n) {
   delete [] bins;
 }
 ```
+
 ### Radix Sort
 
 #### Synopsis
@@ -4367,7 +4550,7 @@ Radix sort also works on the bin principle, but instead of taking max value as t
 int getBinIndex(int x, int idx) {
   return (int)(x / pow(10, idx)) % 10;
 }
- 
+
 void RadixSort(int A[], int n) {
   int max = Max(A, n);
   int nPass = countDigits(max);
@@ -4428,6 +4611,7 @@ A | 2   1   3   5   6
 We perform insertion sort on each set, looking at the first pair of each gap while increasing rightward.
 
 #### Implementation
+
 ```cpp
 void ShellSort(int A[], int n) {
   for (int gap = n / 2; gap >= 1; gap /= 2) {
@@ -4493,7 +4677,7 @@ class HashTable{
     int hash(int key) {
       return key % 10;
     }
-    
+
     void Insert(int key) {
       int hIdx = hash(key);
       Node* t = new Node;
@@ -4532,7 +4716,7 @@ class HashTable{
       }
       return -1;
     }
-    
+
     ~HashTable() {
       for (int i = 0; i < 10; i++) {
         Node* p = HT[i];
@@ -4570,7 +4754,7 @@ We want to insert the value 25, but oh no we have a collision. Let's use $h'(x)$
 int Hash(int key) {
   return key % SIZE;
 }
- 
+
 int LinearProbe(int H[], int key) {
   int idx = Hash(key);
   int i = 0;
@@ -4579,7 +4763,7 @@ int LinearProbe(int H[], int key) {
   }
   return (idx + i) % SIZE;
 }
- 
+
 void Insert(int H[], int key) {
   int idx = Hash(key);
 
@@ -4588,7 +4772,7 @@ void Insert(int H[], int key) {
   }
   H[idx] = key;
 }
- 
+
 int Search(int H[], int key) {
   int idx = Hash(key);
   int i = 0;
@@ -4612,7 +4796,7 @@ Quadratic Probing is just like linear probing, but $h'(x)$ is redefined as $h'(x
 int Hash(int key) {
   return key % SIZE;
 }
- 
+
 int QuadraticProbe(int H[], int key) {
   int idx = Hash(key);
   int i = 0;
@@ -4621,7 +4805,7 @@ int QuadraticProbe(int H[], int key) {
   }
   return (idx + i * i) % SIZE;
 }
- 
+
 void Insert(int H[], int key) {
   int idx = Hash(key);
 
@@ -4630,7 +4814,7 @@ void Insert(int H[], int key) {
   }
   H[idx] = key;
 }
- 
+
 int Search(int H[], int key) {
   int idx = Hash(key);
   int i = 0;
@@ -4657,11 +4841,11 @@ Double Hashing uses two hash functions to try and fix conflicts. So, $h_1(x) = x
 int Hash(int key) {
   return key % SIZE;
 }
- 
+
 int PrimeHash(int key) {
   return PRIME - (key % PRIME);
 }
- 
+
 int DoubleHash(int H[], int key) {
   int idx = Hash(key);
   int i = 0;
@@ -4670,7 +4854,7 @@ int DoubleHash(int H[], int key) {
   }
   return (idx + i * PrimeHash(idx)) % SIZE;
 }
- 
+
 void Insert(int H[], int key) {
   int idx = Hash(key);
 
@@ -4679,7 +4863,7 @@ void Insert(int H[], int key) {
   }
   H[idx] = key;
 }
- 
+
 int Search(int H[], int key) {
   int idx = Hash(key);
   int i = 0;
