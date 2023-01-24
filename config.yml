@@ -41,14 +41,12 @@ params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     description: "Coleton O'Donnell's Site"
     author: Coleton
-    # author: ["Me", "You"] # multiple authors
-        
+    favicon: false        
     ShowToc: true
     defaultTheme: dark 
     disableThemeToggle: true
     ShowShareButtons: false 
     ShowReadingTime: false 
-    # disableSpecial1stPost: true
     displayFullLangName: false
     ShowPostNavLinks: false 
     comments: false 
@@ -85,45 +83,34 @@ params:
          favicon32x32: "/favicon-32x32.png"
          apple_touch_icon: "/apple-touch-icon.png"
 
-    #cover:
-    #    responsiveImages: false
-    # fuseOpts:
-    #     isCaseSensitive: false
-    #     shouldSort: true
-    #     location: 0
-    #     distance: 1000
-    #     threshold: 0.4
-    #     minMatchCharLength: 0
-    #     keys: ["title", "permalink", "summary", "content"]
-
 taxonomies:
-    category: categories
-    tag: tags
-    series: series
+  category: categories
+  tag: tags
+  series: series
 
 privacy:
-    vimeo:
-        disabled: false
-        simple: true
+  vimeo:
+    disabled: false
+    simple: true
 
-    twitter:
-        disabled: false
-        enableDNT: true
-        simple: true
+  twitter:
+    disabled: false
+    enableDNT: true
+    simple: true
 
-    instagram:
-        disabled: false
-        simple: true
+  instagram:
+    disabled: false
+    simple: true
 
-    youtube:
-        disabled: false
-        privacyEnhanced: true
+  youtube:
+    disabled: false
+    privacyEnhanced: true
 
 services:
-    instagram:
-        disableInlineCSS: true
-    twitter:
-        disableInlineCSS: true
+  instagram:
+      disableInlineCSS: true
+  twitter:
+      disableInlineCSS: true
 markup:
   goldmark:
     renderer:
