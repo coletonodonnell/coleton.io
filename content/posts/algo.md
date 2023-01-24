@@ -196,7 +196,7 @@ void my_function(int n, int m)
 }
 ```
 
-Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time complexity for this algorithm is $O(n + log_2 m) = O(n)$. No matter if they are identical or different variables, if they are of a lower order they should be dropped.
+Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time complexity for this algorithm is $O(n + log_2 m))$. Now, if we were told that $n$ and $m$ grow at the same rate, then $O(n + log_2 m) = O(n)$. This is because we drop the lowest order term whenever variables grow at the same rate, or they are identical variables. 
 
 ### Cases
 
