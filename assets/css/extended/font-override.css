@@ -1,0 +1,15 @@
+@font-face {
+	font-family: 'CrimsonText';
+	src: url("fonts/CrimsonText-Regular.ttf") format("truetype"),
+	url("fonts/CrimsonText-Italic.ttf") format("truetype"),
+	url("fonts/CrimsonText-SemiBold.ttf") format("truetype"),
+	url("fonts/CrimsonText-SemiBoldItalic.ttf") format("truetype"),
+	url("fonts/CrimsonText-Bold.ttf") format("truetype"),
+	url("fonts/CrimsonText-BoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: 'CrimsonPro';
+	src: url("fonts/CrimsonPro-Regular.ttf") format("truetype"),
+	url("fonts/CrimsonPro-Bold.ttf") format("truetype");
+}

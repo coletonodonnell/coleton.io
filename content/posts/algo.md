@@ -1,9 +1,9 @@
 ---
 author: "Coleton O'Donnell"
 title: "Data Structures and Algorithms Notes"
-date: "2022-07-01"
-description: "These are my notes for Data Structures and Algorithms. Current notes are for Abdul Bari's excellent DSA Udemy Course, but will include COP3530 at UF whenever I take it next semester."
-tags: ["math", "algorithms", "programming"]
+date: "2023-01-21"
+description: "Notes on my study from UF's COP3530 with Professor Kapoor, Abdul Bari's Udemy Course, and 'Introduction to Algorithms' by Cormen & Leiserson."
+tags: ["math", "algorithms", "computer science"]
 math: true
 ---
 
