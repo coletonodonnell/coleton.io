@@ -9,6 +9,8 @@ math: true
 
 # Introduction
 
+**This is going through a rewrite, it is a bit chaotic right now.**
+
 These notes are on the COP3530 Data Structures and Algorithm class with the excellent Professor Kapoor at the University of Florida as well as on [Abdul Bari's DSA Course on Udemy](https://www.udemy.com/course/datastructurescncpp). What I have learned from each has been compounded into one living document. If you are interested in Abdul Bari's course but want a bit of a taste for it, there is also a free YouTube version that is [consolidated](https://youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O). Please note that these are **notes**, I can't stress this enough. These are written with prior knowledge in mind, and are basically useless if you aren't following along with a textbook or a course. They won't be teaching you well. These can act as a good reference for concepts and important explanations. Think of it as a TL;DR on things, but you're doing yourself a disservice if you even think of using these as your main source of info. For textbooks, check out the excellent [OpenDSA Book](https://opendsa-server.cs.vt.edu/ODSA/Books/Everything/html/index.html). If you prefer paper, check out "Introduction to Algorithms" by Cormen & Leiserson and "Data Structures and Algorithm Analysis in C++" by Weiss.
 
 ## Definition of the Data Structure and the Algorithm
@@ -45,9 +47,11 @@ One possible solution is to compare every element to every other following eleme
 
 Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligable at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year. 
 
-## How to Measure Performance?
+# How to Measure Performance?
 
 It is great that we know the importance of performance, but what are some ways that we can truly understand performance in a meaningful way? 
+
+## Different Approaches of Measurement
 
 ### Approach 1: Simulation with Timing
 
@@ -117,7 +121,9 @@ An order of growth are functions whose asymptotic behavior is seen as equivalent
 
 This can be further illustrated by:
 
-![How to find time complexity of an algorithm?  Adrian Mejia Blog](https://adrianmejia.com/images/time-complexity-examples.png)
+![How to find time complexity of an algorithm?  Adrian Mejia Blog](https://coleton.io/post-images/algo/time-complexity-examples.png)
+|:--:| 
+| *Created by Adrian Mejia* |
 
 So if we return to the example in Approach 2, we note that $T(n) = 3n + 4$. How would we express the time complexity of this algorithm utilizing order of growth? This can be done with the **Big O** notation, which represents the **upper bound** of a function's growth rate. There are other notations that describe other aspects of a function, but for the sake of algorithm performance, Big O is usually what is considered. In this way, Big O notation represents the **worst case** of an algorithm. Let's look at how these notation sare formally defined and how to use them to describe the performance of an algorithm.
 
@@ -196,50 +202,171 @@ void my_function(int n, int m)
 }
 ```
 
-Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time complexity for this algorithm is $O(n + log_2 m))$. Now, if we were told that $n$ and $m$ grow at the same rate, then $O(n + log_2 m) = O(n)$. This is because we drop the lowest order term whenever variables grow at the same rate, or they are identical variables. 
+Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time complexity for this algorithm is $O(n + log_2 m)$. Now, if we were told that $n$ and $m$ grow at the same rate, then $O(n + log_2 m) = O(n)$. This is because we drop the lowest order term whenever variables grow at the same rate, or they are identical variables. 
 
 ### Cases
 
-Algorithms that have a purpose that allows them to stop their process (eg. searching algorithms, they stop once they find what they are looking for) due to a condition have different cases. These are the best case, average case, and worst case. The best case is the lowest cost, average case is the average cost for all n, and worst case is the highest possible cost.   
+Algorithms that have a purpose that allows them to stop their process (e.g.. searching algorithms, they stop once they find what they are looking for) due to a condition have different cases. These are the best case, average case, and worst case. The best case is the lowest cost, average case is the average cost for all n, and worst case is the highest possible cost.   
 
-## Stack and Heap
-
-### What is the Stack?
-
-In a stack, memory is allocated in blocks that are of fixed size. Accessing this data is fast, and the (de)allocation is handled by the compiler entirely. The stack is preffered when possible, as it is safer to work with as it is thread safe, and it costs less to use. Memory is always temporary in the stack. The cons are that it isn't dynamic, so everything that lives in the stack must be predefined in size.
-
-### What is the Heap?
-
-In a heap, memory is allocated in random order in dynamic size. In other words, it isn't fixed and the size of what is stored on there can be changed. The heap is slow and costs a lot, but it is very flexable.
+# Abstract Data Types and Linear Ordered Data Structures
 
 ## What is an Abstract Data Type?
 
-A data type consists of its representation and its operation. The 
-representation is what it actually is and how it is implemented. The 
-operation portion is what can be done with the data. In other words, the
- representation is the technical details of a data type, and the 
-operation is what we can actually do with it. An Abstract Data Type is a
- Data Type where the operation is known, but the representation is not. A
- real life example is a book, a book is Abstract, but a Telephone Book 
-is a representation. We will look at all of these Logical Data 
-Structures as ADT first, so we can understand them, and then we can 
-delve into how they work.
+An Abstract Data Type (ADT) is a Data Type where the operation is known, but the representation is not. A real life example is a book, a book is Abstract, but a Telephone Book is a representation. We will look at all of these Logical Data Structures as ADT first, so we can understand them, and then we can delve into how they work. This means that an Abstract Data Type acts as a mathematical or logical model of a way to store and organize data. They are basically a class of objects whose logical behavior is defined by a set of values and operations. We define the data and the operations, but we don't care about the implementation. This is the opposite of a concrete data type consists of its representation and its operation. The representation is what it actually is and how it is implemented. The operation portion is what can be done with the data. In other words, the representation is the technical details of a data type, and the operation is what we can actually do with it.
 
-## Physical and Logical Data Structures
+An example of an ADT is a list. A concrete data type (e.g.. implementation) of list is an array, linked list, vector, etc.
 
-### Basic Physical Data Structures
+## Linear Ordered Data Structures
 
-#### Array
+### List ADT
 
-An array is a collection of memory locations, all of which are side by side. Arrays are static, so once established, their size cannot be adjusted. An array can be created in the stack or the heap. An array is chosen when the size of the collection is known.
+Core features:
+* Ordered collection of data (e.g.. all elements have an ordered positive.)
+* Linear Structure.
+* Can have a size, it can grow and shrink.
+* Can store any element type (i.e isn't limited to a single type of data.)
 
-#### Linked List
+The list basically is just one value after another, e.g.. 1, 2, 3, 4, etc. It is linear, meaning it goes forwards and backwards.
 
-A linked list also a collection of memory locations as well, but it is created differently. A linked list uses nodes, and these nodes contain a head and a pointer pointing to the next node. In this way, Linked Lists are dynamic and must always be created in the heap. A linked list is chosen when the size of the collection is unknown.
+Characteristics:
+* Data
+  * Items
+  * Current number of items stored
+  * Capacity, is it bounded to a maximum?
 
-### Logical Data Structures
+* Operations
+  * Read, Write, and Remove elements.
+  * Find an element.
+  * Count the number of elements.
+  * Traverse the list.
 
-There are linear, non-linear, and tabular Logical Data Structures. The linear ones are the Stack and Queues. The non linear ones are the Tree and Graph. The tabular one is the Hash Table. We will delve into these later, but it is important to understand that the Physical Data Structures build these Logical Data Structures.
+#### Array Implementation
+
+##### Characteristics
+
+* They have a fixed size
+* Stores similar elements (store the same or similar types)
+* Contigious indices (e.g.. $0, 1, 2...n-1$)
+* Elements are stored contiguously in memory.
+* Allows for random access, given an indice you can access the element there (e.g.. `Array[n]`)
+
+##### Operation Performance
+
+|           |  Add   | Remove |
+|:---------:|:------:|:------:|
+| Beginning | $O(n)$ | $O(n)$ |
+|    End    | $O(1)$ | $O(1)$ |
+|  Middle   | $O(n)$ | $O(n)$ |
+
+To add or remove anything from the beginning, it requires shifting $n$ elements to the right, resulting in $O(n)$. Similar is true for the middle, but instead shifting all elements to the right of the indice being considered. This is still $O(n)$ because this indice grows with $n$. In the case of the end, it is constant because the size of the array is known, and this means that it is free to add and remove from the end of it (i.e. no shifts are required.) 
+
+* Benefits
+  * Constant access time, `Array[i] = arr + (i * sizeOf(type))`.
+  * Constant time for adding and removing elements from the end. 
+* Drawbacks
+  * Expensive for adding and removing elements from the beginning or middle.
+
+#### Singuly Linked List Implementation
+
+![Singuly Linked List](https://coleton.io/post-images/algo/singulylinkedlist.png)
+|:--:| 
+| *Taken From https://visualgo.net/en/list* |
+
+Each of these elements are called a **Node.** A Node contains an element and a pointer to another Node. This goes on and on until the pointer points to a `nullptr` (i.e. points to nothing.) An exame Node object in C++ would look like this:
+
+```cpp
+#include <iostream>
+
+template <typename T>
+class Node
+{
+  public:
+    Node* next;
+    T data;
+}
+```
+
+In this instance, a `Node` contains the pointer to the next `Node` as well as the `data` of some type `T`. This can be used like this:
+
+```cpp
+
+Node<int>* node_one = new Node<int>();
+node_one->data = 10;
+node_one->next = nullptr;
+```
+
+We can also design a constructor for `Node`:
+
+```cpp
+Node::Node(T data, Node* next)
+{
+  this->data = data;
+  this->next = next;
+}
+
+int main()
+{
+  Node<int>* my_list = new Node<int>(10, nullptr);
+  my_list = new Node<int>(20, my_list);
+  my_list = new Node<int>(30, my_list);
+}
+```
+
+Thus this list is represented as:
+```
+30 -> 20 -> 10 -> /
+```
+
+In this case, the length of this list is one. 
+
+The `Node` class works great, but it is a bit verbose. In actuality, the list requires a lot more features than this, we are just describing everything manually. In this case, encaspulating `Node` by another class is much better.
+
+```
+template <typename T>
+struct Node
+{
+  T data;
+  Node<T> *next;
+}
+
+template<typename T>
+class List
+{
+  private:
+    int size;
+    Node<T> *head;
+    Node<t> *tail;
+
+  public:
+    List()
+    {
+      size= 0;
+      head = new Node<T>;
+      tail = new Node<T>;
+      head->next = tail;
+    }
+
+    void push_front(T element)
+    {
+      Node<T> *q = new Node<T>;
+      q->data = element;
+      q->next = head->next;
+      head->next = q;
+    }
+}
+```
+
+With this example, our linked list contains two nodes, the `head` and the `tail`. In this implementation, these are **sentinal** nodes, which basically represent the path entry and the path terminator. Don't worry much about them. In this example, our `push_front` operation creates a new `Node` with `element`, and then changes the Node's `next` to be whatever the `head` is pointing to next. Then we change the `head` next to be our new Node `q`. To visualize this:
+
+```
+Before calling push_front:
+H -> T
+
+After calling push_front:
+H -> q -> T
+```
+
+Where q is our new node.
 
 # Recursion
 
@@ -451,7 +578,7 @@ This is an unsafe way of doing it, but is how you'd do it with `new`, using a sm
 auto array = std::make_unique<int[]>(size);
 ```
 
-A bit semantical, just something that should be kept in mind when actually doing this in practice. You can also declare arrays that are two dimensional, eg.
+A bit semantical, just something that should be kept in mind when actually doing this in practice. You can also declare arrays that are two dimensional, e.g.
 
 `int A[3][4];`
 
@@ -1041,7 +1168,7 @@ $M[i, j] = 0 \text{ if } i < j$
 
 $M[i, j] \ne 0 \text{ if } i \ge j$
 
-When observing the space this matrix takes up, we can observe that each n row adds n amount of space, eg. 1 + 2 + 3, etc. etc. This means the number of non zero elements are give in $\frac{n(n+1)}{2}$, and the number of zero elements is given by $\frac{n(n-1)}{2}$.
+When observing the space this matrix takes up, we can observe that each n row adds n amount of space, e.g.. 1 + 2 + 3, etc. etc. This means the number of non zero elements are give in $\frac{n(n+1)}{2}$, and the number of zero elements is given by $\frac{n(n-1)}{2}$.
 
 Though this is the case, there are two methods to represent this as an array, the first is row major mapping:
 
@@ -1158,7 +1285,7 @@ $M[i, j] = 0 \text{ if } i > j$
 
 $M[i, j] \ne 0 \text{ if } i \le j$
 
-When observing the space this matrix takes up, we can observe that each n row adds n amount of space, eg. 1 + 2 + 3, etc. etc. This means the number of non zero elements are give in $\frac{n(n+1)}{2}$, and the number of zero elements is given by $\frac{n(n-1)}{2}$.
+When observing the space this matrix takes up, we can observe that each n row adds n amount of space, e.g.. 1 + 2 + 3, etc. etc. This means the number of non zero elements are give in $\frac{n(n+1)}{2}$, and the number of zero elements is given by $\frac{n(n-1)}{2}$.
 
 Like the Lower Triangle Matrix, there also exists a Column-Major Mapping, but we won't get into that as the concept is basically the same. The implementation of this matrix is the same as the last, just adjust lines 19, 25, and 24 from `i >= j` to `i <= j`.
 
@@ -1957,7 +2084,7 @@ class Stack {
 };
 ```
 
-The question arrises, though, when we push a value to the stack, do we push from the left or the right. Well, if we pushed from the left, eg. push to 0, and then the old 0 becomes 1, and then the old 1 becomes 2, etc. etc., our time complexity becomes $O(n)$, but if we know the top most value, so if push from the right, our time complexity is $O(1)$.
+The question arrises, though, when we push a value to the stack, do we push from the left or the right. Well, if we pushed from the left, e.g.. push to 0, and then the old 0 becomes 1, and then the old 1 becomes 2, etc. etc., our time complexity becomes $O(n)$, but if we know the top most value, so if push from the right, our time complexity is $O(1)$.
 
 ### `isFull` and `isEmpty`
 
@@ -2546,7 +2673,7 @@ This is a tree, what we call the **root** is A. The root note is made of disjoin
 
 ## Binary Tree
 
-A binary tree must have a degree of 2, eg. every node can have, at maximum, 2 children. This allows us to do things like:
+A binary tree must have a degree of 2, e.g.. every node can have, at maximum, 2 children. This allows us to do things like:
 
 ```
               [A]
@@ -2871,7 +2998,7 @@ int Height(Node *p) {
 
 ## n-ary tree
 
-An n-ary tree is a tree where the degree of any node is at maximum $n$, eg. a 3-ary tree can have {0, 1, 2, 3} degrees.
+An n-ary tree is a tree where the degree of any node is at maximum $n$, e.g.. a 3-ary tree can have {0, 1, 2, 3} degrees.
 
 ### Strict N-ary tree
 
@@ -3581,7 +3708,7 @@ A binary heap is a binary tree where duplicates are allowed. Further more, there
 [5]      [10]  [12]      [6]
 ```
 
-As you can see, each node's value is greater than or equal to the children, eg. 30 >= 20 & 15. Here is an example of a min heap:
+As you can see, each node's value is greater than or equal to the children, e.g.. 30 >= 20 & 15. Here is an example of a min heap:
 
 ```
               [5]
@@ -3589,7 +3716,7 @@ As you can see, each node's value is greater than or equal to the children, eg. 
 [20]      [25]  [30]      [18]
 ```
 
-The opposite fact is true here, where each node's value is less than or equal to the childre, eg. 5 <= 15 & 12. the max heap is the most used form of binary heap. Let's look at the binary representation of the max heap.
+The opposite fact is true here, where each node's value is less than or equal to the childre, e.g.. 5 <= 15 & 12. the max heap is the most used form of binary heap. Let's look at the binary representation of the max heap.
 
 ```
 B | 30 20 15 5  10 12 6
@@ -4234,7 +4361,7 @@ void QuickSortLast(int A[], int low, int high) {
 
 ##### Ideas Behind Merging
 
-Given two sorted arrays, we are going to incremement over each and merge, eg.:
+Given two sorted arrays, we are going to incremement over each and merge, e.g.:
 
 ```
 n = 0
@@ -4412,7 +4539,7 @@ void RecursiveMergeSort(int A[], int low, int high) {
 
 #### Synopsis
 
-First, find the largest value in your array. Create an array where the last index is equal to that value, eg. a max value of 15 would be an array size 16. Initialize the array with zeros. This is important for what we are about to do. So with the given array, create another array with this directions:
+First, find the largest value in your array. Create an array where the last index is equal to that value, e.g.. a max value of 15 would be an array size 16. Initialize the array with zeros. This is important for what we are about to do. So with the given array, create another array with this directions:
 
 ```
 A | 6   3   9   10  15  6   8   12  3   6
@@ -4423,7 +4550,7 @@ C | 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
     0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
 ```
 
-Next, scan the array and increment with each value, eg.:
+Next, scan the array and increment with each value, e.g:
 
 ```
 A | 6   3   9   10  15  6   8   12  3   6
@@ -4542,7 +4669,7 @@ void BinSort(int A[], int n) {
 
 #### Synopsis
 
-Radix sort also works on the bin principle, but instead of taking max value as the size, it uses the base. So for the decimal system, base 10, we have 10 bins, 0-9. So for value say, 278, it goes in bin 8. Well that is cool, but the issue is that this isn't sorted, well, drop everything and then extract. Set bins to null again, and then sort by second space, eg. 257 goes in the 5 bin. Do this again for each space, and you'll get a sorted array:
+Radix sort also works on the bin principle, but instead of taking max value as the size, it uses the base. So for the decimal system, base 10, we have 10 bins, 0-9. So for value say, 278, it goes in bin 8. Well that is cool, but the issue is that this isn't sorted, well, drop everything and then extract. Set bins to null again, and then sort by second space, e.g.. 257 goes in the 5 bin. Do this again for each space, and you'll get a sorted array:
 
 #### Implementation
 
@@ -4592,7 +4719,7 @@ void RadixSort(int A[], int n) {
 
 #### Synopsis
 
-The grand finale, quite honestly this sort is definitely the weirdest, and probably the most complex. Basic principle is insert sort modified, where we form arrays based on gaps, eg.
+The grand finale, quite honestly this sort is definitely the weirdest, and probably the most complex. Basic principle is insert sort modified, where we form arrays based on gaps, e.g.
 
 ```
 A | 2   1   3   5   6
