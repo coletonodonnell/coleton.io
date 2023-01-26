@@ -123,7 +123,7 @@ This can be further illustrated by:
 
 ![How to find time complexity of an algorithm?  Adrian Mejia Blog](https://coleton.io/post-images/algo/time-complexity-examples.png)
 |:--:| 
-| *Created by Adrian Mejia* |
+| *Sourced from [Adrian Mejia](https://adrianmejia.com/how-to-find-time-complexity-of-an-algorithm-code-big-o-notation/)* |
 
 So if we return to the example in Approach 2, we note that $T(n) = 3n + 4$. How would we express the time complexity of this algorithm utilizing order of growth? This can be done with the **Big O** notation, which represents the **upper bound** of a function's growth rate. There are other notations that describe other aspects of a function, but for the sake of algorithm performance, Big O is usually what is considered. In this way, Big O notation represents the **worst case** of an algorithm. Let's look at how these notation sare formally defined and how to use them to describe the performance of an algorithm.
 
@@ -274,7 +274,7 @@ To add or remove anything from the beginning, it requires shifting $n$ elements 
 
 ![Singly Linked List](https://coleton.io/post-images/algo/singlylinkedlist.png)
 |:--:| 
-| *Taken From https://visualgo.net/en/list* |
+| *Sourced from [VisualGo](https://visualgo.net/en/list)* |
 
 Each of these elements are called a **Node.** A Node contains an element and a pointer to another Node. This goes on and on until the pointer points to a `nullptr` (i.e. points to nothing.) An exame Node object in C++ would look like this:
 
@@ -411,7 +411,7 @@ By adding a true `tail` pointer (eg. it points to the back most element.) You ca
 #### Doubly Linked List with Tail Implementation
 ![doubly linked list](https://coleton.io/post-images/algo/doublylinkedlist.png)
 |:--:| 
-| *Taken from [AskPython](https://www.askpython.com/python/examples/doubly-linked-list)* |
+| *Sourced from [AskPython](https://www.askpython.com/python/examples/doubly-linked-list)* |
 
 In this type of linked list, a Node contains a pointer to a previous element, the current data of some type, and the following elements. This means that from any Node, you can go forwards and backwards. This means that `Node` looks something like:
 
