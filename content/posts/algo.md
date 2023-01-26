@@ -1,7 +1,7 @@
 ---
 author: "Coleton O'Donnell"
 title: "Data Structures and Algorithms Notes"
-date: "2023-01-21"
+date: "2023-01-25"
 description: "Notes on my study from UF's COP3530 with Professor Kapoor, Abdul Bari's Udemy Course, and 'Introduction to Algorithms' by Cormen & Leiserson."
 tags: ["math", "algorithms", "computer science"]
 math: true
@@ -9,7 +9,7 @@ math: true
 
 # Introduction
 
-**This is going through a rewrite, it is a bit chaotic right now.**
+**Pardon the dust, this is being rewritten.**
 
 These notes are on the COP3530 Data Structures and Algorithm class with the excellent Professor Kapoor at the University of Florida as well as on [Abdul Bari's DSA Course on Udemy](https://www.udemy.com/course/datastructurescncpp). What I have learned from each has been compounded into one living document. If you are interested in Abdul Bari's course but want a bit of a taste for it, there is also a free YouTube version that is [consolidated](https://youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O). Please note that these are **notes**, I can't stress this enough. These are written with prior knowledge in mind, and are basically useless if you aren't following along with a textbook or a course. They won't be teaching you well. These can act as a good reference for concepts and important explanations. Think of it as a TL;DR on things, but you're doing yourself a disservice if you even think of using these as your main source of info. For textbooks, check out the excellent [OpenDSA Book](https://opendsa-server.cs.vt.edu/ODSA/Books/Everything/html/index.html). If you prefer paper, check out "Introduction to Algorithms" by Cormen & Leiserson and "Data Structures and Algorithm Analysis in C++" by Weiss.
 
@@ -221,6 +221,7 @@ An example of an ADT is a list. A concrete data type (e.g.. implementation) of l
 ### List ADT
 
 Core features:
+
 * Ordered collection of data (e.g.. all elements have an ordered positive.)
 * Linear Structure.
 * Can have a size, it can grow and shrink.
@@ -229,12 +230,15 @@ Core features:
 The list basically is just one value after another, e.g.. 1, 2, 3, 4, etc. It is linear, meaning it goes forwards and backwards.
 
 Characteristics:
+
 * Data
+  
   * Items
   * Current number of items stored
   * Capacity, is it bounded to a maximum?
 
 * Operations
+  
   * Read, Write, and Remove elements.
   * Find an element.
   * Count the number of elements.
@@ -252,11 +256,11 @@ Characteristics:
 
 ##### Operation Performance
 
-|           |  Add   | Remove |
+|           | Add    | Remove |
 |:---------:|:------:|:------:|
 | Beginning | $O(n)$ | $O(n)$ |
-|    End    | $O(1)$ | $O(1)$ |
-|  Middle   | $O(n)$ | $O(n)$ |
+| End       | $O(1)$ | $O(1)$ |
+| Middle    | $O(n)$ | $O(n)$ |
 
 To add or remove anything from the beginning, it requires shifting $n$ elements to the right, resulting in $O(n)$. Similar is true for the middle, but instead shifting all elements to the right of the indice being considered. This is still $O(n)$ because this indice grows with $n$. In the case of the end, it is constant because the size of the array is known, and this means that it is free to add and remove from the end of it (i.e. no shifts are required.) 
 
@@ -266,9 +270,9 @@ To add or remove anything from the beginning, it requires shifting $n$ elements 
 * Drawbacks
   * Expensive for adding and removing elements from the beginning or middle.
 
-#### Singuly Linked List Implementation
+#### Singly Linked List Implementation
 
-![Singuly Linked List](https://coleton.io/post-images/algo/singulylinkedlist.png)
+![Singly Linked List](https://coleton.io/post-images/algo/singlylinkedlist.png)
 |:--:| 
 | *Taken From https://visualgo.net/en/list* |
 
@@ -289,7 +293,6 @@ class Node
 In this instance, a `Node` contains the pointer to the next `Node` as well as the `data` of some type `T`. This can be used like this:
 
 ```cpp
-
 Node<int>* node_one = new Node<int>();
 node_one->data = 10;
 node_one->next = nullptr;
@@ -313,6 +316,7 @@ int main()
 ```
 
 Thus this list is represented as:
+
 ```
 30 -> 20 -> 10 -> /
 ```
@@ -366,7 +370,96 @@ After calling push_front:
 H -> q -> T
 ```
 
-Where q is our new node.
+Where `q` is our new node.
+
+##### Characteristics
+
+* Consists of Nodes
+  * Data
+  * Pointer to a following Node
+* Stores similar elements (i.e. stores all of the same type.)
+* Elements are linked in memory but are stored non-contiguously.
+* Doesn't allow for random access
+
+##### Operation Performance
+
+* Add - PushFront(key), PushBack(key)
+* Remove - PopFront, PopBack
+* Get - TopFront, TopBack
+* Find(key), Erase(key), Empty()
+* AddBefore(Node, key), AddAfter(Node, key)
+
+Performance of these operations
+
+| $O(1)$            | $O(n)$           | $O(n)$ extended   |
+| ----------------- | ---------------- | ----------------- |
+| PushFront: $O(1)$ | PushBack: $O(n)$ | AddBefore: $O(n)$ |
+| PopFront: $O(1)$  | PopBack: $O(n)$  | Find: $O(n)$      |
+| TopFront: $O(1)$  | TopBack: $O(n)$  | Empty: $O(n)$     |
+| AddAfter: $O(1)$  | Erase: $O(n)$    |                   |
+
+* Benefits
+  * Adding and Removing in front is way faster, $O(1)$
+* Drawbacks
+  * Expensive random access, $O(n)$
+  * TopBack, PushBack, PopBack, and AddBefore are also very expensive
+  * More expensive in terms of memory
+
+##### Improving Singly Linked List with Tail
+By adding a true `tail` pointer (eg. it points to the back most element.) You can improve the PushBack and the TopBack performance to be $O(1)$. This signifcantly increases the usefulness of the singly linked list immensely. The issue is that PopBack and AddBefore is $O(n)$. Is there anyway to improve this? There in fact is.
+
+#### Doubly Linked List with Tail Implementation
+![doubly linked list](https://coleton.io/post-images/algo/doublylinkedlist.png)
+|:--:| 
+| *Taken from [AskPython](https://www.askpython.com/python/examples/doubly-linked-list)* |
+
+In this type of linked list, a Node contains a pointer to a previous element, the current data of some type, and the following elements. This means that from any Node, you can go forwards and backwards. This means that `Node` looks something like:
+
+```cpp
+template <typename T>
+struct Node
+{
+  Node<T> *prev;
+  T data;
+  Node<T> *next;
+}
+```
+
+Furthermore, this solves the issue of PushBack, PopBack, TopBack, and AddBefore, all of which are now $O(1)$ time complexity instead of $O(n)$. The trade off is that this implementation requires extra memory. This is because this list implementation has access to the tail. When we have access to the tail and the have a pointer in both directions, we can view the tail, append to the tail, and AddBefore the tail (as well as any Node.) Let's take a look at how some of this logic looks. Whenever we want to remove a value before the tail in this given doubly linked list:
+
+```text
+H -> 2 -> 3 -> T
+  <-   <-   <-
+```
+
+Let's say we want to remove 3, in this case we'd access the tail value. We'd set `tail->prev->prev->next = tail`, and then set `tail->prev = tail->prev->prev`. We would also throw in a delete somewhere to make sure we are deleting the old node:
+```text
+H -> 2 -> T
+  <-   <- 
+```
+
+#### Circular Linked List
+
+I won't go into these as they aren't exactly needed to be known in this class, but basic things should be understood. Just check out [this GeeksForGeeks article on Circular Singly Linked Lists](https://www.geeksforgeeks.org/circular-linked-list/) as well as [this one on Circular Doubly Linked List](https://www.geeksforgeeks.org/insertion-in-doubly-circular-linked-list/).
+
+#### Array vs. Linked List
+
+In terms of Space, there are two things, List size and Element size.
+* List Size, in Linked List favor
+  * In the array implementation, an estimate of the size when the list is created is required, and when this size is met, the array must be reallocated.
+  * In the linked list implementation, the size is dynamic and can grow as needed.
+* Element Size, in Array favor
+  * In the array implementation, only the element is needed to be stored.
+  * In the linked list implementation, it requires storage for the element as well as pointer(s).
+
+In terms of Time, there are two things, access as well as adding and removing.
+* Access, in Array favor
+  * In the array implementation, values can be randomly accessed in constant time at any index.
+  * In the linked list implementation, values must be accessed by traversing the list one element at a time.
+
+* Adding and Removing, in Linked List favor
+  * In the array implementation, it requires all elements to be moved whenever we add or remove from the array.
+  * In the linked list implementation, insertion and removal is constant time if the iterator is where you need it to be.
 
 # Recursion
 
@@ -541,413 +634,6 @@ int sum(int n) {
     else {
         return sum(n - 1) + n;
     }
-}
-```
-
-# Arrays
-
-As spoken about in the introduction, an array is a collection of memory locations, all of which are side by side. The basic way of declaring an array is as follows:
-
-```cpp
-type variable[size];
-```
-
-For instance:
-
-```cpp
-int A[5];
-```
-
-This is an array of integers, with length 5. This is a **static** array, which means that once declared, the size is not changable, and it lives on the stack. A dynamic array is as follows:
-
-```cpp
-int main() {
-    int size; // Declare variable size as an integer
-    std::cin >> size; // Get user input for the size
-    int *array = new int[size]; // Declare pointer array as a new array
-                                // with length size
-    delete [] array;            // Always delete arrays made with new
-    array = NULL;               // Delete the location of the pointer
-    return 0;
-}
-```
-
-This is an unsafe way of doing it, but is how you'd do it with `new`, using a smart pointer, you could do this in C++14, which skips all the crazy `new[]` and `delete[]` stuff:
-
-```cpp
-auto array = std::make_unique<int[]>(size);
-```
-
-A bit semantical, just something that should be kept in mind when actually doing this in practice. You can also declare arrays that are two dimensional, e.g.
-
-`int A[3][4];`
-
-This means there are three integer arrays, all four in length.
-
-## A Low Level Look At Arrays
-
-```cpp
-#include <iostream>
-
-using namespace std;
-
-int main() {
-    int array[2] = {0, 1}; // Declare an Array of Length 2
-    int *array_pointer = array; // Declare a ponter
-
-    cout << array << endl; // Prints 0x7ffdc44f1460
-    cout << array_pointer << endl; // Prints 0x7ffdc44f1460
-
-    cout << *array_pointer << endl; // Prints 0
-    cout << array[0] << endl; // Prints 0
-
-    ++array_pointer; // Incrementing the pointer
-
-    cout << array_pointer << endl; // Prints 0x7ffdc44f1464
-
-    cout << *array_pointer << endl; // Prints 1
-    out << array[1] << endl; // Prints 1
-}
-```
-
-Full output:
-
-```
-0x7ffdc44f1460
-0x7ffdc44f1460
-0
-1
-0x7ffdc44f1464
-1
-1
-```
-
-The integer type consists of 4 bytes, so when we increment the pointer, we are looking at the memory 4 bytes to the right. 
-
-## Array ADT
-
-The Data of an Array consists of:
-
-1. Array Space
-   
-   * In C++ this is done with `int A[10];`
-
-2. Size
-   
-   * In C++ this is done with:
-   
-   * ```cpp
-     int *A;
-     A = new int[size];
-     ```
-
-3. Length (Number of Elements)
-   
-   * When we initialize an array, it has length 0. When we add an element, it is length 1, etc.
-
-Operations an array should support:
-
-* `Display()`
-
-* `Append(x)`
-
-* `Insert(index, x)`
-
-* `Delete(index)`
-
-* `Search(x)`
-
-* `Get(index)`
-
-* `Set(index, x)`
-
-* `max()/min()`
-
-* `Reverse()`
-
-* `Shift()`
-
-### Initial Creation
-
-```cpp
-#include <iostream>
-
-class Array {
-    private:
-        int* A; // integer pointer
-        int size; // size of the array
-        int length; // length of the number of elements in the array
-
-    public:
-        // to be done
-}
-
-int main() {
-    // to be done
-}
-```
-
-As we can see, we have created the class Array which consists of a pointer, the size of the array, and the length of the number of elements in the array. What we need to create are the following:
-
-* `Create()`
-
-* `Display()`
-
-```cpp
-#include <iostream>
-using namespace std;
-
-class Array {
-    private:
-        int* A; // integer pointer
-        int size; // size of the array
-        int length; // length of the number of elements in the array
-
-    public:
-        Array(int size) {
-            this->size = size; // Set size as size
-            length = 0; // Set length as zero
-            A = new int [size]; // Declare int pointer as array 
-        }
-
-        void Create(int length) {
-            if (this->size < length) {
-                cout << "Too large" << endl;
-                abort();
-            }
-            this->length = length // Set length
-            cout << "Enter the array elements: " << endl;
-            for (int i = 0; i < length; i++) {
-                cout << "Array element: " << i << " = " << flush;
-                cin >> A[i]; // Set elements
-            }
-        }
-
-        void Display() {
-            for (int i = 0; i < length; i++) {
-                cout << A[i] << " ";
-            }
-        }
-
-        ~Array() {
-            delete[] A;
-            cout << "Array destroyed" << endl;
-        }
-};
-
-int main() {
-    int size = 10; // Declare size here
-    Array arr(size); // Declare Array with a size, size
-    int length = 11; // Declare length here
-    arr.Create(length); // Create it and give it values
-    arr.Display(); // Display
-    return 0;
-    // Array destroyed
-}
-```
-
-A note, for `~Array`, that is run whenever the variable goes out scope. In this case, we just delete the pointer.
-
-### `Append` and `Insert`
-
-For `Append(x)`:
-
-```cpp
-void Append(int x) {
-    if (length < size) {
-        A[length++] = x; // Increase length and set
-    }
-}
-```
-
-If we're not at max capacity, we can append.
-
-For `Insert(index, x)`:
-
-```cpp
-void Insert(int index, int x) {
-    if (index >= 0 && index <= length) {
-        for (int i = length; i > index; i--) {
-            A[i] = A[i-1];
-        }
-        A[index]=x;
-        length++;
-    }
-}
-```
-
-Here we just loop over everything, and set everything back one point to the right of the index we are trying to insert at.
-
-### `Delete`
-
-```cpp
-int Delete(int index) {
-    if (index >= 0 && index < length) {
-        int x = A[index];
-        for (i = index; i < length - 1; i++) {
-            A[i] = A[i+1]; // 
-        }
-        length--;
-        return x; // Return deleted element
-    }
-    return 0;
-}
-```
-
-This is all pretty self explanatory.
-
-### `LinearSearch` and `BinarySearch`
-
-For `LinearSearch(key)`:
-
-```cpp
-class Array {
-    private:
-        int* A; // integer pointer
-        int size; // size of the array
-        int length; // length of the number of elements in the array
-        void swap(int *x, int *y) {
-            int temp;
-            temp = *x;
-            *x = *y;
-            *y = temp;   
-        }
-    // ...
-    int LinearSearch(int key, bool do_swap) {
-        for (int i = 0; i < length; i++) {
-            if (key == A[i]) { // If we have a match
-                if (do_swap == true) { // Do we swap found index with 0?
-                    swap(&A[i], &A[0]);
-                }
-                return i; // Return the index
-            }
-        }
-        return -1; // If we don't find anything
-    }
-```
-
-The idea behind `do_swap` is that if we are searching for an element, we might search for it again. If we have an unsorted array, it can be adventageous to just swap as we might search for the value again. A linear search has a time complexity of $O(n)$.
-
-For `BinarySearch(key)`:
-
-```cpp
-int BinarySearch(int key) {
-    int l, mid, h;
-    l = 0; // lowest value
-    h = length; // highest value
-    while (l <= h) {
-        mid = (l + h) / 2; // new middle
-        if (key == A[mid]) { // if middle is match, return mid
-            return mid;
-        } else if (key < A[mid]) {  // if our key is below middle value,
-            h = mid - 1;            // decrement highest
-        } else {
-            l = mid + 1;            // if our key is above middle value
-        }                           // increment lowest 
-    }
-    return -1;
-}
-```
-
-For this to work, the array has to be sorted. A binary search has a time complexity of $O(\log_2 n)$
-
-### `Get`, `Set`, `Max`, and `Min`
-
-For `Get(index)`:
-
-```cpp
-int Get(int index) {
-    if (index >= 0 && index < length) { // if index exists
-        return A[index];
-    }
-    return -1;
-}
-```
-
-For `Set(index, x)`
-
-```cpp
-void Set(int index, int x) {
-    if (index >= 0 && index < length) { // if index exists
-        A[index] = x;
-    }
-}
-```
-
-For `Max()`:
-
-```cpp
-int Max() {
-    int max = A[0];       // largest value
-    for (int i = 1; i < length; i++) {
-        if (A[i] > max) { // first instance of max
-            max = A[i];   // so first of any repeats
-        }
-    }
-    return max;
-}
-```
-
-For `Min()`:
-
-```cpp
-int Min() {
-    int min = A[0];       // smallest value
-    for (int i = 1; i < length; i++) {
-        if (A[i] < min) { // first instance of min
-            min = A[i];   // so first of any repeats
-        }
-    }
-    return min;
-}
-```
-
-### `Reverse`
-
-```cpp
-void Reverse() {
-    int i, j;
-    for (i = 0, j = length - 1; i < j; i++, j--) {
-        swap(&A[i], &A[j]);
-    }
-}
-```
-
-This reverses the array, and its time complexity is $O(n)$.
-
-### `isSorted`
-
-```cpp
-bool isSorted() {
-    for (int i = 0; i < length - 1; i++) {
-        if (A[i] > A[i + 1]) {
-            return false;
-        }
-    }
-    return true;
-}
-```
-
-### `Merge`
-
-```cpp
-Array Merge(Array& B) {
-    Array C(length + B.length);
-    int i, j, k = 0;
-    while (i < length && j < B.length) {
-        if (A[i] < B.Get(j)) {
-            C.Set(k++, A[i++]);
-        } else {
-            C.Set(k++, B.Get(j++));
-        }
-    }
-    for (; i < length; i++) {
-        C.Set(k++, A[i]);
-    }
-    for (; j < B.length; j++) {
-        C.Set(k++, B.Get(j));
-    }
-    return C;
 }
 ```
 
@@ -1614,426 +1300,6 @@ int main() {
     cout << "S2" << endl << s2;
     cout << "Sum" << endl << sum;
     return 0;
-}
-```
-
-# Linked List
-
-### Introduction
-
-An array works off the principle of a bench. A benches seats are right next to each other, and they are of a fixed size. I can't call chairs that are 10 feet apart a bench, and I can't go up to a bench and extend or shrink it. Similarly, an array is defined as pieces of memory that are next to each other, and they are fixed in size. Linked List are a different way of creating collections of data. An array is formed like the following:
-
-```cpp
-// For the array:
-char foo [5] = {'A', 'B', 'C', 'D', 'E'};
-
-// It can be seen as consisting of three parts:
-Index   |   0   1   2   3   4
-Element |   A   B   C   D   E
-Address |  200 204 208 212 214
-```
-
-Each index has a corresponding element, and each element corresponds to an address. A linked list is constructed like this:
-
-```
-[Element][Pointer] -> [Element 2][Pointer] -> ... -> [Element n][/0]
-```
-
-A linked list is constructed as a series of nodes, consisting of an element, and a pointer, pointing to the next node. This creates a list of links, until we reach the end node, which a NULL pointer.
-
-### Writing
-
-A Linked List can be represented as:
-
-```cpp
-class Node {
-  public:
-    int data; // The Node data
-    Node* next; // Points to the next Node
-};
-```
-
-The Node class contains the data and a pointer to another Node. We can work with the Linked List a little bit with just this:
-
-```cpp
-int main() {
-    // Create an Array to transfer
-    int A[] = {1, 2, 3, 4, 5};
-
-    // Create the first Node
-    Node* head = new Node; 
-
-    // Initialize a temporary and last Node 
-    Node* temp;
-    Node* last;
-
-    // Set the first Node
-    head->data = A[0];
-    head->next = nullptr;
-
-    // Set the current last node to head
-    last = head;
-
-    // Create the Linked List
-    for(int i = 1; i < sizeof(A)/sizeof(A[0]); i++) {
-        // Create the temporary Node
-        temp = new Node;
-
-        // Populate temporary Node
-        temp->data = A[i];
-        temp->next = nullptr;
-
-        // Set the current last's next pointer to temp,
-        // then set last as temp.
-        last->next = temp;
-        last = temp;
-    }
-
-    // Display
-    // Create a pointer to head
-    Node* p = head;
-
-    while(p != nullptr) { // Stop whenever we hit null ptr
-        std::cout << p->data << " -> " << std::flush; // print current p
-        p = p->next; // Move p forward
-    }
-
-    return 0;
-}
-```
-
-This outputs:
-
-```
-1 -> 2 -> 3 -> 4 -> 5 -> 
-```
-
-Another way to display a linked list is with a recursive function:
-
-```cpp
-void RDisplay(Node* p) {
-    if (p != nullptr) {
-        std::cout << p->data << " ";
-        RDisplay(p->next);
-    }
-}
-```
-
-These notes don't use a Class implementation of Linked List, instead passing the linked list into each one. This was helpful when I was learning how Linked Lists work, but ideally, for C++ use a class instead.
-
-### Counting Nodes
-
-Counting Nodes is pretty similar to Display, we just loop and count until we reach the end:
-
-```cpp
-int Count(Node* head) {
-    Node* p = head;
-    int num = 0;
-    while (p != nullptr) {
-        num++;
-        p = p->next;
-    }
-    return num;
-}
-```
-
-As you can see, we just loop over it until we reach the null pointer, with each iteration we are just increasing the `num` integer.
-
-#### Recursive Implementation of `Count`
-
-We can also count Nodes recursively:
-
-```cpp
-int RCount(Node* p) {
-    if (p == nullptr) {
-        return 0;
-    }
-    return RCount(p->next) + 1;
-}
-```
-
-### Sum of all Elements
-
-Just like counting, sum is pretty similar, just we have to access the data as well:
-
-```cpp
-int Sum(Node* head) {
-    Node* p = head;
-    int sum = 0;
-    while (p != nullptr) {
-        sum += p->data;
-        p = p->next;
-    }
-    return sum;
-}
-```
-
-#### Recursive Implementation of `Sum`
-
-We can also sum the Nodes recursively:
-
-```cpp
-int RSum(Node* p) {
-    if (p == nullptr) {
-        return 0;
-    }
-    return RSum(p->next) + p->data;
-}
-```
-
-### Max of Elements
-
-Just like counting, max is pretty similar:
-
-```cpp
-int Max(Node* head) {
-    Node* p = head;
-    int max = 0;
-    while (p != nullptr) {
-        if (p->data > max) {
-            max = p->data;
-        }
-    }
-    return max;
-}
-```
-
-### Searching
-
-A linked list is a linear search only:
-
-```cpp
-Node* Search(Node* p, int key) {
-    while(p != nullptr) {
-        if (key == p->data) {
-            return p;
-        }
-        p = p->next;
-    }
-    return NULL;
-}
-```
-
-### Inserting
-
-An insert for a linked list is pretty simple:
-
-```cpp
-Node* Insert(Node* head, int index, int x) {
-    if(index <0 || index > Count(head)) {
-        return NULL;
-    }
-    Node *p=head;
-    Node *t;
-    t = new Node;
-    t->data = x;
-    t->next = NULL;
-
-    if (index == 0) {
-        t->next = head;
-        head = t;
-    } else {
-        for(int i=0;i<index-1;i++) {
-            p = p->next;
-        }
-        t->next = p->next;
-        p->next = t;
-    }
-    return head;
-}
-```
-
-If we are out of bounds, we return null. We define two new node objects, one which is equal to the head node, and another which is a fresh node. In the case that we are inserting at the 0th index, we just set the `t->next` value to head, and then set head equal to `t`. If not, we loop over `p`, incrementing everything right ward `index - 1` number of times. Afterwards, we set `t->next` equal to `p->next`, and then set `p->next` to equal `t`. This places `t` in between, right where we want it to be.
-
-### Check If Linked List Loops
-
-So a linked list consists of Nodes as we have seen, but what if a pointer from a node points to another node within itself, in other words it forms a looping linear linked list:
-
-```
-                       V---------------------------------------------
-[Element][Pointer] -> [Element 2][Pointer] -> [Element n][Pointer] -^
-```
-
-In this way, it loops back around. Well, we can detect this using two pointers that increment over the list. One increments by one step, and the other by two. If they meet again, then the linked list must loop:
-
-```cpp
-bool isLoop(Node* head) {
-    Node* p;
-    Node* q;
-    p = head;
-    q = head;
-
-    do {
-        p = p->next;
-        q = q->next;
-        q = q ? q->next:q;
-    } while (p && q && p != q);
-
-    if (p == q) {
-        return true;
-    }
-    return false;
-}
-```
-
-## Doubly Linked List
-
-A Linked List has one pointer, pointing to the next node. A Doubly Linked List is a Linked List with two pointers, one pointing to the next node and the second pointing to the node before it. To begin, lets modify our `Node` object:
-
-```cpp
-class Node {
-    public:
-        Node* prev;
-        int data;
-        Node* next;
-};
-```
-
-As we can see, we added a new variable called `prev`, which as you can guess, points to the previous element. Unlike our Linked List, we are also going to code a class for this to make things easier to develop, now that we have an understanding of the Linked List:
-
-```cpp
-class DoublyLinkedList {
-    private:
-        Node* head; // Our head node
-    public:
-        DoublyLinkedList() {
-            head = new Node;
-            head->prev = nullptr;
-            head->data = 0;
-            head->next = nullptr;
-        }
-
-        DoublyLinkedList(int *A, int n) {
-            head = new Node;
-            head->prev = nullptr;
-            head->data = A[0];
-            head->next = nullptr;
-            Node* tail = head;
-
-            for(int i = 1; i < n; i++) {
-                Node* t = new Node;
-                t->prev = tail;
-                t->data = A[i];
-                t->next = tail->next;
-                tail->next = t;
-                tail = t;
-            }
-        }
-
-        ~DoublyLinkedList() {
-            Node* p = head;
-            while (head) {
-                head = head->next;
-                delete p;
-                p = head;
-            }
-        }
-};
-```
-
-Next we can code our main function:
-
-```cpp
-int main() {
-    int A[] = {1, 2, 3, 4, 5};
-    DoublyLinkedList dll(A, 5);
-    return 0;
-}
-```
-
-We need to add a display function, and we will basically recycle our old code from the Single Linked List:
-
-```cpp
-using namespace std;
-#include <iostream>
-// ...
-friend ostream & operator << (ostream &os, DoublyLinkedList &dll) {
-    Node* p = dll.head;
-    while(p != nullptr) { 
-        cout << p->data << " -> " << flush;
-        p = p->next;
-    }
-    cout << endl;
-    return os;
-}
-```
-
-### Inserting
-
-The insert for a doubly linked list is very similar to the normal linked list, just we also have to point to the previous element.
-
-```cpp
-int Length() {
-    int length = 0;
-    Node* p = head;
-    while (p != nullptr) {
-        length++;
-        p = p->next;
-    }
-    return length;
-}
-
-void Insert(int index, int value) {
-    if (index < 0 || index > Length()) {
-        return;
-    }
-
-    Node* t = new Node;
-    t->data = value;
-
-    if (index == 0) {
-        t->prev = nullptr;
-        t->next = head;
-        head->prev = t;
-        head = t;
-    } else {
-        Node* p = head;
-        for (int i = 0; i < index - 1; i ++) {
-            p = p->next;
-        }
-
-        t->prev = p;
-        t->next = p->next;
-        if (p->next) {
-            p->next->prev = t;
-        }
-        p->next = t;
-    }
-}
-```
-
-### Deleting
-
-Much like a normal linked list, the same principle applies, but we have to account for two pointers now:
-
-```cpp
-int Delete(int index) {
-    int x = -1;
-    Node* p = head;
-
-    if (index < 0 || index > Length()) {
-        return x;
-    }
-
-    if (index == 1) {
-        head = head->next;
-        if (head) {
-            head->prev = nullptr;
-        }
-        x = p->data;
-        delete p;
-    } else {
-        for (int i=0; i<index-1; i++) {
-            p = p->next;
-        }
-        p->prev->next = p->next;
-        if (p->next) {
-            p->next->prev = p->prev;
-        }
-        x = p->data;
-        delete p;
-    }
-    return x;
 }
 ```
 
