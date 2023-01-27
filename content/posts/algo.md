@@ -16,11 +16,11 @@ These notes are on the COP3530 Data Structures and Algorithm class with the exce
 ## Definition of the Data Structure and the Algorithm
 
 * What is a Data Structure?
-  
+
   * A **data structure** can be defined as the arrangement of a collection of data items so that they can be utilized efficiently. It is all about data and the operations of the data.
 
 * What is an Algorithm?
-  
+
   * An **algorithm** can be defined as a procedure used for solving a problem or performing a computation. It is a fininte set of instructions to execute a task. All algorithms have an input, an output, and are definite and unambiguous. This means that they always have the same output for a given input.
 
 ## Algorithm vs. Program
@@ -45,17 +45,17 @@ One possible solution is to compare every element to every other following eleme
 
 ## What is Performance and Why Should We Care?
 
-Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligable at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year. 
+Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligable at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year.
 
 # How to Measure Performance?
 
-It is great that we know the importance of performance, but what are some ways that we can truly understand performance in a meaningful way? 
+It is great that we know the importance of performance, but what are some ways that we can truly understand performance in a meaningful way?
 
 ## Different Approaches of Measurement
 
 ### Approach 1: Simulation with Timing
 
-A logical way of checking performance is to just time two solutions, and then compare the times. 
+A logical way of checking performance is to just time two solutions, and then compare the times.
 
 Code #1:
 
@@ -122,7 +122,7 @@ An order of growth are functions whose asymptotic behavior is seen as equivalent
 This can be further illustrated by:
 
 ![How to find time complexity of an algorithm?  Adrian Mejia Blog](https://coleton.io/post-images/algo/time-complexity-examples.png)
-|:--:| 
+|:--:|
 | *Sourced from [Adrian Mejia](https://adrianmejia.com/how-to-find-time-complexity-of-an-algorithm-code-big-o-notation/)* |
 
 So if we return to the example in Approach 2, we note that $T(n) = 3n + 4$. How would we express the time complexity of this algorithm utilizing order of growth? This can be done with the **Big O** notation, which represents the **upper bound** of a function's growth rate. There are other notations that describe other aspects of a function, but for the sake of algorithm performance, Big O is usually what is considered. In this way, Big O notation represents the **worst case** of an algorithm. Let's look at how these notation sare formally defined and how to use them to describe the performance of an algorithm.
@@ -202,11 +202,11 @@ void my_function(int n, int m)
 }
 ```
 
-Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time complexity for this algorithm is $O(n + log_2 m)$. Now, if we were told that $n$ and $m$ grow at the same rate, then $O(n + log_2 m) = O(n)$. This is because we drop the lowest order term whenever variables grow at the same rate, or they are identical variables. 
+Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time complexity for this algorithm is $O(n + log_2 m)$. Now, if we were told that $n$ and $m$ grow at the same rate, then $O(n + log_2 m) = O(n)$. This is because we drop the lowest order term whenever variables grow at the same rate, or they are identical variables.
 
 ### Cases
 
-Algorithms that have a purpose that allows them to stop their process (e.g.. searching algorithms, they stop once they find what they are looking for) due to a condition have different cases. These are the best case, average case, and worst case. The best case is the lowest cost, average case is the average cost for all n, and worst case is the highest possible cost.   
+Algorithms that have a purpose that allows them to stop their process (e.g.. searching algorithms, they stop once they find what they are looking for) due to a condition have different cases. These are the best case, average case, and worst case. The best case is the lowest cost, average case is the average cost for all n, and worst case is the highest possible cost.
 
 # Abstract Data Types and Linear Ordered Data Structures
 
@@ -232,13 +232,13 @@ The list basically is just one value after another, e.g.. 1, 2, 3, 4, etc. It is
 Characteristics:
 
 * Data
-  
+
   * Items
   * Current number of items stored
   * Capacity, is it bounded to a maximum?
 
 * Operations
-  
+
   * Read, Write, and Remove elements.
   * Find an element.
   * Count the number of elements.
@@ -256,24 +256,23 @@ Characteristics:
 
 ##### Operation Performance
 
-|           | Add    | Remove |
 |:---------:|:------:|:------:|
 | Beginning | $O(n)$ | $O(n)$ |
 | End       | $O(1)$ | $O(1)$ |
 | Middle    | $O(n)$ | $O(n)$ |
 
-To add or remove anything from the beginning, it requires shifting $n$ elements to the right, resulting in $O(n)$. Similar is true for the middle, but instead shifting all elements to the right of the indice being considered. This is still $O(n)$ because this indice grows with $n$. In the case of the end, it is constant because the size of the array is known, and this means that it is free to add and remove from the end of it (i.e. no shifts are required.) 
+To add or remove anything from the beginning, it requires shifting $n$ elements to the right, resulting in $O(n)$. Similar is true for the middle, but instead shifting all elements to the right of the indice being considered. This is still $O(n)$ because this indice grows with $n$. In the case of the end, it is constant because the size of the array is known, and this means that it is free to add and remove from the end of it (i.e. no shifts are required.)
 
 * Benefits
   * Constant access time, `Array[i] = arr + (i * sizeOf(type))`.
-  * Constant time for adding and removing elements from the end. 
+  * Constant time for adding and removing elements from the end.
 * Drawbacks
   * Expensive for adding and removing elements from the beginning or middle.
 
 #### Singly Linked List Implementation
 
 ![Singly Linked List](https://coleton.io/post-images/algo/singlylinkedlist.png)
-|:--:| 
+|:--:|
 | *Sourced from [VisualGo](https://visualgo.net/en/list)* |
 
 Each of these elements are called a **Node.** A Node contains an element and a pointer to another Node. This goes on and on until the pointer points to a `nullptr` (i.e. points to nothing.) An exame Node object in C++ would look like this:
@@ -317,15 +316,15 @@ int main()
 
 Thus this list is represented as:
 
-```
+```text
 30 -> 20 -> 10 -> /
 ```
 
-In this case, the length of this list is one. 
+In this case, the length of this list is one.
 
 The `Node` class works great, but it is a bit verbose. In actuality, the list requires a lot more features than this, we are just describing everything manually. In this case, encaspulating `Node` by another class is much better.
 
-```
+```cpp
 template <typename T>
 struct Node
 {
@@ -362,7 +361,7 @@ class List
 
 With this example, our linked list contains two nodes, the `head` and the `tail`. In this implementation, these are **sentinal** nodes, which basically represent the path entry and the path terminator. Don't worry much about them. In this example, our `push_front` operation creates a new `Node` with `element`, and then changes the Node's `next` to be whatever the `head` is pointing to next. Then we change the `head` next to be our new Node `q`. To visualize this:
 
-```
+```text
 Before calling push_front:
 H -> T
 
@@ -410,7 +409,7 @@ By adding a true `tail` pointer (eg. it points to the back most element.) You ca
 
 #### Doubly Linked List with Tail Implementation
 ![doubly linked list](https://coleton.io/post-images/algo/doublylinkedlist.png)
-|:--:| 
+|:--:|
 | *Sourced from [AskPython](https://www.askpython.com/python/examples/doubly-linked-list)* |
 
 In this type of linked list, a Node contains a pointer to a previous element, the current data of some type, and the following elements. This means that from any Node, you can go forwards and backwards. This means that `Node` looks something like:
@@ -435,7 +434,7 @@ H -> 2 -> 3 -> T
 Let's say we want to remove 3, in this case we'd access the tail value. We'd set `tail->prev->prev->next = tail`, and then set `tail->prev = tail->prev->prev`. We would also throw in a delete somewhere to make sure we are deleting the old node:
 ```text
 H -> 2 -> T
-  <-   <- 
+  <-   <-
 ```
 
 #### Circular Linked List
@@ -460,6 +459,284 @@ In terms of Time, there are two things, access as well as adding and removing.
 * Adding and Removing, in Linked List favor
   * In the array implementation, it requires all elements to be moved whenever we add or remove from the array.
   * In the linked list implementation, insertion and removal is constant time if the iterator is where you need it to be.
+
+#### STL Lists
+
+The C++ Standard Template Library contains 4 major list implementations. The `Forward_list` which is Singly Linked List implementation. The `List` which is a doubly linked list implementation. The `Array` which is a fixed size list. Finally, `Vector`, which is a dynamic size list implementations. C++ offers all of these different List ADT implementation because they all have their pros and cons that are either the best option for an issue or the worst solution.
+
+##### Iterators
+```cpp
+list<int> my_list(4, 100); // [100, 100, 100, 100]
+my_list.push_front(200); // [200, 100, 100, 100, 100]
+for (auto it = my_list.begin(); it != my_list.end(); ++it)
+    cout << ' ' << *it; // Outputs: 200 100 100 100 100 
+```
+
+##### Merge Two Lists
+
+Given two sorted lists, we can merge them together sorted:
+```cpp
+// listA and listB are two sorted lists
+std::list<int> mergeLists(std::list<int> listA, std::list<int> listB)
+{
+    auto iterA = listA.begin();
+    auto iterB = listB.begin();
+    std::list<int> mergedList;
+    int itemA = *iterA;
+    int itemB = *iterB;
+
+    while(iterA != listA.end() && iterB != listB.end())
+    {
+        if (itemA < itemB)
+        {
+            mergedList.push_back(itemA);
+            iterA++;
+            itemA = *iterA;
+        }
+        else
+        {
+            mergedList.push_back(itemB);
+            iterB++;
+            itemB = *iterB;
+        }
+    }
+
+    // Only one of these run at max, which handles
+    // if one list is larger than the other
+    while (iterA != listA.end())
+        mergedList.push_back(*iterA++);
+    
+    while (iterB != listB.end())
+        mergedList.push_back(*iterB++);
+
+    return mergedList;
+}
+```
+
+### Stack ADT
+A stack is a Last In First Out Structure, or LIFO. In other words, the last element in (most recent element placed in) is the first to come out. Think of it like a stack of plates.
+
+Characteristics:
+
+* Data
+  * Items
+  * Current number of items stored.
+  * Top pointer (points to the top most element.)
+* Operations
+  * `push` - Inserts an element on the stack (from the top)
+  * `pop` - Removes the element on the top of the stack
+  * `peek` - Returns the element on the top of the stack
+  * `size` - Returns the number of elements on the stack
+  * `isEmpty` - Returns true if the stack is empty, false otherwise
+
+#### Array Implementation
+
+We can exploit the characteristics of an array to build a very good stack implementation. Note the following class:
+```cpp
+class StackArray
+{
+    private:
+        const static int SIZE = 1024;
+        int arr[SIZE];
+        int top = -1;
+    
+    public:
+        void push(int n)
+        {
+            arr[++top] = n;
+        }
+
+        int pop()
+        {
+            if (top != -1)
+                return arr[top--];
+            return -1;
+        }
+
+        int peek()
+        {
+            if (top != -1)
+                return arr[top];
+            return -1;
+        }
+
+        int size()
+        {
+            return top + 1;
+        }
+
+        bool isEmpty()
+        {
+            if (top == -1)
+                return true;
+            return false;
+        }
+};
+```
+
+##### Operation Performance
+
+We utilize an array to store the values, and an integer to track the current position on the stack. Operations complexity is as follows:
+
+|:-----------:|:------:|
+| `push()`    | $O(1)$ |
+| `pop()`     | $O(1)$ |
+| `peek()`    | $O(1)$ |
+| `size()`    | $O(1)$ |
+| `isEmpty()` | $O(1)$ |
+
+As we can see, this implementation is very efficient. All the operations are constant time. The issue is that this implementation is of a fixed size at compile time. In the implementation above, the `SIZE` variable is a consant, and is set to $1024$. Of course, we can always raise this but this means that at compile time the stack size can't be increased or decreased in this implementation.
+
+#### Linked List Implementation
+
+The issue with the last implementation was that it didn't have a dynamic size. We can address this issue by using a linked list:
+
+```cpp
+class ListArray
+{
+    private:
+        struct Node
+        {
+            int element;
+            Node* next;
+            Node(int n)
+            {
+                element = n;
+            }
+        };
+        Node* top = nullptr;
+        int count = 0;
+    
+    public:
+        void push(int n)
+        {
+            Node* new_top = new Node(n);
+            new_top->next = top;
+            top = new_top;
+            count++;
+        }
+
+        int pop()
+        {
+            if (top)
+            {
+                count--;
+                int n = top->element;
+                Node* temp = top;
+                top = top->next;
+                delete temp;
+                return n;
+            }
+            return -1;
+        }
+
+        int peek()
+        {
+            if (top)
+                return top->element;
+            return -1;
+        }
+
+        int size()
+        {
+            return count;
+        }
+
+        bool isEmpty()
+        {
+            if (top)
+                return false;
+            return true;
+        }
+};
+```
+
+##### Operation Performance
+
+Just like the array implementation, all of the operations are $O(1)$:
+
+|:-----------:|:------:|
+| `push()`    | $O(1)$ |
+| `pop()`     | $O(1)$ |
+| `peek()`    | $O(1)$ |
+| `size()`    | $O(1)$ |
+| `isEmpty()` | $O(1)$ |
+
+So what is the difference? Well we have a dynamically changing stack, instead of it being limited to a specific size, it can grow and shrink to our needs. The drawback is that this requires more memory to implement.
+
+#### Stack STL
+
+The STL `stack` offers the following methods, `push(g)`, `pop()`, `top()`, `size()`, and `empty()`, which follows the methods we have already outlined but with slightly different names. To create use the `stack` STL, we follow this form:
+
+```cpp
+#include <stack>
+
+stack<type> my_stack; // create a stack with a type of "type"
+```
+
+Let's see what we can do with the stack:
+
+##### Use Cases for Stack
+
+###### Check if a String is a Palindrome
+```cpp
+#include <stack>
+#include <string>
+
+bool checkPalindrome(std::string s)
+{
+    std::stack<char> stk;
+
+    if (s.length() < 2)
+        return true;
+
+    int midIndex = s.length() / 2;
+
+    for (int i = 0; i < s.length() / 2; i++) // push first
+        stk.push(s.at(i));                   // half of string
+
+    if (s.length() % 2 != 0)                 // ignore middle
+        midIndex += 1;                       // element if odd
+
+    for (int i = midIndex; i < s.length(); i++)
+    {                                        // iterate from middle
+        if (stk.top() != s.at(i))            // check each half
+            return false;                    // these don't match
+        stk.pop();                           // move to next element
+    }
+
+    return true;
+}
+```
+
+###### Parenthesis Matching
+
+```cpp
+#include <stack>
+#include <string>
+
+bool isClosed(std::string expression) {
+    std::stack<bool> stk;
+
+    for (char i: expression)
+    {
+        if (i == '(')         // push onto stack every time
+            stk.push(true);   // an opening parenthesis is found
+        else if (i == ')')
+        {
+            if (stk.empty())  // this means this is an orphaned 
+                return false; // closed parenthesis, immediately false
+            else
+                stk.pop();    // we found a parenthesis pair
+        }
+    }
+
+    if (!stk.empty())         // orphaned opening parenthesis
+        return false;
+
+    return true;
+}
+```
 
 # Recursion
 
@@ -564,7 +841,7 @@ void fun(int n) {
     if (n > 0) {
         printf("%d ", n);
         fun(n-1);
-        fun(n-1);    
+        fun(n-1);
     }
 }
 ```
@@ -859,7 +1136,7 @@ When observing the space this matrix takes up, we can observe that each n row ad
 Though this is the case, there are two methods to represent this as an array, the first is row major mapping:
 
 ```
-A | 0 1 2 3 4 5 6 7 8 9 
+A | 0 1 2 3 4 5 6 7 8 9
     a b c d e f g h i j
 ```
 
@@ -876,7 +1153,7 @@ The second method is column major mapping:
 ...
 ```
 
-So looking at our array now, 0-4 represents the first column, 5-6 represents the second column, 7 and 8 the third, and 9 the fourth. 
+So looking at our array now, 0-4 represents the first column, 5-6 represents the second column, 7 and 8 the third, and 9 the fourth.
 
 Here is an implementation of Row Major mapping:
 
@@ -946,10 +1223,10 @@ int main() {
 Returns:
 
 ```
-1 0 0 0 0 
-2 2 0 0 0 
-3 3 3 0 0 
-4 4 4 4 0 
+1 0 0 0 0
+2 2 0 0 0
+3 3 3 0 0
+4 4 4 4 0
 5 5 5 5 5
 ```
 
@@ -1081,14 +1358,14 @@ int main() {
 Result:
 
 ```
-1 1 0 0 0 0 0 0 0 
-2 2 2 0 0 0 0 0 0 
-0 3 3 3 0 0 0 0 0 
-0 0 4 4 4 0 0 0 0 
-0 0 0 5 5 5 0 0 0 
-0 0 0 0 6 6 6 0 0 
-0 0 0 0 0 7 7 7 0 
-0 0 0 0 0 0 8 8 8 
+1 1 0 0 0 0 0 0 0
+2 2 2 0 0 0 0 0 0
+0 3 3 3 0 0 0 0 0
+0 0 4 4 4 0 0 0 0
+0 0 0 5 5 5 0 0 0
+0 0 0 0 6 6 6 0 0
+0 0 0 0 0 7 7 7 0
+0 0 0 0 0 0 8 8 8
 0 0 0 0 0 0 0 9 9
 ```
 
@@ -1133,7 +1410,7 @@ class Sparse {
             this->m = m;
             this->n = n;
             this->num = num;
-            ele = new Element[this->num];    
+            ele = new Element[this->num];
         }
 
         ~Sparse() {
@@ -1171,7 +1448,7 @@ friend std::ostream & operator << (std::ostream &os, Sparse &s) {
 }
 ```
 
-Last but not least, lets add a method to allow addition of two sparse matrices. 
+Last but not least, lets add a method to allow addition of two sparse matrices.
 
 ```cpp
 Sparse operator+(Sparse &s) {
@@ -1227,7 +1504,7 @@ class Sparse {
             this->m = m;
             this->n = n;
             this->num = num;
-            ele = new Element[this->num];    
+            ele = new Element[this->num];
         }
 
         friend istream & operator >> (istream &is, Sparse &s) {
@@ -1303,270 +1580,6 @@ int main() {
 }
 ```
 
-# Stack
-
-The stack is a way of representing Data, and it operates on the LIFO principle. The last in is the first to be pulled out. A recursion uses a stack, but this is handled by a compiler. It is known that every recursion can be converted to an interative algorithm and vise-versa, but some recursive algorithm once conerted to an iterative proccess need a programmer designed stack. A stack consists of two parts of data:
-
-1. Space for storing elements
-
-2. Top pointer
-
-And the following operations:
-
-1. `push(x)`
-
-2. `pop()`
-
-3. `peak(index)`
-
-4. `stackTop()`
-
-5. `isEmpty()`
-
-6. `isFull()`
-
-Let's look at some implementations of the stack.
-
-## Implementation with Array
-
-For this implementation, we have 3 pieces of data, the actual array, a pointer for the top most element, and the size of the array.
-
-```cpp
-class Stack {
-    private:
-        int size;
-        int top;
-        int* S;
-    public:
-        Stack(int size) {
-            this->size = size;
-            top = -1;
-            S = new int[size];
-        }
-
-        ~Stack() {
-            delete[] S;
-        }
-};
-```
-
-The question arrises, though, when we push a value to the stack, do we push from the left or the right. Well, if we pushed from the left, e.g.. push to 0, and then the old 0 becomes 1, and then the old 1 becomes 2, etc. etc., our time complexity becomes $O(n)$, but if we know the top most value, so if push from the right, our time complexity is $O(1)$.
-
-### `isFull` and `isEmpty`
-
-```cpp
-bool isFull() {
-    return (top == size - 1);
-}
-
-bool isEmpty() {
-    return (top == -1);
-}
-```
-
-The operations are all $O(1)$, and this is because of our `top` and `size` variables.
-
-### `peak`
-
-```cpp
-int peak(int index) {
-    int x = -1;
-    if (top - index + 1 < 0 || top - index + 1 == size) {
-        cout << "Invalid Position!" << endl;
-    } else {
-        x = S[top - index + 1];
-    }
-    return x;
-}
-```
-
-### `push` and `pop`
-
-```cpp
-void push(int x) {
-    if (isFull()) {
-        cout << "Stack Overflow!" << endl;
-    } else {
-        top++;
-        S[top] = x;
-    }
-}
-```
-
-```cpp
-int pop() {
-    int x = 1;
-    if (isEmpty()) {
-        cout << "Stack Underflow!" << endl;
-    } else {
-        x = S[top];
-        top--;
-    }
-
-}
-```
-
-### Display the Stack
-
-```cpp
-friend ostream & operator << (ostream &os, Stack &s) {
-    for (int i = s.top; i >= 0; i--) {
-        cout << s.S[i] << " | " << flush;
-    }
-    cout << endl;
-    return os;
-}
-```
-
-## `stackTop`
-
-```cpp
-int stackTop() {
-    if (isEmpty()) {
-        return -1;
-    }
-    return S[top];
-}
-```
-
-## Implementation with Linked List
-
-The advantage of a linked list over an array is that the stack isn't a fixed size on creation, and instead we can dynamically increase or decrease it with the linked list. Due to the nature of linked lists, this implementation requires less Class variables:
-
-```cpp
-class Node {
-    public:
-        int data;
-        Node* next;
-};
-
-
-class Stack {
-    private:
-        Node* top;
-    public:
-        Stack() {
-            top = nullptr;
-        }
-
-        ~Stack() {
-            Node* p = top;
-            while (top) {
-                top = top->next;
-                delete p;
-                p = top;
-            }
-        }
-};
-```
-
-### `isFull` and `isEmpty`
-
-```cpp
-int isFull() {
-    Node* t = new Node;
-    int r = t ? 1 : 0;
-    delete t;
-    return r;
-}
-
-int isEmpty() {
-    return top ? 0 : 1;
-}
-```
-
-### `stackTop`
-
-```cpp
-int Stack::stackTop() {
-    if (top) {
-        return top->data;
-    }
-    return -1;
-}
-```
-
-### `peek`
-
-```cpp
-int peek(int index) {
-    if (isEmpty()) {
-        return -1;
-    } else {
-        Node* p = top;
-
-        for (int i = 0; p != nullptr && i < index - 1; i++) {
-            p = p->next;
-        }
-
-        if (p != nullptr) {
-            return p->data;
-        } else {
-            return -1;
-        }
-    }
-} 
-```
-
-### `push` and `pop`
-
-```cpp
-void push(int x) {
-    Node* t = new Node;
-    if (t == nullptr) {
-        cout << "Stack Overflow!" << endl;
-    } else {
-        t->data = x;
-        t->next = top;
-        top = t;
-    }
-}
-
-int pop() {
-    Node* p;
-    int x = -1;
-    if (top == nullptr) {
-        cout << "Stack Underflow!" << endl;
-    } else {
-        p = top;
-        x = p->data;
-        top = top->next;
-        delete p;
-    }
-    return x;
-}
-```
-
-## Applications of Stack
-
-### Parenthesis Matching
-
-Imagine we have the expression $(a(a+b) \times (c-d+e))$, how we can determine if the expression has all matching parenthesis, or in other words, if the parenthesis are closed. To do this, lets build off of our Array implementation of the stack:
-
-```cpp
-bool isClosed(char* expression) {
-    // We didn't implement a Stack class for the array
-    // But just assume that it operates like the Linked List one
-    Stack stack((int)strlen(exp));
-
-    for (int i = 0; i < strlen(exp); i++) {
-        // We push every '(' to the stack
-        if (exp[i] == '(') {
-            stack.push(exp[i]);
-        // We pop everytime there is a '(' in the array
-        } else if (exp[i] == ')') {
-            // ) + Stack is empty is already a no go
-            if (stack.isEmpty()) {
-                return false;
-            } else {
-                stack.pop();
-            }
-        }
-
-    }
-}
-```
-
 # Queues
 
 The stack works off of the LIFO principle, a queue works off of the FIFO principle. As a result, everything that is going into the data strucutre enters from one end and then exits from the other. This is incontrast to the stack, where everything enters and exists from the same end. A queue consists of the following parts of data:
@@ -1624,7 +1637,7 @@ Front = -1
 Rear = 3
 ```
 
-Insert is still $O(1)$, but what about dequeuing? Well lets say we want to take out A. Once we take out A, we just increment the Front pointer. This shows us where the front is, and as a result we don't have to move everything over. This makes the dequeue process also $O(1)$! 
+Insert is still $O(1)$, but what about dequeuing? Well lets say we want to take out A. Once we take out A, we just increment the Front pointer. This shows us where the front is, and as a result we don't have to move everything over. This makes the dequeue process also $O(1)$!
 
 So, when looking at this structure, the queue is empty when the front and the rear are equal to each other, and it is full when the rear is equal to size - 1.
 
@@ -1935,7 +1948,7 @@ Let's go over some tree terminology
 [H]            [I]    [J]    [K]   [L]           [M]
 ```
 
-This is a tree, what we call the **root** is A. The root note is made of disjoined subsets, for instance the B subset and the C subset, and then within the B subset, there is the D subset and the E subset. B is a **parent** of D and E, and D and E are a **parent** of B. D and E are **siblings**, B and C are siblings. **Descendents** are a set of nodes such that they can be reached by another Node. D, E, H, I, and J are all descendents of B. Inversely, an **ancestor** is the line of nodes reaching back the root, for instance the ancestors of I are E, B, and A. It is the direct line of ancestory. The **degree** of a node is the number of children it has, the degree of A is 2, the degree of B is 2, the degree of D is 1, and the degree of H is 0. **Leaf Nodes** are nodes where the degree is 0, such as H, I, J, K, etc. **Internal Nodes** are nodes where the degree is greater than 0, such as B, C, D, E, F, and G. The **depth** of a node is the number of edges from the node to the tree's root node. A root node will have a depth of 0. So A's depth is 0, B's depth is 1, E's depth is 2, and J's depth is 3. The **height** of a tree would be the height of its root node, which is equal to the depth of the deepest node. So the height of A is equal to 3. Height doesn't perfectly decrease though, for instance if we introduced another node to A named "Y" with a child node of "Z," A's height would still equal 3, but Y's height would be 1. Something to keep in mind. The **level** of a node is where it is relative to the others, so A is at level 1, B at level 2, D at level 3, etc. etc. 
+This is a tree, what we call the **root** is A. The root note is made of disjoined subsets, for instance the B subset and the C subset, and then within the B subset, there is the D subset and the E subset. B is a **parent** of D and E, and D and E are a **parent** of B. D and E are **siblings**, B and C are siblings. **Descendents** are a set of nodes such that they can be reached by another Node. D, E, H, I, and J are all descendents of B. Inversely, an **ancestor** is the line of nodes reaching back the root, for instance the ancestors of I are E, B, and A. It is the direct line of ancestory. The **degree** of a node is the number of children it has, the degree of A is 2, the degree of B is 2, the degree of D is 1, and the degree of H is 0. **Leaf Nodes** are nodes where the degree is 0, such as H, I, J, K, etc. **Internal Nodes** are nodes where the degree is greater than 0, such as B, C, D, E, F, and G. The **depth** of a node is the number of edges from the node to the tree's root node. A root node will have a depth of 0. So A's depth is 0, B's depth is 1, E's depth is 2, and J's depth is 3. The **height** of a tree would be the height of its root node, which is equal to the depth of the deepest node. So the height of A is equal to 3. Height doesn't perfectly decrease though, for instance if we introduced another node to A named "Y" with a child node of "Z," A's height would still equal 3, but Y's height would be 1. Something to keep in mind. The **level** of a node is where it is relative to the others, so A is at level 1, B at level 2, D at level 3, etc. etc.
 
 ## Binary Tree
 
@@ -1947,7 +1960,7 @@ A binary tree must have a degree of 2, e.g.. every node can have, at maximum, 2 
 [D]       [E]     [F]       [G]
 ```
 
-Because of this two node setup, we can easily refer to each node as either the **left child** and the **right child**. A binary tree is **full** when the height of the tree would increase if we were to add an extra node. The tree above is full, the height is 2, and adding any extra nodes would result in an height increasing by one. 
+Because of this two node setup, we can easily refer to each node as either the **left child** and the **right child**. A binary tree is **full** when the height of the tree would increase if we were to add an extra node. The tree above is full, the height is 2, and adding any extra nodes would result in an height increasing by one.
 
 ### Catalan Number
 
@@ -2102,7 +2115,7 @@ class Node {
     public:
         Node *lchild;
         int data;
-        Node *rchild;  
+        Node *rchild;
 };
 ```
 
@@ -2268,7 +2281,7 @@ An n-ary tree is a tree where the degree of any node is at maximum $n$, e.g.. a 
 
 ### Strict N-ary tree
 
-A strict n-ary tree is a tree where the degree of any node is either {0, n}. 
+A strict n-ary tree is a tree where the degree of any node is either {0, n}.
 
 #### Height vs. Nodes
 
@@ -2281,7 +2294,7 @@ For a given n-ary tree (where $n$ is given as $m$) and height, the minimum numbe
 ```
               [30]
     [15]               [50]
-[10]    [20]       [40]    [60]     
+[10]    [20]       [40]    [60]
 ```
 
 This is an example of a Binary Search Tree. Notice that to the left of each node, the value is less than the right. Notice the following:
@@ -2528,7 +2541,7 @@ A balance factor of a tree is equal to the height of the left sub tree minus the
 ```
             [A]
     [B]           [C]
-[D]     [E]   [F]   
+[D]     [E]   [F]
 ```
 
 The left child height of A is 2, and the right child height of A is 2, so 2 - 2 = 0, so the BF for A is 0. The left child height of B is 1, and the right child height B is 1, so 1 - 1 = 0, so the BF for B is 0. The left child height of C is 1, and the right child height of C is 0, so 1 - 0 = 1, so the BF for C is 1. D, E, and F have no child nodes, so their BF is 0.
@@ -2601,7 +2614,7 @@ So we now have our tree, how do we perform the rotation? Imagine holding your fi
 [10]      [30]
 ```
 
-Now, the BF for each node is 0. 
+Now, the BF for each node is 0.
 
 ##### RR
 
@@ -2989,7 +3002,7 @@ B | 30 20 15 5  10 12 6
     1  2  3  4  5  6  7
 ```
 
-Recall that a Node is at Index I, thus its left child is at 2i and its right child is at 2i+1. 
+Recall that a Node is at Index I, thus its left child is at 2i and its right child is at 2i+1.
 
 #### Insertion
 
@@ -3361,10 +3374,10 @@ A |       [12]  4   6   20
 
 Break off next element, 4:
 
-Is 4 > 12? No. Shift rightward. 
+Is 4 > 12? No. Shift rightward.
 
 ```
-I | 2   8       12  
+I | 2   8       12
     0   1   2   3
 
 A |            [4]  6   20
@@ -3374,7 +3387,7 @@ A |            [4]  6   20
 Is 4 > 8? No. Shift rightward.
 
 ```
-I | 2       8   12  
+I | 2       8   12
     0   1   2   3
 
 A |            [4]  6   20
@@ -3384,7 +3397,7 @@ A |            [4]  6   20
 Is 4 > 2? Yes. Place at empty.
 
 ```
-I | 2   4   8   12  
+I | 2   4   8   12
     0   1   2   3
 
 A |            [4]  6   20
@@ -3639,7 +3652,7 @@ B | 3 4 9 10
     0 1 2 3
 
 New Array:
-C | 
+C |
     0 1 2 3 4 5 6
 
 n = 0
@@ -3681,7 +3694,7 @@ n++
 
 n = 2
 m = 2
-A[n] = 12 
+A[n] = 12
 B[m] = 9
 B[m] < A[n]
 C | 1 3 5 9
@@ -3813,7 +3826,7 @@ A | 6   3   9   10  15  6   8   12  3   6
 
 15 is max value:
 C | 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
 ```
 
 Next, scan the array and increment with each value, e.g:
@@ -3823,7 +3836,7 @@ A | 6   3   9   10  15  6   8   12  3   6
     0   1   2   3   4   5   6   7   8   9
 
 C | 0   0   0   2   0   0   3   0   1   1   1   1   0   0   0   1
-    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
 ```
 
 Notice, there are 3 6 values in our `A` array, and there is only one 8. We denote each count. Next, we clear the `A` array, and scan the `B` array, copying the number of times we see each value:
@@ -4023,7 +4036,7 @@ void ShellSort(int A[], int n) {
 
 ## Hashing
 
-So far we have looked at two searching algorithms, the Linear Search with a time complexity of $O(n)$ and the Binary Search with a time complexity of $O(\log n)$. These algorithms aren't bad by any means, and in the case of Binary Search, relatively efficient. But, we can go further, we can do searching in $O(1)$. This is done with Hashing. 
+So far we have looked at two searching algorithms, the Linear Search with a time complexity of $O(n)$ and the Binary Search with a time complexity of $O(\log n)$. These algorithms aren't bad by any means, and in the case of Binary Search, relatively efficient. But, we can go further, we can do searching in $O(1)$. This is done with Hashing.
 
 ### Ideal Hashing
 
@@ -4126,7 +4139,7 @@ class HashTable{
 
 ### Closed Hashing
 
-Closed Hashing is the idea that the hashing doesn't take up any more memory than just the space set out for it. With chaining, we increase outside of the space of it. 
+Closed Hashing is the idea that the hashing doesn't take up any more memory than just the space set out for it. With chaining, we increase outside of the space of it.
 
 #### Linear Probing
 
@@ -4223,7 +4236,7 @@ int Search(int H[], int key) {
 
 #### Double Hashing
 
-Double Hashing uses two hash functions to try and fix conflicts. So, $h_1(x) = x \bmod 10$ and $h_2(x) = R - (x \bmod R)$, where $R$ is the nearest prime number of the size of our hashtable. So for a size of 10, $R = 7$, so $h_2(x) = 7 - (x \bmod 7)$. $h_2$ never returns 0 and it covers all of the indices. Now, $h'(x) = (h_1(x) + i * h_2(x)) \bmod 10$, where $i = 0, 1, 2...$. 
+Double Hashing uses two hash functions to try and fix conflicts. So, $h_1(x) = x \bmod 10$ and $h_2(x) = R - (x \bmod R)$, where $R$ is the nearest prime number of the size of our hashtable. So for a size of 10, $R = 7$, so $h_2(x) = 7 - (x \bmod 7)$. $h_2$ never returns 0 and it covers all of the indices. Now, $h'(x) = (h_1(x) + i * h_2(x)) \bmod 10$, where $i = 0, 1, 2...$.
 
 ##### Implementation
 
