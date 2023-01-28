@@ -578,12 +578,13 @@ class StackArray
 
 We utilize an array to store the values, and an integer to track the current position on the stack. Operations complexity is as follows:
 
-|:-----------:|:------:|
-| `push()`    | $O(1)$ |
-| `pop()`     | $O(1)$ |
-| `peek()`    | $O(1)$ |
-| `size()`    | $O(1)$ |
-| `isEmpty()` | $O(1)$ |
+| Operation   | Complexity |
+|:-----------:|:----------:|
+| `push()`    | $O(1)$     |
+| `pop()`     | $O(1)$     |
+| `peek()`    | $O(1)$     |
+| `size()`    | $O(1)$     |
+| `isEmpty()` | $O(1)$     |
 
 As we can see, this implementation is very efficient. All the operations are constant time. The issue is that this implementation is of a fixed size at compile time. In the implementation above, the `SIZE` variable is a consant, and is set to $1024$. Of course, we can always raise this but this means that at compile time the stack size can't be increased or decreased in this implementation.
 
@@ -655,12 +656,13 @@ class ListArray
 
 Just like the array implementation, all of the operations are $O(1)$:
 
-|:-----------:|:------:|
-| `push()`    | $O(1)$ |
-| `pop()`     | $O(1)$ |
-| `peek()`    | $O(1)$ |
-| `size()`    | $O(1)$ |
-| `isEmpty()` | $O(1)$ |
+| Operation   | Complexity |
+|:-----------:|:----------:|
+| `push()`    | $O(1)$     |
+| `pop()`     | $O(1)$     |
+| `peek()`    | $O(1)$     |
+| `size()`    | $O(1)$     |
+| `isEmpty()` | $O(1)$     |
 
 So what is the difference? Well we have a dynamically changing stack, instead of it being limited to a specific size, it can grow and shrink to our needs. The drawback is that this requires more memory to implement.
 
@@ -737,6 +739,217 @@ bool isClosed(std::string expression) {
     return true;
 }
 ```
+
+### Queue AFT
+
+Queues, unlike Stacks, are FIFO structures (First In First Out.) This means that the first element in is the first out. Queues operate in the same way as say a line works. 
+
+Characteristics:
+
+* Data
+  * Items
+  * Current number of items stored.
+  * Front and back pointers.
+* Operations
+  * `enqueue` - Insert an element to the back of the queue.
+  * `dequeue` - Remove an element from the front of the queue.
+  * `size` - Return the number of elements stored.
+  * `isEmpty` - Indicates whether or not elements are currently being stored.
+
+
+#### Circular Array Implementation
+
+Though it is possible to implement the queue with just a normal array, the issue arrises of what is known as the **rightward drift problem.** You can look into that on your own, but it makes a normal array implementation impossible. A normal array implementation would look something like this:
+
+```cpp
+class BadArrayQueue
+{
+  private:
+    const static int SIZE = 1024;
+    int arr[SIZE];
+    int front = 0, back = 0;
+  public:
+    // ...
+}
+```
+
+The solution is to use a circular array instead. A circular array uses the modulus operator to basically "overflow" into a loop so that as elements are queued and dequeued, they don't ruin the array.
+
+```cpp
+#include <iostream>
+
+class CircularQueue
+{
+    private:
+        int size;
+        int stored = 0;
+        int front;
+        int rear;
+        int* elements;
+
+    public:
+        CircularQueue(int size)
+        {
+            this->size = size;
+            front = -1;
+            rear = -1;
+            elements = new int[size];
+        }
+
+        ~CircularQueue()
+        {
+            delete [] elements;
+        }
+
+        bool isEmpty()
+        {
+            if (front == rear)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        bool isFull()
+        {
+            if ((rear + 1) % size == front)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        int size()
+        {
+            return stored;
+        }
+
+        void enqueue(int x)
+        {
+            if (isFull())
+            {
+                std::cout << "Queue Overflow" << std::endl;
+            } else {
+                stored++;
+                rear = (rear + 1) % size;
+                elements[rear] = x;
+            }
+        }
+
+        int dequeue()
+        {
+            int x = -1;
+            if (isEmpty())
+            {
+                std::cout << "Queue Underflow" << std::endl;
+            } else {
+                stored--;
+                front = (front + 1) % size;
+                x = elements[front];
+            }
+            return x;
+        }
+};
+```
+
+##### Operation Performance
+
+This better implementation of an array queue results in the following time complexity:
+
+| Operation | Complexity |
+|:---------:|:----------:|
+| `enqueue` | $O(1)$     |
+| `dequeue` | $O(1)$     |
+| `size`    | $O(1)$     |
+| `isEmpty` | $O(1)$     |
+
+The benefit of this queue is that it takes up less space. The downside is that it has a fixed size.
+
+#### Linked List Implementation
+
+Instead of using a circular array, we can instead use a linked list. 
+
+```cpp
+class ListQueue
+{
+    private:
+        struct Node
+        {
+            int data;
+            Node* next;
+            Node(int n)
+            {
+                data = n;
+                next = nullptr;
+            }
+        };
+
+        Node* front = nullptr;
+        Node* back = nullptr;
+        int count = 0;
+    
+    public:
+        bool isEmpty()
+        {
+            if (front == nullptr && back == nullptr)
+                return true;
+            return false;
+        }
+
+        int size()
+        {
+            return count;
+        }
+
+        void enqueue(int n)
+        {
+            count++;
+            auto temp = new Node(n);
+            if (front == nullptr)
+            {
+                front = temp;
+                back = temp;
+            }
+            back->next = temp;
+            back = temp;
+        }
+
+        int dequeue()
+        {
+            if (count == 0)
+            {
+                std::cout << "Queue is empty" << std::endl;
+                return -1;
+            }
+            int temp = front->data;
+            count--;
+            if (front == back)
+            {
+                delete back;
+                front = nullptr;
+                back = nullptr;
+                return temp;
+            }
+            Node* old_front = front;
+            front = front->next;
+            delete old_front;
+            return temp;
+        }
+};
+```
+
+##### Operation Performance
+
+This implementation similarly has the same time complexit:
+
+| Operation | Complexity |
+|:---------:|:----------:|
+| `enqueue` | $O(1)$     |
+| `dequeue` | $O(1)$     |
+| `size`    | $O(1)$     |
+| `isEmpty` | $O(1)$     |
+
+The benefits is that this implementation avoids the static size issue of the circular queue, but that also means it requires more memory.
 
 # Recursion
 
