@@ -256,6 +256,7 @@ Characteristics:
 
 ##### Operation Performance
 
+| Placement | Add    | Remove |
 |:---------:|:------:|:------:|
 | Beginning | $O(n)$ | $O(n)$ |
 | End       | $O(1)$ | $O(1)$ |
