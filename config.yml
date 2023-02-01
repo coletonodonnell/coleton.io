@@ -1,5 +1,5 @@
 baseURL: "https://coleton.io/"
-title: "coleton.io" 
+title: "Coleton O'Donnell" 
 paginate: 5
 theme: "PaperMod"
 
@@ -9,78 +9,75 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-
 minify:
-    disableXML: true
+  disableXML: true
 
 languages:
-    en:
-        languageName: "English"
-        weight: 1
-        menu:
-            main:
-                - name: Blog 
-                  url: blog 
-                  weight: 5
-                - name: Tags
-                  url: tags/
-                  weight: 10
-                - name: Search
-                  url: search/
-                  weight: 15
-               #- name: My Bookmarks
-               #  url: /bookmarks/
-               #  weight: 20
+  en:
+    languageName: "English"
+    weight: 1
+    menu:
+      main:
+        - name: Blog 
+          url: blog 
+          weight: 5
+        - name: Tags
+          url: tags/
+          weight: 10
+        - name: Search
+          url: search/
+          weight: 15
+
 outputs:
-    home:
-        - HTML
-        - RSS
-        - JSON
+  home:
+    - HTML
+    - RSS
+    - JSON
 
 params:
-    env: production # to enable google analytics, opengraph, twitter-cards and schema.
-    description: "Coleton O'Donnell's Site"
-    author: Coleton
-    ShowToc: true
-    defaultTheme: dark 
-    disableThemeToggle: true
-    ShowShareButtons: false 
-    ShowReadingTime: false 
-    displayFullLangName: false
-    ShowPostNavLinks: false 
-    comments: false 
-    images: ["papermod-cover.png"]
-    ShowCodeCopyButtons: true 
-    buttons:
-            - name: Tags
-            - url: tags  
-    mainSections:
-            - posts
-    homeInfoParams:
-        enabled: true
-        Title: "Hi."
-        Content: > 
-                Welcome to my site! My name is Coleton O'Donnell, I am a student at the University of Florida, studying Computer Science. My interests include music, data archiving, math, advocating for privacy, Linux, and all things low level. This site acts as a hub for my online presence and doubles as a blog. If you'd like to contact me, my email is the best way to reach me, though you can utilize my socials but it may take longer. When contacting me, feel free to [use my PGP key :)](https://coleton.io/publickey.txt)
-                
-    socialIcons:
-        - name: email
-          url: "mailto:contact@coleton.io"
-        - name: github
-          url: "https://github.com/coletonodonnell"
-        - name: linkedin
-          url: "https://www.linkedin.com/in/coleton-odonnell"
-        - name: reddit
-          url: "https://www.reddit.com/user/coletonodonnell"
-        - name: twitter
-          url: "https://twitter.com/coletonodonnell"
-        - name: discogs
-          url: "https://www.discogs.com/user/coleton"
+  env: production
+  description: "The blog and online hub of Coleton O'Donnell, a Computer Science student at the University of Florida who is interested in math, music, and theoretical CS."
+  author: Coleton
+  ShowToc: true
+  defaultTheme: dark 
+  disableThemeToggle: true
+  ShowShareButtons: false 
+  ShowReadingTime: false 
+  displayFullLangName: false
+  ShowPostNavLinks: false 
+  comments: false 
+  images: ["papermod-cover.png"]
+  ShowCodeCopyButtons: true 
+  buttons:
+    - name: Tags
+    - url: tags  
+  mainSections:
+    - posts
+  homeInfoParams:
+    enabled: true
+    Title: "Hi."
+    Content: > 
+      Welcome to my site! My name is Coleton O'Donnell, I am a student at the University of Florida, studying Computer Science. My interests include music, data archiving, math, advocating for privacy, Linux, and all things low level. This site acts as a hub for my online presence and doubles as a blog. If you'd like to contact me, my email is the best way to reach me, though you can utilize my socials but it may take longer. When contacting me, feel free to [use my PGP key :)](https://coleton.io/publickey.txt)
+              
+  socialIcons:
+    - name: email
+      url: "mailto:contact@coleton.io"
+    - name: github
+      url: "https://github.com/coletonodonnell"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/coleton-odonnell"
+    - name: reddit
+      url: "https://www.reddit.com/user/coletonodonnell"
+    - name: twitter
+      url: "https://twitter.com/coletonodonnell"
+    # - name: discogs
+    #   url: "https://www.discogs.com/user/coleton"
 
-    assets:
-      favicon: "favicon.ico"
-      favicon16x16: "favicon-16x16.png"
-      favicon32x32: "favicon-32x32.png"
-      apple_touch_icon: "apple-touch-icon.png"
+  assets:
+    favicon: "favicon.ico"
+    favicon16x16: "favicon-16x16.png"
+    favicon32x32: "favicon-32x32.png"
+    apple_touch_icon: "apple-touch-icon.png"
 
 taxonomies:
   category: categories

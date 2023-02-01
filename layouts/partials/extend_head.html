@@ -2,6 +2,8 @@
 <!--
 Insert any custom code (web-analytics, resources, etc.) - it will appear in the <head></head> section of every page. Can be overwritten by partial with the same name in the global layouts.
 -->
+
+<!-- Math -->
 {{ if or .Params.math .Site.Params.math }}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
@@ -19,5 +21,28 @@ Insert any custom code (web-analytics, resources, etc.) - it will appear in the 
         });
     });
 </script>
+
+<!-- Title -->
+<title>
+    {{- if .IsHome -}}
+      Home | {{ .Site.Title }}
+    {{- else if .Params.hide_site_title -}}
+      {{ .Page.Title }}
+    {{- else if .Page.Title -}}
+      {{ .Page.Title }} | {{ .Site.Title }}
+    {{- else -}}
+      {{ .Site.Title }}
+    {{- end -}}
+</title> 
+
+<!-- Description -->
+{{- if .IsHome -}}
+  <meta name="description" content="{{ site.Params.Description }}" />
+{{- else -}}
+  <meta name="description" content="{{ .Params.Description }}" />
+{{- end }}
+
+<!-- Mobile Friendly -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Head custom content area end -->
