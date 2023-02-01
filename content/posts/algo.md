@@ -156,11 +156,11 @@ Given different parts of an algorithm, their time complexities can be added:
 ```cpp
 void my_function(int n, int m)
 {
-    for (int i = 0; i < n; i++)
-        // Do stuff
+  for (int i = 0; i < n; i++)
+    // Do stuff
 
-    for (int i = 0; i < m; i++_
-        // Do more stuff
+  for (int i = 0; i < m; i++_
+    // Do more stuff
 }
 ```
 
@@ -173,11 +173,11 @@ Given the following algorithm:
 ```cpp
 void my_function(int n)
 {
-    for (int i = 0; i < n; i++)
-        // Do stuff
+  for (int i = 0; i < n; i++)
+    // Do stuff
 
-    for (int i = 0; i < n; i++_
-        // Do more stuff
+  for (int i = 0; i < n; i++_
+    // Do more stuff
 }
 ```
 
@@ -194,11 +194,11 @@ Given the following algorithm:
 ```cpp
 void my_function(int n, int m)
 {
-    for (int i = 0; i < n; i++)
-        // Do stuff
+  for (int i = 0; i < n; i++)
+    // Do stuff
 
-    for (int j = 0; j < m; j *= 2)
-        // Do stuff
+  for (int j = 0; j < m; j *= 2)
+    // Do stuff
 }
 ```
 
@@ -470,7 +470,7 @@ The C++ Standard Template Library contains 4 major list implementations. The `Fo
 list<int> my_list(4, 100); // [100, 100, 100, 100]
 my_list.push_front(200); // [200, 100, 100, 100, 100]
 for (auto it = my_list.begin(); it != my_list.end(); ++it)
-    cout << ' ' << *it; // Outputs: 200 100 100 100 100 
+  cout << ' ' << *it; // Outputs: 200 100 100 100 100 
 ```
 
 ##### Merge Two Lists
@@ -480,37 +480,37 @@ Given two sorted lists, we can merge them together sorted:
 // listA and listB are two sorted lists
 std::list<int> mergeLists(std::list<int> listA, std::list<int> listB)
 {
-    auto iterA = listA.begin();
-    auto iterB = listB.begin();
-    std::list<int> mergedList;
-    int itemA = *iterA;
-    int itemB = *iterB;
+  auto iterA = listA.begin();
+  auto iterB = listB.begin();
+  std::list<int> mergedList;
+  int itemA = *iterA;
+  int itemB = *iterB;
 
-    while(iterA != listA.end() && iterB != listB.end())
+  while(iterA != listA.end() && iterB != listB.end())
+  {
+    if (itemA < itemB)
     {
-        if (itemA < itemB)
-        {
-            mergedList.push_back(itemA);
-            iterA++;
-            itemA = *iterA;
-        }
-        else
-        {
-            mergedList.push_back(itemB);
-            iterB++;
-            itemB = *iterB;
-        }
+      mergedList.push_back(itemA);
+      iterA++;
+      itemA = *iterA;
     }
+    else
+    {
+      mergedList.push_back(itemB);
+      iterB++;
+      itemB = *iterB;
+    }
+  }
 
-    // Only one of these run at max, which handles
-    // if one list is larger than the other
-    while (iterA != listA.end())
-        mergedList.push_back(*iterA++);
-    
-    while (iterB != listB.end())
-        mergedList.push_back(*iterB++);
+  // Only one of these run at max, which handles
+  // if one list is larger than the other
+  while (iterA != listA.end())
+    mergedList.push_back(*iterA++);
+  
+  while (iterB != listB.end())
+    mergedList.push_back(*iterB++);
 
-    return mergedList;
+  return mergedList;
 }
 ```
 
@@ -536,42 +536,42 @@ We can exploit the characteristics of an array to build a very good stack implem
 ```cpp
 class StackArray
 {
-    private:
-        const static int SIZE = 1024;
-        int arr[SIZE];
-        int top = -1;
-    
-    public:
-        void push(int n)
-        {
-            arr[++top] = n;
-        }
+  private:
+    const static int SIZE = 1024;
+    int arr[SIZE];
+    int top = -1;
+  
+  public:
+    void push(int n)
+    {
+      arr[++top] = n;
+    }
 
-        int pop()
-        {
-            if (top != -1)
-                return arr[top--];
-            return -1;
-        }
+    int pop()
+    {
+      if (top != -1)
+        return arr[top--];
+      return -1;
+    }
 
-        int peek()
-        {
-            if (top != -1)
-                return arr[top];
-            return -1;
-        }
+    int peek()
+    {
+      if (top != -1)
+        return arr[top];
+      return -1;
+    }
 
-        int size()
-        {
-            return top + 1;
-        }
+    int size()
+    {
+      return top + 1;
+    }
 
-        bool isEmpty()
-        {
-            if (top == -1)
-                return true;
-            return false;
-        }
+    bool isEmpty()
+    {
+      if (top == -1)
+        return true;
+      return false;
+    }
 };
 ```
 
@@ -596,60 +596,57 @@ The issue with the last implementation was that it didn't have a dynamic size. W
 ```cpp
 class ListArray
 {
-    private:
-        struct Node
-        {
-            int element;
-            Node* next;
-            Node(int n)
-            {
-                element = n;
-            }
-        };
-        Node* top = nullptr;
-        int count = 0;
-    
-    public:
-        void push(int n)
-        {
-            Node* new_top = new Node(n);
-            new_top->next = top;
-            top = new_top;
-            count++;
-        }
+  private:
+    struct Node
+    {
+      int element;
+      Node* next;
+      Node(int n) { element = n; }
+    };
+    Node* top = nullptr;
+    int count = 0;
+  
+  public:
+    void push(int n)
+    {
+      Node* new_top = new Node(n);
+      new_top->next = top;
+      top = new_top;
+      count++;
+    }
 
-        int pop()
-        {
-            if (top)
-            {
-                count--;
-                int n = top->element;
-                Node* temp = top;
-                top = top->next;
-                delete temp;
-                return n;
-            }
-            return -1;
-        }
+    int pop()
+    {
+      if (top)
+      {
+        count--;
+        int n = top->element;
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+        return n;
+      }
+      return -1;
+    }
 
-        int peek()
-        {
-            if (top)
-                return top->element;
-            return -1;
-        }
+    int peek()
+    {
+      if (top)
+        return top->element;
+      return -1;
+    }
 
-        int size()
-        {
-            return count;
-        }
+    int size()
+    {
+      return count;
+    }
 
-        bool isEmpty()
-        {
-            if (top)
-                return false;
-            return true;
-        }
+    bool isEmpty()
+    {
+      if (top)
+        return false;
+      return true;
+    }
 };
 ```
 
@@ -688,27 +685,27 @@ Let's see what we can do with the stack:
 
 bool checkPalindrome(std::string s)
 {
-    std::stack<char> stk;
+  std::stack<char> stk;
 
-    if (s.length() < 2)
-        return true;
-
-    int midIndex = s.length() / 2;
-
-    for (int i = 0; i < s.length() / 2; i++) // push first
-        stk.push(s.at(i));                   // half of string
-
-    if (s.length() % 2 != 0)                 // ignore middle
-        midIndex += 1;                       // element if odd
-
-    for (int i = midIndex; i < s.length(); i++)
-    {                                        // iterate from middle
-        if (stk.top() != s.at(i))            // check each half
-            return false;                    // these don't match
-        stk.pop();                           // move to next element
-    }
-
+  if (s.length() < 2)
     return true;
+
+  int midIndex = s.length() / 2;
+
+  for (int i = 0; i < s.length() / 2; i++) // push first
+    stk.push(s.at(i));                     // half of string
+
+  if (s.length() % 2 != 0)                 // ignore middle
+    midIndex += 1;                         // element if odd
+
+  for (int i = midIndex; i < s.length(); i++)
+  {                                        // iterate from middle
+    if (stk.top() != s.at(i))              // check each half
+      return false;                        // these don't match
+    stk.pop();                             // move to next element
+  }
+
+  return true;
 }
 ```
 
@@ -719,25 +716,25 @@ bool checkPalindrome(std::string s)
 #include <string>
 
 bool isClosed(std::string expression) {
-    std::stack<bool> stk;
+  std::stack<bool> stk;
 
-    for (char i: expression)
+  for (char i: expression)
+  {
+    if (i == '(')      // push onto stack every time
+      stk.push(true);  // an opening parenthesis is found
+    else if (i == ')')
     {
-        if (i == '(')         // push onto stack every time
-            stk.push(true);   // an opening parenthesis is found
-        else if (i == ')')
-        {
-            if (stk.empty())  // this means this is an orphaned 
-                return false; // closed parenthesis, immediately false
-            else
-                stk.pop();    // we found a parenthesis pair
-        }
+      if (stk.empty()) // this means this is an orphaned 
+        return false;  // closed parenthesis, immediately false
+      else
+        stk.pop();     // we found a parenthesis pair
     }
+  }
 
-    if (!stk.empty())         // orphaned opening parenthesis
-        return false;
+  if (!stk.empty())    // orphaned opening parenthesis
+    return false;
 
-    return true;
+  return true;
 }
 ```
 
@@ -781,75 +778,75 @@ The solution is to use a circular array instead. A circular array uses the modul
 
 class CircularQueue
 {
-    private:
-        int size;
-        int stored = 0;
-        int front;
-        int rear;
-        int* elements;
+  private:
+    int size;
+    int stored = 0;
+    int front;
+    int rear;
+    int* elements;
 
-    public:
-        CircularQueue(int size)
-        {
-            this->size = size;
-            front = -1;
-            rear = -1;
-            elements = new int[size];
-        }
+  public:
+    CircularQueue(int size)
+    {
+      this->size = size;
+      front = -1;
+      rear = -1;
+      elements = new int[size];
+    }
 
-        ~CircularQueue()
-        {
-            delete [] elements;
-        }
+    ~CircularQueue()
+    {
+      delete [] elements;
+    }
 
-        bool isEmpty()
-        {
-            if (front == rear)
-            {
-                return true;
-            }
-            return false;
-        }
+    bool isEmpty()
+    {
+      if (front == rear)
+      {
+        return true;
+      }
+      return false;
+    }
 
-        bool isFull()
-        {
-            if ((rear + 1) % size == front)
-            {
-                return true;
-            }
-            return false;
-        }
+    bool isFull()
+    {
+      if ((rear + 1) % size == front)
+      {
+        return true;
+      }
+      return false;
+    }
 
-        int size()
-        {
-            return stored;
-        }
+    int size()
+    {
+      return stored;
+    }
 
-        void enqueue(int x)
-        {
-            if (isFull())
-            {
-                std::cout << "Queue Overflow" << std::endl;
-            } else {
-                stored++;
-                rear = (rear + 1) % size;
-                elements[rear] = x;
-            }
-        }
+    void enqueue(int x)
+    {
+      if (isFull())
+      {
+        std::cout << "Queue Overflow" << std::endl;
+      } else {
+        stored++;
+        rear = (rear + 1) % size;
+        elements[rear] = x;
+      }
+    }
 
-        int dequeue()
-        {
-            int x = -1;
-            if (isEmpty())
-            {
-                std::cout << "Queue Underflow" << std::endl;
-            } else {
-                stored--;
-                front = (front + 1) % size;
-                x = elements[front];
-            }
-            return x;
-        }
+    int dequeue()
+    {
+      int x = -1;
+      if (isEmpty())
+      {
+        std::cout << "Queue Underflow" << std::endl;
+      } else {
+        stored--;
+        front = (front + 1) % size;
+        x = elements[front];
+      }
+      return x;
+    }
 };
 ```
 
@@ -873,69 +870,69 @@ Instead of using a circular array, we can instead use a linked list.
 ```cpp
 class ListQueue
 {
-    private:
-        struct Node
-        {
-            int data;
-            Node* next;
-            Node(int n)
-            {
-                data = n;
-                next = nullptr;
-            }
-        };
+  private:
+    struct Node
+    {
+      int data;
+      Node* next;
+      Node(int n)
+      {
+        data = n;
+        next = nullptr;
+      }
+    };
 
-        Node* front = nullptr;
-        Node* back = nullptr;
-        int count = 0;
-    
-    public:
-        bool isEmpty()
-        {
-            if (front == nullptr && back == nullptr)
-                return true;
-            return false;
-        }
+    Node* front = nullptr;
+    Node* back = nullptr;
+    int count = 0;
+  
+  public:
+    bool isEmpty()
+    {
+      if (front == nullptr && back == nullptr)
+        return true;
+      return false;
+    }
 
-        int size()
-        {
-            return count;
-        }
+    int size()
+    {
+      return count;
+    }
 
-        void enqueue(int n)
-        {
-            count++;
-            auto temp = new Node(n);
-            if (front == nullptr)
-            {
-                front = temp;
-                back = temp;
-            }
-            back->next = temp;
-            back = temp;
-        }
+    void enqueue(int n)
+    {
+      count++;
+      auto temp = new Node(n);
+      if (front == nullptr)
+      {
+        front = temp;
+        back = temp;
+      }
+      back->next = temp;
+      back = temp;
+    }
 
-        int dequeue()
-        {
-            if (count == 0)
-            {
-                std::cout << "Queue is empty" << std::endl;
-                return -1;
-            }
-            int temp = front->data;
-            count--;
-            if (front == back)
-            {
-                delete back;
-                front = nullptr;
-                back = nullptr;
-                return temp;
-            }
-            Node* old_front = front;
-            front = front->next;
-            delete old_front;
-            return temp;
-        }
+    int dequeue()
+    {
+      if (count == 0)
+      {
+        std::cout << "Queue is empty" << std::endl;
+        return -1;
+      }
+      int temp = front->data;
+      count--;
+      if (front == back)
+      {
+        delete back;
+        front = nullptr;
+        back = nullptr;
+        return temp;
+      }
+      Node* old_front = front;
+      front = front->next;
+      delete old_front;
+      return temp;
+    }
 };
 ```
 
@@ -960,11 +957,11 @@ Given the function `fun`:
 
 ```cpp
 int fun(int n) {
-    if (n > 1) {
-        return fun(n-1) * 2;
-    } else {
-        return n;
-    }
+  if (n > 1) {
+      return fun(n-1) * 2;
+  } else {
+      return n;
+  }
 }
 ```
 
@@ -972,10 +969,10 @@ We can see that the function consists of an if-else statement, where if the inpu
 
 ```cpp
 int fun(int n) {
-    if (n > 1) {
-        return fun(n-1) * 2;
-    }
-    return n;
+  if (n > 1) {
+    return fun(n-1) * 2;
+  }
+  return n;
 }
 ```
 
@@ -987,11 +984,11 @@ Tail recursion is defined as recursion in which the last statement is the recurs
 
 ```cpp
 void fun(n) {
-    if (n > 0) {
-        // Do stuff Here
-        // ...
-        fun(n-1);
-    }
+  if (n > 0) {
+    // Do stuff Here
+    // ...
+    fun(n-1);
+  }
 }
 ```
 
@@ -1003,11 +1000,11 @@ Head recursion is defined as recursion in which the first statement is the recur
 
 ```cpp
 void fun(n) {
-    if (n > 0) {
-        fun(n-1);
-        // Do stuff Here
-        // ...
-    }
+  if (n > 0) {
+    fun(n-1);
+    // Do stuff Here
+    // ...
+  }
 }
 ```
 
@@ -1019,13 +1016,13 @@ Linear Recursion is recursion in which there is only one branch of recursion, in
 
 ```cpp
 void fun(n) {
-    if (n > 0) {
-        // Do stuff here
-        // ...
-        fun(n-1);
-        // Do stuff here
-        // ...
-    }
+  if (n > 0) {
+    // Do stuff here
+    // ...
+    fun(n-1);
+    // Do stuff here
+    // ...
+  }
 }
 ```
 
@@ -1033,16 +1030,16 @@ Tree Recursion is recursion in which there is more than one branch of recursion,
 
 ```cpp
 void fun(n) {
-    if (n > 0) {
-        // Do stuff here
-        // ...
-        fun(n-1);
-        // Do stuff here
-        // ...
-        fun(n-1);
-        // Do stuff here
-        // ...
-    }
+  if (n > 0) {
+    // Do stuff here
+    // ...
+    fun(n-1);
+    // Do stuff here
+    // ...
+    fun(n-1);
+    // Do stuff here
+    // ...
+  }
 }
 ```
 
@@ -1052,11 +1049,11 @@ An example of tree recursion can be found here:
 #include <stdio.h>
 
 void fun(int n) {
-    if (n > 0) {
-        printf("%d ", n);
-        fun(n-1);
-        fun(n-1);
-    }
+  if (n > 0) {
+    printf("%d ", n);
+    fun(n-1);
+    fun(n-1);
+  }
 }
 ```
 
@@ -1068,18 +1065,18 @@ Indirect recursion is recursion that happens between two or more functions, whic
 
 ```cpp
 void A(int n) {
-    if (<-->) {
-        // Do stuff here
-        // ...
-        B(n-1);
-    }
+  if (<-->) {
+    // Do stuff here
+    // ...
+    B(n-1);
+  }
 }
 void B(int n) {
-    if (<-->) {
-        // Do stuff here
-        // ...
-        A(n-1);
-    }
+  if (<-->) {
+    // Do stuff here
+    // ...
+    A(n-1);
+  }
 }
 ```
 
@@ -1089,10 +1086,10 @@ Nested Recursion is recursion within recursion, in other words a recursive call 
 
 ```cpp
 void fun(int n) {
-    if (<-->) {
-        // Do stuff here
-        fun(fun(n-1));
-    }
+  if (<-->) {
+    // Do stuff here
+    fun(fun(n-1));
+  }
 }
 ```
 
@@ -1106,10 +1103,10 @@ The Fibonacci Sequence is defined as $F_n = F_{n-1} + F_{n-2}$, where $F_0 = 0$ 
 
 ```cpp
 int fib(int n) {
-    if (n <= 1) {
-        return n;
-    }
-    return fib(n-1) + fib(n-2);
+  if (n <= 1) {
+    return n;
+  }
+  return fib(n-1) + fib(n-2);
 }
 ```
 
@@ -1119,12 +1116,12 @@ The sum of all natural numbers at point n, is equal to the sum of the natural nu
 
 ```cpp
 int sum(int n) {
-    if (n == 0) {
-        return 0;
-    }
-    else {
-        return sum(n - 1) + n;
-    }
+  if (n == 0) {
+    return 0;
+  }
+  else {
+    return sum(n - 1) + n;
+  }
 }
 ```
 
