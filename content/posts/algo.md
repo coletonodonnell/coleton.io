@@ -1150,7 +1150,7 @@ The benefits is that this implementation avoids the static size issue of the cir
 
 ## Trees
 
-### Introduction Tree-Based Data Structures
+### Introduction to Tree-Based Data Structures
 
 A tree is a rooted, directed, and acylic in nature. In other words, it has a single root, each node has a single parent, and there are no cycles. 
 
@@ -1161,6 +1161,37 @@ This is a valid tree. The **root** of this tree is A, and each node has a single
 ![](https://coleton.io/post-images/algo/tree2.png)
 
 In this case, there is a single root, A, and A has three children B, C, and D. Every node has either a single parent or no parent.
+
+![](https://coleton.io/post-images/algo/tree3.png)
+
+Dissecting this one:
+* E is the **grandparent** of A. 
+* E's **ancestors** are B and A. B's ancestors is A only. 
+* A's **descendents** is every node underneath it, so B, C, D, and E. B's descendants are E. C, D, and E have no descendants (nor children.) 
+* C, D, and E are **leaf nodes** or **external nodes.** These are nodes that have no children. 
+* B and A are **non-leaf nodes** or **internal nodes** because they possess children. 
+* A possesses three **subtrees.** A subtree of a node is a tree whose root is a child of that node. So the three subtrees of A are B and E, C, and D. B possess one subtree, E. E, C, and D possess zero subtree.
+* The **level** or **depth** of this tree is 2. The level of a node is the distance of that node from the root. The root, A, is on level zero. B, C, and D are on level one. E is on level two. To compute the level of a tree, where $n$ is a node:
+
+$$
+\begin{align*}
+  &\text{if } n \text{ is root:} \\
+  &&\text{level}(n) = 0 \\
+  &\text{else:} \\ 
+  &&\text{level}(n) = \text{level(parent)} + 1
+\end{align*}
+$$
+
+* The **height** of a tree is the number of nodes in the longest path from the root node to a leaf node. In this case, the height of this tree is 3, as the longest path contains 3 nodes, A, B, and E. To compute the height of a tree:
+
+$$
+\begin{align*}
+  &\text{if the tree has just a root} \\
+  &&\text{Height = 1} \\
+  &\text{else:} \\ 
+  &&\text{Height} = \text{max(Height(children))} + 1
+\end{align*}
+$$
 
 There are quite a few use cases for trees, such as Family Tress, Decision/Logic Trees, File Systems, Expression Trees, and Searching Trees.
 
