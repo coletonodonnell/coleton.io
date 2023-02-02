@@ -1174,23 +1174,23 @@ Dissecting this one:
 * The **level** or **depth** of this tree is 2. The level of a node is the distance of that node from the root. The root, A, is on level zero. B, C, and D are on level one. E is on level two. To compute the level of a tree, where $n$ is a node:
 
 $$
-\begin{align*}
+\begin{aligned}
   &\text{if } n \text{ is root:} \\
   &&\text{level}(n) = 0 \\
   &\text{else:} \\ 
   &&\text{level}(n) = \text{level(parent)} + 1
-\end{align*}
+\end{aligned}
 $$
 
 * The **height** of a tree is the number of nodes in the longest path from the root node to a leaf node. In this case, the height of this tree is 3, as the longest path contains 3 nodes, A, B, and E. To compute the height of a tree:
 
 $$
-\begin{align*}
+\begin{aligned}
   &\text{if the tree has just a root} \\
   &&\text{Height = 1} \\
   &\text{else:} \\ 
   &&\text{Height} = \text{max(Height(children))} + 1
-\end{align*}
+\end{aligned}
 $$
 
 There are quite a few use cases for trees, such as Family Tress, Decision/Logic Trees, File Systems, Expression Trees, and Searching Trees.
