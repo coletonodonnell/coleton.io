@@ -47,6 +47,7 @@ One possible solution is to compare every element to every other following eleme
 
 Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligible at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year.
 
+
 # How to Measure Performance?
 
 It is great that we know the importance of performance, but what are some ways that we can truly understand performance in a meaningful way?
@@ -207,6 +208,198 @@ Lines 3 and 4 is $O(n)$ and lines 6 and 7 are $O(log_2 m)$, thus the time comple
 ### Cases
 
 Algorithms that have a purpose that allows them to stop their process (e.g.. searching algorithms, they stop once they find what they are looking for) due to a condition have different cases. These are the best case, average case, and worst case. The best case is the lowest cost, average case is the average cost for all n, and worst case is the highest possible cost.
+
+# Recursion
+
+## Introduction
+
+A small topic detour for a concept that is valuable to understand in a DSA class, which is recursion. There are a lot of different types of recursive functions, and understanding how they are used is important. Let's take a look at how recursion works and how we define it.
+
+Given the function `fun(int n)`:
+
+```cpp
+int fun(int n) {
+  if (n > 1)
+  {
+    return fun(n-1) * 2;
+  } else
+  {
+    return n;
+  }
+}
+```
+
+We can see that the function consists of an if-else statement, where if the input is greater than 1, we return the value of the function `fun(n-1)*2`, and if not, we just return n. In this way, we can simplify the function to just be:
+
+```cpp
+int fun(int n) {
+  if (n > 1)
+  {
+    return fun(n-1) * 2;
+  }
+  return n;
+}
+```
+
+This is an example of a recursive function. A recursive function consists of two parts, an ascending portion and a descending portion. We ascend by returning values of the function, and descend once we reach our catch value, in this case it is once $n \le 1$. The algorithm returns $2^n$.
+
+## Tail Recursion
+
+Tail recursion is defined as recursion in which the last statement is the recursive call, for example:
+
+```cpp
+void fun(n) {
+  if (n > 0)
+  {
+    // Do stuff Here
+    // ...
+    fun(n-1);
+  }
+}
+```
+
+So all the processing is done before the recursive call.
+
+## Head Recursion
+
+Head recursion is defined as recursion in which the first statement is the recursive call, for example:
+
+```cpp
+void fun(n) {
+  if (n > 0)
+  {
+    fun(n-1);
+    // Do stuff Here
+    // ...
+  }
+}
+```
+
+So all the processing is done after the recursive call.
+
+## Linear Recursion vs. Tree Recursion
+
+Linear Recursion is recursion in which there is only one branch of recursion, in other words it maintains a straight line, for example:
+
+```cpp
+void fun(n) {
+  if (n > 0)
+  {
+    // Do stuff here
+    // ...
+    fun(n-1);
+    // Do stuff here
+    // ...
+  }
+}
+```
+
+Tree Recursion is recursion in which there is more than one branch of recursion, kind of like a tree, for example:
+
+```cpp
+void fun(n) {
+  if (n > 0)
+  {
+    // Do stuff here
+    // ...
+    fun(n-1);
+    // Do stuff here
+    // ...
+    fun(n-1);
+    // Do stuff here
+    // ...
+  }
+}
+```
+
+An example of tree recursion can be found here:
+
+```cpp
+#include <stdio.h>
+
+void fun(int n) {
+  if (n > 0)
+  {
+    printf("%d ", n);
+    fun(n-1);
+    fun(n-1);
+  }
+}
+```
+
+This will give the output `3 2 1 1 2 1 1`. This is because we call the function with the input 3, we print 3, and then call `fun(3-1)`, it then prints 2, and then calls `fun(2-1)`, which prints 1, and then calls `fun(2-1)` again, which prints 1. Then we descend, and `fun(3-1)` is called a second time, which repeats the same process over again one last time.
+
+## Indirect Recursion
+
+Indirect recursion is recursion that happens between two or more functions, which makes a sort of circular pattern, for example:
+
+```cpp
+void A(int n) {
+  if (<-->)
+  {
+    // Do stuff here
+    // ...
+    B(n-1);
+  }
+}
+void B(int n) {
+  if (<-->)
+  {
+    // Do stuff here
+    // ...
+    A(n-1);
+  }
+}
+```
+
+## Nested Recursion
+
+Nested Recursion is recursion within recursion, in other words a recursive call within a recursive call, for example:
+
+```cpp
+void fun(int n) {
+  if (<-->)
+  {
+    // Do stuff here
+    fun(fun(n-1));
+  }
+}
+```
+
+In this way, we evaluate the parameter of the recursive call first, then whatever that is, place it into that recursive call.
+
+## Examples of Recursion
+
+### Fibonacci Sequence
+
+The Fibonacci Sequence is defined as $F_n = F_{n-1} + F_{n-2}$, where $F_0 = 0$ and $F_1 = 1$. We can use Tree Recursion to write an algorithm to calculate the sum of the sequence:
+
+```cpp
+int fib(int n) {
+  if (n <= 1)
+  {
+    return n;
+  }
+  return fib(n-1) + fib(n-2);
+}
+```
+
+### Sum of Natural Numbers
+
+The sum of all natural numbers at point n, is equal to the sum of the natural numbers $(n-1)$, plus $n$. In other words, `sum(n) = sum(n-1)+n`
+
+```cpp
+int sum(int n) {
+  if (n == 0)
+  {
+    return 0;
+  }
+  else
+  {
+    return sum(n - 1) + n;
+  }
+}
+```
 
 # Abstract Data Types and Linear Ordered Data Structures
 
@@ -406,9 +599,11 @@ Performance of these operations
   * More expensive in terms of memory
 
 ##### Improving Singly Linked List with Tail
+
 By adding a true `tail` pointer (eg. it points to the back most element.) You can improve the PushBack and the TopBack performance to be $O(1)$. This significantly increases the usefulness of the singly linked list immensely. The issue is that PopBack and AddBefore is $O(n)$. Is there anyway to improve this? There in fact is.
 
 #### Doubly Linked List with Tail Implementation
+
 ![doubly linked list](https://coleton.io/post-images/algo/doublylinkedlist.png)
 |:--:|
 | *Sourced from [AskPython](https://www.askpython.com/python/examples/doubly-linked-list)* |
@@ -433,6 +628,7 @@ H -> 2 -> 3 -> T
 ```
 
 Let's say we want to remove 3, in this case we'd access the tail value. We'd set `tail->prev->prev->next = tail`, and then set `tail->prev = tail->prev->prev`. We would also throw in a delete somewhere to make sure we are deleting the old node:
+
 ```text
 H -> 2 -> T
   <-   <-
@@ -476,6 +672,7 @@ for (auto it = my_list.begin(); it != my_list.end(); ++it)
 ##### Merge Two Lists
 
 Given two sorted lists, we can merge them together sorted:
+
 ```cpp
 // listA and listB are two sorted lists
 std::list<int> mergeLists(std::list<int> listA, std::list<int> listB)
@@ -949,288 +1146,23 @@ This implementation similarly has the same time complexity:
 
 The benefits is that this implementation avoids the static size issue of the circular queue, but that also means it requires more memory.
 
-# Recursion
+# Non-Linear Ordered Data Structures
 
-## Introduction
+## Trees
 
-Given the function `fun`:
+### Introduction Tree-Based Data Structures
 
-```cpp
-int fun(int n) {
-  if (n > 1) {
-      return fun(n-1) * 2;
-  } else {
-      return n;
-  }
-}
-```
+A tree is a rooted, directed, and acylic in nature. In other words, it has a single root, each node has a single parent, and there are no cycles. 
 
-We can see that the function consists of an if-else statement, where if the input is greater than 1, we return the value of the function `fun(n-1)*2`, and if not, we just return n. In this way, we can simplify the function to just be:
+![](https://coleton.io/post-images/algo/tree1.png)
 
-```cpp
-int fun(int n) {
-  if (n > 1) {
-    return fun(n-1) * 2;
-  }
-  return n;
-}
-```
+This is a valid tree. The **root** of this tree is A, and each node has a single **parent**. B's parent is A, and C's parent is also A. In this way, B and C are referred to as **siblings**. The parent are the predecessor of a node, while children are the successor of a node. Tree's aren't necessarily limited to just two children though. For instance, look at the following tree:
 
-This is an example of a recursive function. A recursive function consists of two parts, an ascending portion and a descending portion. We ascend by returning values of the function, and descend once we reach our catch value, in this case it is once $n \le 1$. The algorithm returns $2^n$.
+![](https://coleton.io/post-images/algo/tree2.png)
 
-## Tail Recursion
+In this case, there is a single root, A, and A has three children B, C, and D. Every node has either a single parent or no parent.
 
-Tail recursion is defined as recursion in which the last statement is the recursive call, for example:
-
-```cpp
-void fun(n) {
-  if (n > 0) {
-    // Do stuff Here
-    // ...
-    fun(n-1);
-  }
-}
-```
-
-So all the processing is done before the recursive call.
-
-## Head Recursion
-
-Head recursion is defined as recursion in which the first statement is the recursive call, for example:
-
-```cpp
-void fun(n) {
-  if (n > 0) {
-    fun(n-1);
-    // Do stuff Here
-    // ...
-  }
-}
-```
-
-So all the processing is done after the recursive call.
-
-## Linear Recursion vs. Tree Recursion
-
-Linear Recursion is recursion in which there is only one branch of recursion, in other words it maintains a straight line, for example:
-
-```cpp
-void fun(n) {
-  if (n > 0) {
-    // Do stuff here
-    // ...
-    fun(n-1);
-    // Do stuff here
-    // ...
-  }
-}
-```
-
-Tree Recursion is recursion in which there is more than one branch of recursion, kind of like a tree, for example:
-
-```cpp
-void fun(n) {
-  if (n > 0) {
-    // Do stuff here
-    // ...
-    fun(n-1);
-    // Do stuff here
-    // ...
-    fun(n-1);
-    // Do stuff here
-    // ...
-  }
-}
-```
-
-An example of tree recursion can be found here:
-
-```cpp
-#include <stdio.h>
-
-void fun(int n) {
-  if (n > 0) {
-    printf("%d ", n);
-    fun(n-1);
-    fun(n-1);
-  }
-}
-```
-
-This will give the output `3 2 1 1 2 1 1`. This is because we call the function with the input 3, we print 3, and then call `fun(3-1)`, it then prints 2, and then calls `fun(2-1)`, which prints 1, and then calls `fun(2-1)` again, which prints 1. Then we descend, and `fun(3-1)` is called a second time, which repeats the same process over again one last time.
-
-## Indirect Recursion
-
-Indirect recursion is recursion that happens between two or more functions, which makes a sort of circular pattern, for example:
-
-```cpp
-void A(int n) {
-  if (<-->) {
-    // Do stuff here
-    // ...
-    B(n-1);
-  }
-}
-void B(int n) {
-  if (<-->) {
-    // Do stuff here
-    // ...
-    A(n-1);
-  }
-}
-```
-
-## Nested Recursion
-
-Nested Recursion is recursion within recursion, in other words a recursive call within a recursive call, for example:
-
-```cpp
-void fun(int n) {
-  if (<-->) {
-    // Do stuff here
-    fun(fun(n-1));
-  }
-}
-```
-
-In this way, we evaluate the parameter of the recursive call first, then whatever that is, place it into that recursive call.
-
-## Examples of Recursion
-
-### Fibonacci Sequence
-
-The Fibonacci Sequence is defined as $F_n = F_{n-1} + F_{n-2}$, where $F_0 = 0$ and $F_1 = 1$. We can use Tree Recursion to write an algorithm to calculate the sum of the sequence:
-
-```cpp
-int fib(int n) {
-  if (n <= 1) {
-    return n;
-  }
-  return fib(n-1) + fib(n-2);
-}
-```
-
-### Sum of Natural Numbers
-
-The sum of all natural numbers at point n, is equal to the sum of the natural numbers $(n-1)$, plus $n$. In other words, `sum(n) = sum(n-1)+n`
-
-```cpp
-int sum(int n) {
-  if (n == 0) {
-    return 0;
-  }
-  else {
-    return sum(n - 1) + n;
-  }
-}
-```
-
-# Strings
-
-## Introduction
-
-The `char` is a data type that represents a character. It can take number values from -128 to 127, and each number represents an ASCII character. Strings can thus be constructed by "stringing" together characters. For instance:
-
-```cpp
-char name[10] = {'J', 'o', 'h', 'n'};
-```
-
-When analyzing this declaration, it becomes apparent we have a problem. This is because we are declaring an array with size 10, which means that:
-
-```
-[J] [o] [h] [n] [0] [0]     [0]
-[0] [1] [2] [3] [4] [5] ... [10]
-```
-
-Each of these sections of the array technically could include a character. This means we need a specific character to denote the termination of a string, and this is known as the "Null" character, or `'\0'`. So this:
-
-```cpp
-char name[10] = {'J', 'o', 'h', 'n'};
-```
-
-is equivalent to this:
-
-```cpp
-char name[10] = {'J', 'o', 'h', 'n', '\0'};
-```
-
-## Length
-
-To determine the length of a string, we loop over it until we find a `\0`:
-
-```cpp
-#include <iostream>
-int main() {
-    char S[] = "John";
-    int i;
-    for (i = 0; S[i] != '\0'; i++) {
-    }
-    std::cout << i << std::endl; // Prints 4
-}
-```
-
-## Change Case
-
-The ASCII Character code for capital A is 65, and the ASCII Character code for lowercase a is 97. Then, Z and z are 90 and 122, respectively. This means that the absolute value of the difference between the corresponding values of any two characters (A and a for example) is 32. We can use this to our advantage to change the case of a string:
-
-```cpp
-#include <iostream>
-int main() {
-    char S[] = "John";
-    for (int i = 0; S[i] != '\0'; i++) {
-        if (S[i] >= 'A' && S[i] <= 'Z') {
-            S[i] += 32;
-        } else if (S[i] >= 'a' && S[i] <= 'z') {
-            S[i] -= 32;
-        }
-    }
-    for (int i = 0; i < 5; i++) {
-        std::cout << S[i];
-    } // Prints jOHN
-}
-```
-
-## Reversing a String
-
-To reverse a string, we use the following method:
-
-```cpp
-#include <iostream>
-int main() {
-  char S[] = "John!";
-  int i, j;
-  char t;
-  for (j = 0; S[j] != '\0'; j++) {
-  }
-  j--;
-  for (i = 0; i < j; i++, j--) {
-    t = S[i];
-    S[i] = S[j];
-    S[j] = t;
-  }
-  for (int i = 0; i < 6; i++) {
-    std::cout << S[i];
-  } // Prints !nhoJ
-}
-```
-
-## Duplicates in a String
-
-```cpp
-#include <iostream>
-int main() {
-  char S[] = "finding";
-  int H[26] = {}; // Set all 26 values to zero
-  for (int i = 0; S[i] != '\0'; i++) {
-    H[S[i] - 97] += 1;
-  }
-  for (int i = 0; i < 26; i++) {
-    if (H[i] >= 1) {
-      std::cout << (char)(i + 97) << " " << H[i] << std::endl;
-    }
-  }
-}
-```
+There are quite a few use cases for trees, such as Family Tress, Decision/Logic Trees, File Systems, Expression Trees, and Searching Trees.
 
 # Matrices
 

@@ -107,6 +107,7 @@ services:
       disableInlineCSS: true
   twitter:
       disableInlineCSS: true
+
 markup:
   goldmark:
     renderer:
@@ -121,5 +122,5 @@ markup:
     lineNos: true 
     lineNumbersInTable: true
     noClasses: true
-    style: monokai
-    tabWidth: 4
+    style: doom-one2
+    tabWidth: 2
