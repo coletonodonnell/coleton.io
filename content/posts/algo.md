@@ -1242,7 +1242,9 @@ It should be noted that if a tree is perfect, it's height is $O(\log n)$, where 
 
 #### Complete Binary Tree
 
-A **complete** binary tree is a tree which is perfect through levels $n - 1$, with some extra leaf nodes at level $n$ (height of the tree), all towards the left. In other words, for a tree, at level $n$ there should be nodes filling from the left to the right, but it doesn't need to fill all the way towards the right. To illustrate, *Tree 5* isn't a complete binary tree. This is because it goes from left to right on the bottom most level, 2, 4, and 53. To make it complete, 40 must have a left child. *Tree 6* is in fact a complete binary tree. This is because from left to right, it goes 2 and 4. 40 might not have any children, but there aren't any gaps between the siblings of the bottom level, thus making it complete. This means that *Tree 6* is both complete and full. A perfect binary tree like *Tree 7* is also complete and full. Every perfect binary tree is complete and full, but not every complete and full binary tree is a perfect binary tree.
+A **complete** binary tree is a tree which is perfect through levels $n - 1$, with some extra leaf nodes at level $n$ (height of the tree), all towards the left. In other words, for a tree at level $n$, there should be nodes filling each space from the left to the right, but it doesn't need to fill all the way towards the right. 
+
+To illustrate, *Tree 5* isn't a complete binary tree. This is because it goes from left to right on the bottom most level, 2, 4, and 53. To make it complete, 40 must have a left child. *Tree 6* is in fact a complete binary tree. This is because from left to right, it goes 2 and 4. 40 might not have any children, but there aren't any gaps between the siblings of the bottom level, thus making it complete. This means that *Tree 6* is both complete and full. A perfect binary tree like *Tree 7* is also complete and full. Every perfect binary tree is complete and full, but not every complete and full binary tree is a perfect binary tree.
 
 # Matrices
 
