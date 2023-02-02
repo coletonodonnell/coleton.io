@@ -2,7 +2,7 @@
 author: "Coleton O'Donnell"
 title: "Data Structures and Algorithms Notes"
 date: "2023-01-25"
-description: "Notes on my study from UF's COP3530 with Professor Kapoor, Abdul Bari's Udemy Course, and 'Introduction to Algorithms' by Cormen & Leiserson."
+description: "Notes from my DSA study, including UF's COP3530 with Professor Kapoor, Abdul Bari's Udemy Course, and 'Introduction to Algorithms' by Cormen & Leiserson."
 tags: ["math", "algorithms", "computer science"]
 math: true
 ---
@@ -11,7 +11,7 @@ math: true
 
 **Pardon the dust, this is being rewritten.**
 
-These notes are on the COP3530 Data Structures and Algorithm class with the excellent Professor Kapoor at the University of Florida as well as on [Abdul Bari's DSA Course on Udemy](https://www.udemy.com/course/datastructurescncpp). What I have learned from each has been compounded into one living document. If you are interested in Abdul Bari's course but want a bit of a taste for it, there is also a free YouTube version that is [consolidated](https://youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O). Please note that these are **notes**, I can't stress this enough. These are written with prior knowledge in mind, and are basically useless if you aren't following along with a textbook or a course. They won't be teaching you well. These can act as a good reference for concepts and important explanations. Think of it as a TL;DR on things, but you're doing yourself a disservice if you even think of using these as your main source of info. For textbooks, check out the excellent [OpenDSA Book](https://opendsa-server.cs.vt.edu/ODSA/Books/Everything/html/index.html). If you prefer paper, check out "Introduction to Algorithms" by Cormen & Leiserson and "Data Structures and Algorithm Analysis in C++" by Weiss.
+These notes are on the COP3530 Data Structures and Algorithm class with the excellent Professor Kapoor at the University of Florida as well as on [Abdul Bari's DSA Course on Udemy](https://www.udemy.com/course/datastructurescncpp). What I have learned from each has been compounded into one living document. If you are interested in Abdul Bari's course but want a bit of a taste for it, there is also a free YouTube version that is [consolidated](https://youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O). Please note that these are **notes**, I can't stress this enough. These are written with prior knowledge in mind, and are basically useless if you aren't following along with a textbook or a course. They won't be teaching you well. These can act as a good reference for concepts and important explanations. Think of it as a TL;DR on things, but you're doing yourself a disservice if you even think of using these as your main source of info. For textbooks, check out the excellent [OpenDSA Book](https://opendsa-server.cs.vt.edu/ODSA/Books/Everything/html/index.html). If you prefer paper, check out ["Introduction to Algorithms"](https://en.wikipedia.org/wiki/Introduction_to_Algorithms) by Cormen & Leiserson and ["Data Structures and Algorithm Analysis in C++"](https://www.google.com/books/edition/Data_Structures_and_Algorithm_Analysis_i/toSQvgEACAAJ?hl=en) by Weiss.
 
 ## Definition of the Data Structure and the Algorithm
 
@@ -21,7 +21,7 @@ These notes are on the COP3530 Data Structures and Algorithm class with the exce
 
 * What is an Algorithm?
 
-  * An **algorithm** can be defined as a procedure used for solving a problem or performing a computation. It is a fininte set of instructions to execute a task. All algorithms have an input, an output, and are definite and unambiguous. This means that they always have the same output for a given input.
+  * An **algorithm** can be defined as a procedure used for solving a problem or performing a computation. It is a finite set of instructions to execute a task. All algorithms have an input, an output, and are definite and unambiguous. This means that they always have the same output for a given input.
 
 ## Algorithm vs. Program
 
@@ -45,7 +45,7 @@ One possible solution is to compare every element to every other following eleme
 
 ## What is Performance and Why Should We Care?
 
-Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligable at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year.
+Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligible at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year.
 
 # How to Measure Performance?
 
@@ -125,7 +125,7 @@ This can be further illustrated by:
 |:--:|
 | *Sourced from [Adrian Mejia](https://adrianmejia.com/how-to-find-time-complexity-of-an-algorithm-code-big-o-notation/)* |
 
-So if we return to the example in Approach 2, we note that $T(n) = 3n + 4$. How would we express the time complexity of this algorithm utilizing order of growth? This can be done with the **Big O** notation, which represents the **upper bound** of a function's growth rate. There are other notations that describe other aspects of a function, but for the sake of algorithm performance, Big O is usually what is considered. In this way, Big O notation represents the **worst case** of an algorithm. Let's look at how these notation sare formally defined and how to use them to describe the performance of an algorithm.
+So if we return to the example in Approach 2, we note that $T(n) = 3n + 4$. How would we express the time complexity of this algorithm utilizing order of growth? This can be done with the **Big O** notation, which represents the **upper bound** of a function's growth rate. There are other notations that describe other aspects of a function, but for the sake of algorithm performance, Big O is usually what is considered. In this way, Big O notation represents the **worst case** of an algorithm. Let's look at how these notations are formally defined and how to use them to describe the performance of an algorithm.
 
 ## Asymptotic Analysis (Time Complexity)
 
@@ -135,11 +135,11 @@ Asymptotic Analysis (aka. asymptotics) is a mathematical method to describe the 
 
 #### Big O
 
-Let $T(n)$, $f(n)$ be functions. Therefore, $T(n) \in O(f(n))$ if there exists two positive constants $n_0$ and $M$ such that $T(n) \le Mf(n)$ for all $n \ge n_0$. Formally speaking, this is a more restrictive definition that is of most concern to us as Computer Scientists, but if you are interested in other definitions check out [the formal definition for Big O notation here.](https://en.wikipedia.org/wiki/Big_O_notation#Formal_definition) With this definition, a function $T(n) = n$ will yield $T(n) \in O(n!)$, but although true, isn't terribly useful. As a result, when figuring out the Big O of a function, it is best to figure out the tightest upperbound, so in the previous case, $T(n) \in O(n)$. Taking a look at our example from Approach 2, $T(n) = 3n+4$. When considering this, what should the value $M$ be? The easiest way to do this is to set $M$ to equal each of the integers in the function, so $M = 3 + 4 = 7$, and we set $n_0 = 0$. So, $3n+4 \le 7n$ for all $n > 1$, so $T(n) \in O(n)$. The function $f(n)$ always acts as an upper bound on performance, and $T(n)$ will grow no faster than the constant $M$ times $f(n)$.
+Let $T(n)$, $f(n)$ be functions. Therefore, $T(n) \in O(f(n))$ if there exists two positive constants $n_0$ and $M$ such that $T(n) \le Mf(n)$ for all $n \ge n_0$. Formally speaking, this is a more restrictive definition that is of most concern to us as Computer Scientists, but if you are interested in other definitions check out [the formal definition for Big O notation here.](https://en.wikipedia.org/wiki/Big_O_notation#Formal_definition) With this definition, a function $T(n) = n$ will yield $T(n) \in O(n!)$, but although true, isn't terribly useful. As a result, when figuring out the Big O of a function, it is best to figure out the tightest upper bound, so in the previous case, $T(n) \in O(n)$. Taking a look at our example from Approach 2, $T(n) = 3n+4$. When considering this, what should the value $M$ be? The easiest way to do this is to set $M$ to equal each of the integers in the function, so $M = 3 + 4 = 7$, and we set $n_0 = 0$. So, $3n+4 \le 7n$ for all $n > 1$, so $T(n) \in O(n)$. The function $f(n)$ always acts as an upper bound on performance, and $T(n)$ will grow no faster than the constant $M$ times $f(n)$.
 
 #### Big Ω
 
-Let $T(n), g(n)$ be functions. Therefore, $T(n) \in \Omega(g(n))$ if there exists two positive constants $n_0$ and $M$ such that $T(n) \ge Mg(n)$ for all $n \ge n_0$. Similar to Big O, this means that when $T(n) = n^3$, $T(n) \in \Omega(1)$, but that isn't useful. So, whenever you figure out the Big Ω of a function, find the tightest lowerbound, so in the previous case, $T(n) \in \Omega(n^3)$. The function $g(n)$ always acts as a lower bound on growth rate of $T(n)$, and $T(n)$ will grow no slower than the constant $M$ times $g(n)$.
+Let $T(n), g(n)$ be functions. Therefore, $T(n) \in \Omega(g(n))$ if there exists two positive constants $n_0$ and $M$ such that $T(n) \ge Mg(n)$ for all $n \ge n_0$. Similar to Big O, this means that when $T(n) = n^3$, $T(n) \in \Omega(1)$, but that isn't useful. So, whenever you figure out the Big Ω of a function, find the tightest lower bound, so in the previous case, $T(n) \in \Omega(n^3)$. The function $g(n)$ always acts as a lower bound on growth rate of $T(n)$, and $T(n)$ will grow no slower than the constant $M$ times $g(n)$.
 
 #### Big Θ
 
@@ -250,7 +250,7 @@ Characteristics:
 
 * They have a fixed size
 * Stores similar elements (store the same or similar types)
-* Contigious indices (e.g.. $0, 1, 2...n-1$)
+* Contiguous indices (e.g.. $0, 1, 2...n-1$)
 * Elements are stored contiguously in memory.
 * Allows for random access, given an indice you can access the element there (e.g.. `Array[n]`)
 
@@ -276,7 +276,7 @@ To add or remove anything from the beginning, it requires shifting $n$ elements 
 |:--:|
 | *Sourced from [VisualGo](https://visualgo.net/en/list)* |
 
-Each of these elements are called a **Node.** A Node contains an element and a pointer to another Node. This goes on and on until the pointer points to a `nullptr` (i.e. points to nothing.) An exame Node object in C++ would look like this:
+Each of these elements are called a **Node.** A Node contains an element and a pointer to another Node. This goes on and on until the pointer points to a `nullptr` (i.e. points to nothing.) An example Node object in C++ would look like this:
 
 ```cpp
 #include <iostream>
@@ -323,7 +323,7 @@ Thus this list is represented as:
 
 In this case, the length of this list is one.
 
-The `Node` class works great, but it is a bit verbose. In actuality, the list requires a lot more features than this, we are just describing everything manually. In this case, encaspulating `Node` by another class is much better.
+The `Node` class works great, but it is a bit verbose. In actuality, the list requires a lot more features than this, we are just describing everything manually. In this case, encapsulating `Node` by another class is much better.
 
 ```cpp
 template <typename T>
@@ -360,7 +360,7 @@ class List
 }
 ```
 
-With this example, our linked list contains two nodes, the `head` and the `tail`. In this implementation, these are **sentinal** nodes, which basically represent the path entry and the path terminator. Don't worry much about them. In this example, our `push_front` operation creates a new `Node` with `element`, and then changes the Node's `next` to be whatever the `head` is pointing to next. Then we change the `head` next to be our new Node `q`. To visualize this:
+With this example, our linked list contains two nodes, the `head` and the `tail`. In this implementation, these are **sentinel** nodes, which basically represent the path entry and the path terminator. Don't worry much about them. In this example, our `push_front` operation creates a new `Node` with `element`, and then changes the Node's `next` to be whatever the `head` is pointing to next. Then we change the `head` next to be our new Node `q`. To visualize this:
 
 ```text
 Before calling push_front:
@@ -406,7 +406,7 @@ Performance of these operations
   * More expensive in terms of memory
 
 ##### Improving Singly Linked List with Tail
-By adding a true `tail` pointer (eg. it points to the back most element.) You can improve the PushBack and the TopBack performance to be $O(1)$. This signifcantly increases the usefulness of the singly linked list immensely. The issue is that PopBack and AddBefore is $O(n)$. Is there anyway to improve this? There in fact is.
+By adding a true `tail` pointer (eg. it points to the back most element.) You can improve the PushBack and the TopBack performance to be $O(1)$. This significantly increases the usefulness of the singly linked list immensely. The issue is that PopBack and AddBefore is $O(n)$. Is there anyway to improve this? There in fact is.
 
 #### Doubly Linked List with Tail Implementation
 ![doubly linked list](https://coleton.io/post-images/algo/doublylinkedlist.png)
@@ -587,7 +587,7 @@ We utilize an array to store the values, and an integer to track the current pos
 | `size()`    | $O(1)$     |
 | `isEmpty()` | $O(1)$     |
 
-As we can see, this implementation is very efficient. All the operations are constant time. The issue is that this implementation is of a fixed size at compile time. In the implementation above, the `SIZE` variable is a consant, and is set to $1024$. Of course, we can always raise this but this means that at compile time the stack size can't be increased or decreased in this implementation.
+As we can see, this implementation is very efficient. All the operations are constant time. The issue is that this implementation is of a fixed size at compile time. In the implementation above, the `SIZE` variable is a constant, and is set to $1024$. Of course, we can always raise this but this means that at compile time the stack size can't be increased or decreased in this implementation.
 
 #### Linked List Implementation
 
@@ -757,7 +757,7 @@ Characteristics:
 
 #### Circular Array Implementation
 
-Though it is possible to implement the queue with just a normal array, the issue arrises of what is known as the **rightward drift problem.** You can look into that on your own, but it makes a normal array implementation impossible. A normal array implementation would look something like this:
+Though it is possible to implement the queue with just a normal array, an issue arises which is known as the **rightward drift problem.** You can look into that on your own, but it makes a normal array implementation impossible. A normal array implementation would look something like this:
 
 ```cpp
 class BadArrayQueue
@@ -938,7 +938,7 @@ class ListQueue
 
 ##### Operation Performance
 
-This implementation similarly has the same time complexit:
+This implementation similarly has the same time complexity:
 
 | Operation | Complexity |
 |:---------:|:----------:|
@@ -976,7 +976,7 @@ int fun(int n) {
 }
 ```
 
-This is an example of a recursive function. A recursive function consits of two parts, an ascending portion and a descending portion. We ascend by returning values of the function, and descend once we reach our catch value, in this case it is once $n \le 1$. The algorithm returns $2^n$.
+This is an example of a recursive function. A recursive function consists of two parts, an ascending portion and a descending portion. We ascend by returning values of the function, and descend once we reach our catch value, in this case it is once $n \le 1$. The algorithm returns $2^n$.
 
 ## Tail Recursion
 
@@ -1093,7 +1093,7 @@ void fun(int n) {
 }
 ```
 
-In this way, we evaulate the parameter of the recursive call first, then whatever that is, place it into that recursive call.
+In this way, we evaluate the parameter of the recursive call first, then whatever that is, place it into that recursive call.
 
 ## Examples of Recursion
 
@@ -1249,7 +1249,7 @@ A Diagonal Matrix is like the following:
 
 Which can be defined as $M[i, j] = 0 \text{ if } i \ne j$
 
-This matrix will be the framework for later types of matrixs:
+This matrix will be the framework for later types of matrixes:
 
 ```cpp
 #include <iostream>
@@ -1802,7 +1802,7 @@ Let's go over some tree terminology
 [H]            [I]    [J]    [K]   [L]           [M]
 ```
 
-This is a tree, what we call the **root** is A. The root note is made of disjoined subsets, for instance the B subset and the C subset, and then within the B subset, there is the D subset and the E subset. B is a **parent** of D and E, and D and E are a **parent** of B. D and E are **siblings**, B and C are siblings. **Descendents** are a set of nodes such that they can be reached by another Node. D, E, H, I, and J are all descendents of B. Inversely, an **ancestor** is the line of nodes reaching back the root, for instance the ancestors of I are E, B, and A. It is the direct line of ancestory. The **degree** of a node is the number of children it has, the degree of A is 2, the degree of B is 2, the degree of D is 1, and the degree of H is 0. **Leaf Nodes** are nodes where the degree is 0, such as H, I, J, K, etc. **Internal Nodes** are nodes where the degree is greater than 0, such as B, C, D, E, F, and G. The **depth** of a node is the number of edges from the node to the tree's root node. A root node will have a depth of 0. So A's depth is 0, B's depth is 1, E's depth is 2, and J's depth is 3. The **height** of a tree would be the height of its root node, which is equal to the depth of the deepest node. So the height of A is equal to 3. Height doesn't perfectly decrease though, for instance if we introduced another node to A named "Y" with a child node of "Z," A's height would still equal 3, but Y's height would be 1. Something to keep in mind. The **level** of a node is where it is relative to the others, so A is at level 1, B at level 2, D at level 3, etc. etc.
+This is a tree, what we call the **root** is A. The root note is made of disjoined subsets, for instance the B subset and the C subset, and then within the B subset, there is the D subset and the E subset. B is a **parent** of D and E, and D and E are a **parent** of B. D and E are **siblings**, B and C are siblings. **Descendants** are a set of nodes such that they can be reached by another Node. D, E, H, I, and J are all descendants of B. Inversely, an **ancestor** is the line of nodes reaching back the root, for instance the ancestors of I are E, B, and A. It is the direct line of ancestry. The **degree** of a node is the number of children it has, the degree of A is 2, the degree of B is 2, the degree of D is 1, and the degree of H is 0. **Leaf Nodes** are nodes where the degree is 0, such as H, I, J, K, etc. **Internal Nodes** are nodes where the degree is greater than 0, such as B, C, D, E, F, and G. The **depth** of a node is the number of edges from the node to the tree's root node. A root node will have a depth of 0. So A's depth is 0, B's depth is 1, E's depth is 2, and J's depth is 3. The **height** of a tree would be the height of its root node, which is equal to the depth of the deepest node. So the height of A is equal to 3. Height doesn't perfectly decrease though, for instance if we introduced another node to A named "Y" with a child node of "Z," A's height would still equal 3, but Y's height would be 1. Something to keep in mind. The **level** of a node is where it is relative to the others, so A is at level 1, B at level 2, D at level 3, etc. etc.
 
 ## Binary Tree
 
@@ -1838,7 +1838,7 @@ A Strict Binary Tree, also known as a proper binary tree or complete binary tree
 
 #### Height vs. Nodes
 
-The minimum number of nodes for a strict binary tree for height $h$ is $n=2h+1$, and max is the same as a non-strict node, $n=2^{h+1}+1$. The mimimum height formula is the same, it is $h=\log_2(n+1)-1$. The maximum height formula is different for a strict binary tree, it is $h=\frac{n-1}{2}$.
+The minimum number of nodes for a strict binary tree for height $h$ is $n=2h+1$, and max is the same as a non-strict node, $n=2^{h+1}+1$. The minimum height formula is the same, it is $h=\log_2(n+1)-1$. The maximum height formula is different for a strict binary tree, it is $h=\frac{n-1}{2}$.
 
 #### Determining no. Leaf Nodes
 
@@ -2429,7 +2429,7 @@ The left child height of A is 4, and the right child height of A is 1, so 4 - 1 
 
 #### Rotation
 
-So this principle of balance begs the question, after we insert, we want our AVL Tree to remain balanaced. What method ensures balanace? This is where the idea of rotation comes into play. There are 4 types of rotation:
+So this principle of balance begs the question, after we insert, we want our AVL Tree to remain balanced. What method ensures balance? This is where the idea of rotation comes into play. There are 4 types of rotation:
 
 1. LL Rotation
 2. RR Rotation
@@ -2833,7 +2833,7 @@ Node* Delete(Node *p, int key) {
 
 ### Binary Heap
 
-A binary heap is a binary tree where duplicates are allowed. Further more, there are two types of binary heaps, a max heap and a min heap. In a max heap, it means that each element is greater than or equal to its children. Obviously, the min heap means that each element is less than or equal to its children. Binary heaps are almost always represented as arrays, and they are complete trees. In other words, there are no gaps in the array, and ecah level is filled left to right. This is an example of a max heap:
+A binary heap is a binary tree where duplicates are allowed. Further more, there are two types of binary heaps, a max heap and a min heap. In a max heap, it means that each element is greater than or equal to its children. Obviously, the min heap means that each element is less than or equal to its children. Binary heaps are almost always represented as arrays, and they are complete trees. In other words, there are no gaps in the array, and each level is filled left to right. This is an example of a max heap:
 
 ```
             [30]
@@ -2849,7 +2849,7 @@ As you can see, each node's value is greater than or equal to the children, e.g.
 [20]      [25]  [30]      [18]
 ```
 
-The opposite fact is true here, where each node's value is less than or equal to the childre, e.g.. 5 <= 15 & 12. the max heap is the most used form of binary heap. Let's look at the binary representation of the max heap.
+The opposite fact is true here, where each node's value is less than or equal to the children, e.g.. 5 <= 15 & 12. the max heap is the most used form of binary heap. Let's look at the binary representation of the max heap.
 
 ```
 B | 30 20 15 5  10 12 6
@@ -3094,7 +3094,7 @@ The definition of sorting is pretty easy to understand, it is an algorithm that 
 
 ## Stable
 
-Stable sorting algorithms preserve the relative order of equal elements. For example, imgaine I have a list of student names with corresponding grades. Currently, the list is sorted alphabetically, but imagine I want to sort numerically. A stable sorting algorithm would not change the relative order of duplicates, thus a student with a first name A with a score of say 80 would be ahead of a student with a first name B with a score of 80. The use of a stable algorithm is that it makes it more efficient when there are duplicate cases, as we don't have to sort by another key when a duplicate is present.
+Stable sorting algorithms preserve the relative order of equal elements. For example, imagine I have a list of student names with corresponding grades. Currently, the list is sorted alphabetically, but imagine I want to sort numerically. A stable sorting algorithm would not change the relative order of duplicates, thus a student with a first name A with a score of say 80 would be ahead of a student with a first name B with a score of 80. The use of a stable algorithm is that it makes it more efficient when there are duplicate cases, as we don't have to sort by another key when a duplicate is present.
 
 ## Adaptive
 
@@ -3151,7 +3151,7 @@ void Print(T& vec, int n, string s) {
 
 ##### `swap`
 
-It can be assumed that this swpa method will be included with every implementation from here onwards (when required):
+It can be assumed that this swap method will be included with every implementation from here onwards (when required):
 
 ```cpp
 void swap(int* x, int* y) {
@@ -3202,7 +3202,7 @@ A | 8   2   12  4   6   20
     0   1   2   3   4   5
 ```
 
-Each step in an insertion sort requires breaking the array into seperate parts. First step is breaking off the 0 index, which is sorted by definition as it is only one element. Second step is adding an extra spot, and doing an insertion:
+Each step in an insertion sort requires breaking the array into separate parts. First step is breaking off the 0 index, which is sorted by definition as it is only one element. Second step is adding an extra spot, and doing an insertion:
 
 Is 2 > 8? No. Shift rightward.
 
@@ -3258,7 +3258,7 @@ A |            [4]  6   20
     0   1   2   3   4   5
 ```
 
-We continue this proces until the very end.
+We continue this process until the very end.
 
 #### Implementation
 
@@ -3326,7 +3326,7 @@ A | 2 3 6 8 5 4
     0 1 2 3 4 5
 ```
 
-i = 2, scan for smalled value
+i = 2, scan for smallest value
 
 ```
 i = 2
@@ -3369,7 +3369,7 @@ A | 50  70  60  90  40  80  10  20  30
     0   1   2   3   4   5   6   7   8
 ```
 
-To begin, set the first element as the pivot element. The idea behind quicksort is that we determine a place that is sorted, so each value left of the pivot is less than or equal to the pivot, and eveything to the right of the pivot is greater than or equal to the pivot. So, `i` looks for everything greater than to the pivot, and `j` looks for everything less than or equal to the pivot. So i starts at 0, and j starts at length of array:
+To begin, set the first element as the pivot element. The idea behind quicksort is that we determine a place that is sorted, so each value left of the pivot is less than or equal to the pivot, and everything to the right of the pivot is greater than or equal to the pivot. So, `i` looks for everything greater than to the pivot, and `j` looks for everything less than or equal to the pivot. So i starts at 0, and j starts at length of array:
 
 1. ```
    // First element greater than 50 is 70 at 1:
@@ -3494,7 +3494,7 @@ void QuickSortLast(int A[], int low, int high) {
 
 ##### Ideas Behind Merging
 
-Given two sorted arrays, we are going to incremement over each and merge, e.g.:
+Given two sorted arrays, we are going to increment over each and merge, e.g.:
 
 ```
 n = 0
@@ -3589,7 +3589,7 @@ void Merge(int x[], int y[], int z[], int m, int n) {
     }
   }
 
-  // Only one of the following _Noreturn
+  // Only one of the following return
   // Copy remaining items in x if present
   while (i < m) {
     z[k++] = x[i++];
@@ -3913,7 +3913,7 @@ Instead of just returning x, let's instead use the modulus operator. This means 
 
 ### Open Hashing (Chaining)
 
-Remember, the modulus hash function is $h(x) = x \bmod 10$, but we also are running into the problem of conficts. An intuitive idea is to use a linked list for conflicts, so we create an array of nodes, and each node contains a linked list of the elements. So for the 5, we can shovel any value that ends with 5, and if we wanted to search for 25, we can just search the linked list belonging to the 5th element. So, what is the time complexity? Well, first we have to determine what is called the loading factor. The loading factor $\lambda = \frac{n}{\text{size}}$. The size of the hastable is 10, so for example if we have 100 keys, then our loading factor $\lambda$ is equal to 10. The average successful search time complexity is $t = 1 + \frac{\lambda}{2}$. The average unsuccessful search time complexity is $t = 1 + \lambda$.
+Remember, the modulus hash function is $h(x) = x \bmod 10$, but we also are running into the problem of conflicts. An intuitive idea is to use a linked list for conflicts, so we create an array of nodes, and each node contains a linked list of the elements. So for the 5, we can shovel any value that ends with 5, and if we wanted to search for 25, we can just search the linked list belonging to the 5th element. So, what is the time complexity? Well, first we have to determine what is called the loading factor. The loading factor $\lambda = \frac{n}{\text{size}}$. The size of the hashtable is 10, so for example if we have 100 keys, then our loading factor $\lambda$ is equal to 10. The average successful search time complexity is $t = 1 + \frac{\lambda}{2}$. The average unsuccessful search time complexity is $t = 1 + \lambda$.
 
 #### Implementation
 
