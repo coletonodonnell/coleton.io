@@ -1246,6 +1246,242 @@ A **complete** binary tree is a tree which is perfect through levels $n - 1$, wi
 
 To illustrate, *Tree 5* isn't a complete binary tree. This is because it goes from left to right on the bottom most level, 2, 4, and 53. To make it complete, 40 must have a left child. *Tree 6* is in fact a complete binary tree. This is because from left to right, it goes 2 and 4. 40 might not have any children, but there aren't any gaps between the siblings of the bottom level, thus making it complete. This means that *Tree 6* is both complete and full. A perfect binary tree like *Tree 7* is also complete and full. Every perfect binary tree is complete and full, but not every complete and full binary tree is a perfect binary tree.
 
+#### Binary Search Tree
+
+A **binary search tree** is a tree in which every node's left descendants are less than the current node's value and every node's right descendants are larger than the current value. A binary search tree is an ordered binary tree. *Tree 5-7* have all be binary search trees. For instance, in *Tree 5* the root is 30, to the left is 4, less than 30, and to the right is 40, greater than 30. We notice that every value to the left of 30 is less than it, e.g. 2,4,5. Conversely, every value to the right of 30 is greater than it, e.g. 40, 53.
+
+A binary tree node would look something like:
+
+```cpp
+#include <iostream>
+
+class TreeNode
+{
+  public:
+    int value;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : value(x), left(nullptr), right(nullptr) {} 
+}
+```
+
+From here, we can use this `TreeNode` class to create an `inorder` print method, `insert` method, and `search` method:
+
+```cpp
+void inorder(TreeNode* head)
+{
+  if (head == nullptr)
+    std::cout << "";
+  else
+  {
+    inorder(head->left);             // print everything to the left, <
+    std::cout << head->value << " "; // print current value
+    inorder(head->right);            // print everything to the right, >
+  }
+}
+        
+TreeNode* insert(TreeNode* root, int key)
+{
+  if (root == nullptr) 
+    return new TreeNode(key); // Base case, this is where the value
+                              // should be inserted
+  if (key < root->value)      // key is less than current value
+    root->left = insert(root->left, key);
+  else if (key > root->value) // key is greater than the current value
+    root->right = insert(root->right, key);
+  
+  return root;                // travel back up the stack
+}
+
+TreeNode* search(TreeNode* root, int key)
+{
+  if (root == nullptr || root->value == key) // Either have found the node
+    return root;                             // or deemed it doesn't exist
+
+  if (key < root->value)                     // check the left as it is <
+    return search(root->left, key);
+  
+  return search(root->right, key);           // check the right as it is >
+}
+```
+
+We can see the use of recursion when dealing with trees, using **branches** to access different elements. This principle is useful when dealing with trees. Unlike `insert`, `search`, etc. the method `delete` is a bit more complicated. Here is what the method looks like:
+
+```cpp
+TreeNode* deleteNode(TreeNode* root, int key)
+{
+  if (root == nullptr) // node doesn't exist
+    return root;
+
+  if (key < root->value) // search for key to the left
+    root->left = deleteNode(root->left, key);
+  else if (key > root->value) // search for key to the right
+    root->right = deleteNode(root->right, key);
+  else // found the node
+  {
+    // This is the case that there is no children
+    if (root->left == nullptr and root->right == nullptr) 
+    {
+      delete root;
+      return nullptr;
+    }
+    else if (root->left == nullptr) // child exists to the right
+    {
+      TreeNode* temp = root->right;
+      delete root;
+      return temp;
+    }
+    else if (root->right == nullptr) // child exists to the left
+    {
+      TreeNode* temp = root->left;
+      delete root;
+      return temp;
+    }
+
+    // both children exists
+    TreeNode* current_node = root->right;
+
+    // search for the lowest value to the right
+    while (current_node && current_node->left != nullptr)
+      current_node = current_node->left;
+
+    // set the current value to be deleted to the lowest value
+    root->value = current_node->value;
+    // delete the lowest value found
+    root->right = deleteNode(root->right, current_node->value);
+  }
+  return root;
+}
+```
+
+If we are wanting to delete a node, we not only have to find it, but also have to consider a few cases:
+
+1. Deleting a node with no children.
+
+   * In this case, we just delete the data and return nullptr. This can be seen on lines `12-17`.
+  
+2. Deleting a node with one child.
+   
+   * In this case, we need to delete the data and then set the node to be either the left or the right, given what is present. This can be seen on lines `18-29`.
+  
+3. Deleting a node with two children.
+
+   * In this case, it can be a bit hard to understand what we are supposed to do. The thing that must be understood is that the left values are always less than the current node, and the right values are always greater than the current node. What we can do is search for the least greatest value on the **right side.** This is guaranteed to be larger than the left, but also less than the right. After we find this value, we can just set the current node that we want to delete to this value, and then do a delete operation on the right tree on this value. This effectively just swaps the values, and then we continue forward to delete more. This can be seen on lines `31-41`.
+
+##### Traversals
+
+A **traversal** is a method that "looks at" or "touches" every element in the data structure. In the context of a BST, that means that it visits every node in a tree. There are two different types of traversals:
+
+* Depth First Strategy (DFS)
+  * In a DFS method, the algorithm starts at the root node and then explores as far as possible along each branch before back tracking. There are 3 different types of methods that we'll look over for this:
+    * Inorder
+    * Preorder
+    * Postorder
+* Breadth First Strategy (BFS)
+  * In a BFS method, the algorithm looks at all the nodes at a current depth before going onto the next depth (or level.) This is contrast to DFS which will go as deep as it can for each branch. We'll look at only one BFS:
+    * Levelorder
+  
+A search and a traversal are similar but they are not the same. With a search, it isn't always necessary to visit every element in the list. In contrast, a traversal always requires every node to be visited.
+
+###### Inorder
+
+The inorder traversal is literally what it sounds like, it is inorder. The strategy for an inorder traversal is:
+
+1. Visit the left subtree
+2. Visit the current node (root)
+3. Visit the right subtree
+
+This method was already implemented above in `inorder`. The inorder of *Tree 7* is 2, 4, 5, 30, 35, 40, 45.
+
+###### Preorder
+
+The preorder traversal is like the inorder but the steps are:
+
+1. Visit the current node (root)
+2. Visit the left subtree
+3. Visit the right subtree
+
+The preorder method looks like this:
+
+```cpp
+#include <iostream>
+
+void preorder(TreeNode* head)
+{
+  if (head == nullptr)
+    std::cout << "";
+  else
+  {
+    std::cout << head->value << " "; // print current value
+    preorder(head->left);            // print everything to the left, <
+    preorder(head->right);           // print everything to the right, >
+  }
+}
+```
+
+The preorder of *Tree 7* is 30, 4, 2, 5, 40, 35, 45.
+
+###### Postorder
+
+The postorder traversal is like the preorder but the steps are:
+
+1. Visit the left subtree
+2. Visit the right subtree
+3. Visit the current node (root)
+
+The postorder method looks like this:
+
+```cpp
+#include <iostream>
+
+void postorder(TreeNode* head)
+{
+  if (head == nullptr)
+    std::cout << "";
+  else
+  {
+    postorder(head->left);            // print everything to the left, <
+    postorder(head->right);           // print everything to the right, >
+    std::cout << head->value << " ";  // print current value
+  }
+}
+```
+
+The postorder of *Tree 7* is 2, 5, 4, 35, 45, 40, 30.
+
+###### Levelorder
+
+The levelorder traversal is a lot different than the rest because it is a BFS not a DFS traversal. The general idea is to traversal all nodes in level 0 up to level $n - 1$, where $n$ is the height of the tree. This can be done with queues:
+
+```cpp
+#include <iostream>
+#include <queue>
+
+void levelorder(TreeNode* root)
+{
+  std::queue<TreeNode*> node_queue;
+  node_queue.push(root);
+
+  while (!node_queue.empty())
+  {
+    TreeNode* temp = node_queue.front();
+    node_queue.pop();
+    if (temp)
+    {
+      if (temp->left)
+        node_queue.push(temp->left);
+    
+      if (temp->right)
+        node_queue.push(temp->right);
+
+      std::cout << temp->value << " ";
+    }
+  }
+}
+```
+
+In this method, we basically are breaking down the tree each level. We start with the root being queued, the loop immediately dequeues it, then inserts the left and right elements into the queue, and then prints the root. Next loop iteration does the same thing, but if we notice because it is a queue, it dequeues the left, queues its children, dequeues the right, queues its children. It perfectly travels level by level.
+
 # Matrices
 
 ## Diagonal Matrix
