@@ -1391,7 +1391,7 @@ The inorder traversal is literally what it sounds like, it is inorder. The strat
 2. Visit the current node (root)
 3. Visit the right subtree
 
-This method was already implemented above in `inorder`. The inorder of *Tree 7* is 2, 4, 5, 30, 35, 40, 45.
+This method was already implemented above in `inorder`. The inorder of *Tree 7* is $2, 4, 5, 30, 35, 40, 45$.
 
 ###### Preorder
 
@@ -1419,7 +1419,7 @@ void preorder(TreeNode* head)
 }
 ```
 
-The preorder of *Tree 7* is 30, 4, 2, 5, 40, 35, 45.
+The preorder of *Tree 7* is $30, 4, 2, 5, 40, 35, 45$.
 
 ###### Postorder
 
@@ -1447,7 +1447,7 @@ void postorder(TreeNode* head)
 }
 ```
 
-The postorder of *Tree 7* is 2, 5, 4, 35, 45, 40, 30.
+The postorder of *Tree 7* is $2, 5, 4, 35, 45, 40, 30$.
 
 ###### Levelorder
 
@@ -1481,6 +1481,8 @@ void levelorder(TreeNode* root)
 ```
 
 In this method, we basically are breaking down the tree each level. We start with the root being queued, the loop immediately dequeues it, then inserts the left and right elements into the queue, and then prints the root. Next loop iteration does the same thing, but if we notice because it is a queue, it dequeues the left, queues its children, dequeues the right, queues its children. It perfectly travels level by level.
+
+The levelorder traversal of *Tree 7* is $30, 4, 40, 2, 5, 35, 45$.
 
 # Matrices
 
