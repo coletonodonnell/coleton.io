@@ -1164,19 +1164,19 @@ queue<type> my_queue; //  create a queue with a type of "type"
 
 A tree is a rooted, directed, and acyclic in nature. In other words, it has a single root, each node has a single parent, and there are no cycles. 
 
-![](https://coleton.io/post-images/algo/tree1.png)
+![](https://coleton.io/post-images/algo/tree1.png#center)
 |:--:|
 | Tree 1 |
 
 *Tree 1* is an example of a basic valid tree. The **root** of this tree is A, and each node has a single **parent**. B's parent is A, and C's parent is also A. In this way, B and C are referred to as **siblings**. The parent are the predecessor of a node, while children are the successor of a node. Tree's aren't necessarily limited to just two children though. For instance, look at the following tree:
 
-![](https://coleton.io/post-images/algo/tree2.png)
+![](https://coleton.io/post-images/algo/tree2.png#center)
 |:--:|
 | Tree 2 |
 
 In the case of *Tree 2*, there is a single root, A, and A has three children B, C, and D. Every node has either a single parent or no parent.
 
-![](https://coleton.io/post-images/algo/tree3.png)
+![](https://coleton.io/post-images/algo/tree3.png#center)
 |:--:|
 | Tree 3 |
 
@@ -1205,7 +1205,7 @@ There are quite a few use cases for trees, such as Family Tress, Decision/Logic 
 
 ### N-Ary Trees
 
-![](https://coleton.io/post-images/algo/tree4.png)
+![](https://coleton.io/post-images/algo/tree4.png#center)
 |:--:|
 | Tree 4 |
 
@@ -1219,7 +1219,7 @@ In this example above, we see that the root A has $1..n$ children. So if $n = 3$
 
 ### Binary Trees
 
-![](https://coleton.io/post-images/algo/tree5.png)
+![](https://coleton.io/post-images/algo/tree5.png#center)
 |:--:|
 | Tree 5 |
 
@@ -1242,14 +1242,14 @@ class TreeNode
 
 #### Full Binary Tree
 
-![](https://coleton.io/post-images/algo/tree6.png)
+![](https://coleton.io/post-images/algo/tree6.png#center)
 |:--:|
 | Tree 6 |
 
 *Tree 6* here is a **full** binary tree. That means that every node has either 2 children or 0 children.
 
 #### Perfect Binary Tree
-![](https://coleton.io/post-images/algo/tree7.png)
+![](https://coleton.io/post-images/algo/tree7.png#center)
 |:--:|
 | Tree 7 |
 
@@ -1372,7 +1372,7 @@ If we are wanting to delete a node, we not only have to find it, but also have t
 
 When considering the time complexities of these operations, it is important to consider the characteristics of a binary search tree. The operations time complexity is at worst $O(h)$, where $h$ is the height of the tree. When considering how $h$ grows with $n$, we must consider the difference between balanced and unbalanced trees. A **balanced** tree is a tree in which the left and right subtrees of every node differ in their height by no more than 1. For the most part, the trees we have considered are pretty balanced. There height is approximately $\log n$. However, consider a tree like the following:
 
-![](https://coleton.io/post-images/algo/tree8.png)
+![](https://coleton.io/post-images/algo/tree8.png#center)
 |:--:|
 | Tree 8 |
 
@@ -1514,7 +1514,7 @@ The levelorder traversal of *Tree 7* is $30, 4, 40, 2, 5, 35, 45$.
 
 ##### Tree Representation
 
-![](https://coleton.io/post-images/algo/treearray1.png)
+![](https://coleton.io/post-images/algo/treearray1.png#center)
 |:--:|
 | An array representation of *Tree 5* |
 
