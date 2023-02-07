@@ -467,7 +467,7 @@ To add or remove anything from the beginning, it requires shifting $n$ elements 
 
 ![Singly Linked List](https://coleton.io/post-images/algo/singlylinkedlist.png)
 |:--:|
-| *Sourced from [VisualGo](https://visualgo.net/en/list)* |
+| A diagram of a Singly Linked List |
 
 Each of these elements are called a **Node.** A Node contains an element and a pointer to another Node. This goes on and on until the pointer points to a `nullptr` (i.e. points to nothing.) An example Node object in C++ would look like this:
 
@@ -863,7 +863,7 @@ So what is the difference? Well we have a dynamically changing stack, instead of
 
 #### Stack STL
 
-The STL `stack` offers the following methods, `push(g)`, `pop()`, `top()`, `size()`, and `empty()`, which follows the methods we have already outlined but with slightly different names. To create use the `stack` STL, we follow this form:
+The C++ Standard Template Library provides a `stack` implementation. It offers the following methods: `push(g)`, `pop()`, `top()`, `size()`, and `empty()`, which follows the methods we have already outlined but with slightly different names. To create use the `stack` STL, we follow this form:
 
 ```cpp
 #include <stack>
@@ -1146,6 +1146,16 @@ This implementation similarly has the same time complexity:
 
 The benefits is that this implementation avoids the static size issue of the circular queue, but that also means it requires more memory.
 
+#### Queue STL
+
+The C++ Standard Template Library provides a `queue` implementation. It offers the following methods: `empty()`, `size()`, `front()`, `back()`, `push()`, `emplace()`, `pop()`, and `swap()`. 
+
+```cpp
+#include <queue>
+
+queue<type> my_queue; //  create a queue with a type of "type"
+```
+
 # Non-Linear Ordered Data Structures
 
 ## Trees
@@ -1368,9 +1378,17 @@ If we are wanting to delete a node, we not only have to find it, but also have t
 
    * In this case, it can be a bit hard to understand what we are supposed to do. The thing that must be understood is that the left values are always less than the current node, and the right values are always greater than the current node. What we can do is search for the least greatest value on the **right side.** This is guaranteed to be larger than the left, but also less than the right. After we find this value, we can just set the current node that we want to delete to this value, and then do a delete operation on the right tree on this value. This effectively just swaps the values, and then we continue forward to delete more. This can be seen on lines `31-41`.
 
+When considering the time complexities of these operations, it is important to consider the characteristics of a binary search tree. The operations time complexity is at worst $O(h)$, where $h$ is the height of the tree. When considering how $h$ grows with $n$, we must consider the difference between balanced and unbalanced trees. A **balanced** tree is a tree in which the left and right subtrees of every node differ in their height by no more than 1. For the most part, the trees we have considered are pretty balanced. There height is approximately $\log n$. However, consider a tree like the following:
+
+![](https://coleton.io/post-images/algo/tree8.png)
+|:--:|
+| Tree 8 |
+
+We can see how in this tree, every parent has only one node. This is called a **degenerate** tree and in this case, the $h = n$. Thus, for a balanced tree the worst case time complexity of the above operations are $O(\log n)$ and for an unbalanced tree the worst case time complexity is $O(n)$. When can we say a tree is balanced or unbalanced? Trees that are considered either only non-full or full can be considered unbalanced. Trees that are perfect or complete can be considered balanced. Please note that a [full tree can be balanced](https://stackoverflow.com/a/66020848/8620234), though. If you are told that a tree is full though with no further information, it is safe to assume that it can be unbalanced, and its worst case time complexity for the operations above should be described as $O(n)$.
+
 ##### Traversals
 
-A **traversal** is a method that "looks at" or "touches" every element in the data structure. In the context of a BST, that means that it visits every node in a tree. There are two different types of traversals:
+A **traversal** is a method that "looks at" or "touches" every element in the data structure. In the context of a BST, that means that it visits every node in a tree. The time complexity for a traversal is always $O(n)$. This is because a traversal There are two different types of traversals:
 
 * Depth First Strategy (DFS)
   * In a DFS method, the algorithm starts at the root node and then explores as far as possible along each branch before back tracking. There are 3 different types of methods that we'll look over for this:
@@ -1483,6 +1501,16 @@ void levelorder(TreeNode* root)
 In this method, we basically are breaking down the tree each level. We start with the root being queued, the loop immediately dequeues it, then inserts the left and right elements into the queue, and then prints the root. Next loop iteration does the same thing, but if we notice because it is a queue, it dequeues the left, queues its children, dequeues the right, queues its children. It perfectly travels level by level.
 
 The levelorder traversal of *Tree 7* is $30, 4, 40, 2, 5, 35, 45$.
+
+##### Tree Representation
+
+![](https://coleton.io/post-images/algo/treearray1.png)
+|:--:|
+| An array representation of *Tree 5* |
+
+
+Previous examples of trees used a node based design, where nodes contained pointers to children nodes. This is called a **linked representation**. Technically there are other ways to do it. One such way is an **array representation**. In an array representation, each element in the array represents an element in the tree. Given $i$ being the index of the array, the left child of an element is $2i + 1$, and the right child of an element is $2i + 2$. This array pictured above represents the same tree as *Tree 5*. The disadvantage of this method is wasted memory. In the case of the children of $40$, we can see that a right child is present, $45$, but there is an empty space at index $5$. Another disadvantage is the fact that there is a finite amount of space for a tree. An advantage is random access is now possible.
+
 
 # Matrices
 
@@ -1623,50 +1651,50 @@ Here is an implementation of Row Major mapping:
 ```cpp
 #include <iostream>
 class Triangle {
-    private:
-        int *A;
-        int n;
+  private:
+    int *A;
+    int n;
 
-    public:
-        Triangle() {
-            n = 2;
-            A = new int [3];
-        }
+  public:
+    Triangle() {
+      n = 2;
+      A = new int [3];
+    }
 
-        Triangle(int n) {
-            this->n = n;
-            A = new int [n * (n + 1) / 2];
-        }
+    Triangle(int n) {
+      this->n = n;
+      A = new int [n * (n + 1) / 2];
+    }
 
-        void Set(int i, int j, int x) {
-            if (i >= j) {
-                A[i * (i - 1) / 2 + j - 1] = x;
-            }
-        }
+    void Set(int i, int j, int x) {
+      if (i >= j) {
+          A[i * (i - 1) / 2 + j - 1] = x;
+      }
+    }
 
-        int Get(int i, int j) {
-            if (i >= j) {
-                return A[i * (i - 1) / 2 + j - 1];
-            }
-            return 0;
-        }
+    int Get(int i, int j) {
+      if (i >= j) {
+        return A[i * (i - 1) / 2 + j - 1];
+      }
+      return 0;
+    }
 
-        void Display() {
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j <= n; j++) {
-                    if (i >= j) {
-                        std::cout << A[i * (i - 1) / 2 + j - 1] << " ";
-                    } else {
-                        std::cout << "0 ";
-                    }
-                }
-                std::cout << std::endl;
-            }
+    void Display() {
+      for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+          if (i >= j) {
+            std::cout << A[i * (i - 1) / 2 + j - 1] << " ";
+          } else {
+            std::cout << "0 ";
+          }
         }
+        std::cout << std::endl;
+      }
+    }
 
-        ~Triangle() {
-            delete [] A;
-        }
+    ~Triangle() {
+      delete [] A;
+    }
 };
 
 int main() {
