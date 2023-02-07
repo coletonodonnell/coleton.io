@@ -1225,6 +1225,21 @@ In this example above, we see that the root A has $1..n$ children. So if $n = 3$
 
 A binary tree is a tree with each node consisting of at most 2 children. In the above tree, *Tree 5*, notice that every node branches to at max 2 children. The root node, 30, as well as 4, branch off to two children, 40 branches to one element. 2, 5, and 53 branch off to zero children. 
 
+A binary tree node would look something like:
+
+```cpp
+#include <iostream>
+
+class TreeNode
+{
+  public:
+    int value;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : value(x), left(nullptr), right(nullptr) {} 
+}
+```
+
 #### Full Binary Tree
 
 ![](https://coleton.io/post-images/algo/tree6.png)
@@ -1260,36 +1275,11 @@ To illustrate, *Tree 5* isn't a complete binary tree. This is because it goes fr
 
 A **binary search tree** is a tree in which every node's left descendants are less than the current node's value and every node's right descendants are larger than the current value. A binary search tree is an ordered binary tree. *Tree 5-7* have all be binary search trees. For instance, in *Tree 5* the root is 30, to the left is 4, less than 30, and to the right is 40, greater than 30. We notice that every value to the left of 30 is less than it, e.g. 2,4,5. Conversely, every value to the right of 30 is greater than it, e.g. 40, 53.
 
-A binary tree node would look something like:
+##### Binary Search Tree Operations
 
-```cpp
-#include <iostream>
+The `TreeNode` class above can be used to create an `insert` method and `search` method for a BST:
 
-class TreeNode
-{
-  public:
-    int value;
-    TreeNode* left;
-    TreeNode* right;
-    TreeNode(int x) : value(x), left(nullptr), right(nullptr) {} 
-}
-```
-
-From here, we can use this `TreeNode` class to create an `inorder` print method, `insert` method, and `search` method:
-
-```cpp
-void inorder(TreeNode* head)
-{
-  if (head == nullptr)
-    std::cout << "";
-  else
-  {
-    inorder(head->left);             // print everything to the left, <
-    std::cout << head->value << " "; // print current value
-    inorder(head->right);            // print everything to the right, >
-  }
-}
-        
+```cpp  
 TreeNode* insert(TreeNode* root, int key)
 {
   if (root == nullptr) 
@@ -1315,7 +1305,7 @@ TreeNode* search(TreeNode* root, int key)
 }
 ```
 
-We can see the use of recursion when dealing with trees, using **branches** to access different elements. This principle is useful when dealing with trees. Unlike `insert`, `search`, etc. the method `delete` is a bit more complicated. Here is what the method looks like:
+We can see the use of recursion when dealing with trees, using **branches** to access different elements. This principle is useful when dealing with trees. Unlike `insert` and `search`, the method `deleteNode` is a bit more complicated. Here is what the method looks like:
 
 ```cpp
 TreeNode* deleteNode(TreeNode* root, int key)
@@ -1378,13 +1368,15 @@ If we are wanting to delete a node, we not only have to find it, but also have t
 
    * In this case, it can be a bit hard to understand what we are supposed to do. The thing that must be understood is that the left values are always less than the current node, and the right values are always greater than the current node. What we can do is search for the least greatest value on the **right side.** This is guaranteed to be larger than the left, but also less than the right. After we find this value, we can just set the current node that we want to delete to this value, and then do a delete operation on the right tree on this value. This effectively just swaps the values, and then we continue forward to delete more. This can be seen on lines `31-41`.
 
+###### Operation Performance
+
 When considering the time complexities of these operations, it is important to consider the characteristics of a binary search tree. The operations time complexity is at worst $O(h)$, where $h$ is the height of the tree. When considering how $h$ grows with $n$, we must consider the difference between balanced and unbalanced trees. A **balanced** tree is a tree in which the left and right subtrees of every node differ in their height by no more than 1. For the most part, the trees we have considered are pretty balanced. There height is approximately $\log n$. However, consider a tree like the following:
 
 ![](https://coleton.io/post-images/algo/tree8.png)
 |:--:|
 | Tree 8 |
 
-We can see how in this tree, every parent has only one node. This is called a **degenerate** tree and in this case, the $h = n$. Thus, for a balanced tree the worst case time complexity of the above operations are $O(\log n)$ and for an unbalanced tree the worst case time complexity is $O(n)$. When can we say a tree is balanced or unbalanced? Trees that are considered either only non-full or full can be considered unbalanced. Trees that are perfect or complete can be considered balanced. Please note that a [full tree can be balanced](https://stackoverflow.com/a/66020848/8620234), though. If you are told that a tree is full though with no further information, it is safe to assume that it can be unbalanced, and its worst case time complexity for the operations above should be described as $O(n)$.
+We can see how in this tree, every parent has only one node. This is called a **degenerate** tree and in this case, the $h = n$. Thus, for a balanced tree the worst case time complexity of the above operations are $O(\log n)$ and for an unbalanced tree the worst case time complexity is $O(n)$. When can we say a tree is balanced or unbalanced? Trees that are considered either only non-full or full can be considered unbalanced. Trees that are perfect or complete can be considered balanced. Please note that a [full tree can be balanced](https://stackoverflow.com/a/66020848/8620234) though. If you are told that a tree is full though with no further information, it is safe to assume that it can be unbalanced, and its worst case time complexity for the operations above should be described as $O(n)$.
 
 ##### Traversals
 
@@ -1409,7 +1401,25 @@ The inorder traversal is literally what it sounds like, it is inorder. The strat
 2. Visit the current node (root)
 3. Visit the right subtree
 
-This method was already implemented above in `inorder`. The inorder of *Tree 7* is $2, 4, 5, 30, 35, 40, 45$.
+The `inorder` method looks like this:
+
+```cpp
+#include <iostream>
+
+void inorder(TreeNode* head)
+{
+  if (head == nullptr)
+    std::cout << "";
+  else
+  {
+    inorder(head->left);             // print everything to the left, <
+    std::cout << head->value << " "; // print current value
+    inorder(head->right);            // print everything to the right, >
+  }
+}
+```
+
+The inorder of *Tree 7* is $2, 4, 5, 30, 35, 40, 45$.
 
 ###### Preorder
 
@@ -1419,7 +1429,7 @@ The preorder traversal is like the inorder but the steps are:
 2. Visit the left subtree
 3. Visit the right subtree
 
-The preorder method looks like this:
+The `preorder` method looks like this:
 
 ```cpp
 #include <iostream>
@@ -1447,7 +1457,7 @@ The postorder traversal is like the preorder but the steps are:
 2. Visit the right subtree
 3. Visit the current node (root)
 
-The postorder method looks like this:
+The `postorder` method looks like this:
 
 ```cpp
 #include <iostream>
