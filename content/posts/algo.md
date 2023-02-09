@@ -1227,8 +1227,6 @@ A binary tree is a tree with each node consisting of at most 2 children. In the 
 A binary tree node would look something like:
 
 ```cpp
-#include <iostream>
-
 class TreeNode
 {
   public:
@@ -1527,9 +1525,9 @@ $\displaystyle C_n = \frac{1}{n+1}(\begin{smallmatrix}2n \\ n\end{smallmatrix}) 
 
 So, when the $n$ nodes is equal to 1, the Catalan number is 1, when it is 2, the Catalan number is 2, when it is 3, the Catalan number is 5, etc. etc.
 
-#### Rotations
+<!-- #### Rotations
 
-Given the performance benefits of having a tree that is more balanced, when we have a tree like *Tree 8* it is in our best interest to perform a **rotation.** A rotation a is a tool that can be used to rearrange the tree without affecting its semantics (i.e. it doesn't break the rules.) Imagine for a moment we are given a set of nodes, $N$, such that $N = \{1,2,3\}$. The Catalan Number $C_3 = 5$, so there are 5 unique combinations for this set of nodes:
+Given the performance benefits of having a tree that is more balanced, when we have a tree like *Tree 8* it is in our best interest to perform a **rotation.** A rotation a is a tool that can be used to rearrange the tree without affecting its semantics (i.e. it doesn't break the rules.) These rotations all take $O(1)$ time. Imagine for a moment we are given a set of nodes, $N$, such that $N = \{1,2,3\}$. The Catalan Number $C_3 = 5$, so there are 5 unique combinations for this set of nodes:
 
 ![](https://coleton.io/post-images/algo/combinationosf321tree.png)
 |:--:|
@@ -1626,6 +1624,116 @@ TreeNode* rotateLeftRight(TreeNode* root)
 ##### The Issue With Rotations
 
 Rotations are great, but the issue is that for prebuilt BST trees using these rotations is very impractical. Utilizing these rotations in an unbalanced tree to make them balanced is hard, and it is much wiser to use what is called an **AVL Tree** to get this done.
+
+### AVL Trees
+
+An AVL Tree is named after its inventors, Adelson-Velsky and Landis. It is a **self-balancing binary search tree**, meaning that it is designed to keep its height small. AVL tree's are just a fancy binary tree when considering its properties. What it possesses is what is called a **balance factor.** The balance factor is a number that each node possesses that speaks about the height difference between its left and right children. Thus, for a node $n$, the balance factor $\text{BF}(n) = \text{Height(Left Child)} - \text{Height(Right Child)}$. A Binary Tree is an AVL tree if the invariant $\text{BF}(n) \in \{-1,0,1\}$ is true for ever node, $n$, in the tree. Here is an example of an AVL tree:
+
+![](https://coleton.io/post-images/algo/avl1.png)
+|:--:|
+| *AVL Tree 1* |
+
+As we can see, to the right of each Node is this balance factor. How do we implement an AVL Tree node? It is identical to the other node, but instead we include a `height` variable:
+
+```cpp
+class AVLTreeNode
+{
+  public:
+    int value;
+    int height;
+    AVLTreeNode* left;
+    AVLTreeNode* right;
+    AVLTreeNode(int x, int h) : value(x), height(h), left(nullptr), right(nullptr) {} 
+};
+```
+
+When do we know when to balance? Well, using our definition before of the balance factor, $\text{BF}(n)$, we can use our previous rotations discussed on the AVL tree as we're inserting. The cases to change are as follows:
+
+
+| Case (Alignment) | Parent $\text{BF}$ | Child $\text{BF}$ | Rotation   |
+| :--------------: | :----------------: | :---------------: | :--------: |
+| Left Left        | $+2$               | $+1$              | Right      |
+| Right Right      | $-2$               | $-1$              | Left       |
+| Left Right       | $+2$               | $-1$              | Left Right |
+| Right Left       | $-2$               | $+1$              | Right Left |
+
+In the case that $\text{BF}(n)$ is defined instead as $\text{BF}(n) = \text{Height(Right Child)} - \text{Height(Left Child)}$, which is common, just reverse the signs here. This means that because the rotations as discussed earlier are $O(1)$, the cost to insert, delete, and search is just the height of the tree, and because the height is maintained around $\log n$, this means that the worst and average case performance for these operations is $O(\log n)$.
+
+#### AVL Tree Operations
+
+For search, AVL Tree's operate the same as a BST. For insertion and deletion though, this is a bit different. After an insertion and deletion, the height of all the nodes in the search path might change, and as a result if the balance factor rule is broken, we rotate from the deepest node that breaks the balance factor rule up the search path. The search path is important to understand. If we insert on the right subtree and not on the left, it makes no sense to check the left for any adjustments in the balance factor, because it wasn't effected. Let's first change our rotation methods:
+
+```cpp
+int getHeight(AVLTreeNode* root)
+{
+  if ((root->right && root->left && root->right->height > root->left->height) || (root->right && !root->left))
+    return root->right->height + 1;
+  else if (root->left)
+    return root->left->height + 1;
+  else
+    return 1;
+}
+
+AVLTreeNode* rotateLeft(AVLTreeNode* root)
+{
+  AVLTreeNode* grandchild = root->right->left;
+  AVLTreeNode* newParent = root->right;
+  newParent->left = root;
+  root->right = grandchild;
+
+  newParent->left->height = getHeight(newParent->left);
+  newParent->right->height = getHeight(newParent->right);
+  newParent->height = getHeight(newParent);
+
+  return newParent;
+}
+
+AVLTreeNode* rotateRight(AVLTreeNode* root)
+{
+  AVLTreeNode* grandchild = root->left->right;
+  AVLTreeNode* newParent = root->left;
+  newParent->right = root;
+  root->left = grandchild;
+
+  newParent->left->height = getHeight(newParent->left);
+  newParent->right->height = getHeight(newParent->right);
+  newParent->height = getHeight(newParent);
+
+  return newParent;
+}
+
+AVLTreeNode* rotateRightLeft(AVLTreeNode* root)
+{
+  AVLTreeNode* newChild = root->right->left; 
+  root->right->left = newChild->right;    
+  newChild->right = root->right;
+  root->right = newChild;
+
+  root->right->right->height = getHeight(root->right->right);
+  root->right->height = getHeight(root->right);
+
+  root = rotateLeft(root);
+  return root;
+}
+
+AVLTreeNode* rotateLeftRight(AVLTreeNode* root)
+{
+  AVLTreeNode* newChild = root->left->right; 
+  root->left->right = newChild->left;
+  newChild->left = root->left;  
+  root->left = newChild;
+
+  root->left->left->height = getHeight(root->left->left);
+  root->left->height = getHeight(root->left);
+
+  root = rotateRight(root);
+  return root;
+}
+```
+
+These new methods change the height variable after each rotation.
+
+ -->
 
 # Matrices
 
