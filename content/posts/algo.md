@@ -47,7 +47,6 @@ One possible solution is to compare every element to every other following eleme
 
 Performance for algorithms is defined in terms of **time** and **space.** These will be discussed later. Algorithm analysis is important for a few reasons. For one, it allows us to think critically about what we are creating, and as a result allows us to find the best solution to a problem. It also allows us to sell a product, if we can boast that our product is the best because of its performance, it'll sell more. Performant algorithms also cost less to run, it might seem negligible at first, but faster algorithms save time, and time is money. In some cases, a solution to an issue with certain data sets can take 30 seconds, or a year.
 
-
 # How to Measure Performance?
 
 It is great that we know the importance of performance, but what are some ways that we can truly understand performance in a meaningful way?
@@ -730,6 +729,7 @@ Characteristics:
 #### Array Implementation
 
 We can exploit the characteristics of an array to build a very good stack implementation. Note the following class:
+
 ```cpp
 class StackArray
 {
@@ -951,7 +951,6 @@ Characteristics:
   * `size` - Return the number of elements stored.
   * `isEmpty` - Indicates whether or not elements are currently being stored.
 
-
 #### Circular Array Implementation
 
 Though it is possible to implement the queue with just a normal array, an issue arises which is known as the **rightward drift problem.** You can look into that on your own, but it makes a normal array implementation impossible. A normal array implementation would look something like this:
@@ -1164,19 +1163,19 @@ queue<type> my_queue; //  create a queue with a type of "type"
 
 A tree is a rooted, directed, and acyclic in nature. In other words, it has a single root, each node has a single parent, and there are no cycles. 
 
-![](https://coleton.io/post-images/algo/tree1.png#center)
+![](https://coleton.io/post-images/algo/tree1.png)
 |:--:|
 | Tree 1 |
 
 *Tree 1* is an example of a basic valid tree. The **root** of this tree is A, and each node has a single **parent**. B's parent is A, and C's parent is also A. In this way, B and C are referred to as **siblings**. The parent are the predecessor of a node, while children are the successor of a node. Tree's aren't necessarily limited to just two children though. For instance, look at the following tree:
 
-![](https://coleton.io/post-images/algo/tree2.png#center)
+![](https://coleton.io/post-images/algo/tree2.png)
 |:--:|
 | Tree 2 |
 
 In the case of *Tree 2*, there is a single root, A, and A has three children B, C, and D. Every node has either a single parent or no parent.
 
-![](https://coleton.io/post-images/algo/tree3.png#center)
+![](https://coleton.io/post-images/algo/tree3.png)
 |:--:|
 | Tree 3 |
 
@@ -1205,7 +1204,7 @@ There are quite a few use cases for trees, such as Family Tress, Decision/Logic 
 
 ### N-Ary Trees
 
-![](https://coleton.io/post-images/algo/tree4.png#center)
+![](https://coleton.io/post-images/algo/tree4.png)
 |:--:|
 | Tree 4 |
 
@@ -1219,7 +1218,7 @@ In this example above, we see that the root A has $1..n$ children. So if $n = 3$
 
 ### Binary Trees
 
-![](https://coleton.io/post-images/algo/tree5.png#center)
+![](https://coleton.io/post-images/algo/tree5.png)
 |:--:|
 | Tree 5 |
 
@@ -1242,14 +1241,14 @@ class TreeNode
 
 #### Full Binary Tree
 
-![](https://coleton.io/post-images/algo/tree6.png#center)
+![](https://coleton.io/post-images/algo/tree6.png)
 |:--:|
 | Tree 6 |
 
 *Tree 6* here is a **full** binary tree. That means that every node has either 2 children or 0 children.
 
 #### Perfect Binary Tree
-![](https://coleton.io/post-images/algo/tree7.png#center)
+![](https://coleton.io/post-images/algo/tree7.png)
 |:--:|
 | Tree 7 |
 
@@ -1271,11 +1270,11 @@ A **complete** binary tree is a tree which is perfect through levels $n - 1$, wi
 
 To illustrate, *Tree 5* isn't a complete binary tree. This is because it goes from left to right on the bottom most level, 2, 4, and 53. To make it complete, 40 must have a left child. *Tree 6* is in fact a complete binary tree. This is because from left to right, it goes 2 and 4. 40 might not have any children, but there aren't any gaps between the siblings of the bottom level, thus making it complete. This means that *Tree 6* is both complete and full. A perfect binary tree like *Tree 7* is also complete and full. Every perfect binary tree is complete and full, but not every complete and full binary tree is a perfect binary tree.
 
-#### Binary Search Tree
+### Binary Search Tree
 
 A **binary search tree** is a tree in which every node's left descendants are less than the current node's value and every node's right descendants are larger than the current value. A binary search tree is an ordered binary tree. *Tree 5-7* have all be binary search trees. For instance, in *Tree 5* the root is 30, to the left is 4, less than 30, and to the right is 40, greater than 30. We notice that every value to the left of 30 is less than it, e.g. 2,4,5. Conversely, every value to the right of 30 is greater than it, e.g. 40, 53.
 
-##### Binary Search Tree Operations
+#### Binary Search Tree Operations
 
 The `TreeNode` class above can be used to create an `insert` method and `search` method for a BST:
 
@@ -1368,19 +1367,9 @@ If we are wanting to delete a node, we not only have to find it, but also have t
 
    * In this case, it can be a bit hard to understand what we are supposed to do. The thing that must be understood is that the left values are always less than the current node, and the right values are always greater than the current node. What we can do is search for the least greatest value on the **right side.** This is guaranteed to be larger than the left, but also less than the right. After we find this value, we can just set the current node that we want to delete to this value, and then do a delete operation on the right tree on this value. This effectively just swaps the values, and then we continue forward to delete more. This can be seen on lines `31-41`.
 
-###### Operation Performance
+#### Traversals
 
-When considering the time complexities of these operations, it is important to consider the characteristics of a binary search tree. The operations time complexity is at worst $O(h)$, where $h$ is the height of the tree. When considering how $h$ grows with $n$, we must consider the difference between balanced and unbalanced trees. A **balanced** tree is a tree in which the left and right subtrees of every node differ in their height by no more than 1. For the most part, the trees we have considered are pretty balanced. There height is approximately $\log n$. However, consider a tree like the following:
-
-![](https://coleton.io/post-images/algo/tree8.png#center)
-|:--:|
-| Tree 8 |
-
-We can see how in this tree, every parent has only one node. This is called a **degenerate** tree and in this case, the $h = n$. Thus, for a balanced tree the worst case time complexity of the above operations are $O(\log n)$ and for an unbalanced tree the worst case time complexity is $O(n)$. When can we say a tree is balanced or unbalanced? Trees that are considered either only non-full or full can be considered unbalanced. Trees that are perfect or complete can be considered balanced. Please note that a [full tree can be balanced](https://stackoverflow.com/a/66020848/8620234) though. If you are told that a tree is full though with no further information, it is safe to assume that it can be unbalanced, and its worst case time complexity for the operations above should be described as $O(n)$.
-
-##### Traversals
-
-A **traversal** is a method that "looks at" or "touches" every element in the data structure. In the context of a BST, that means that it visits every node in a tree. The time complexity for a traversal is always $O(n)$. This is because a traversal There are two different types of traversals:
+A **traversal** is a method that "looks at" or "touches" every element in the data structure. In the context of a BST, that means that it visits every node in a tree. There are two different types of traversals:
 
 * Depth First Strategy (DFS)
   * In a DFS method, the algorithm starts at the root node and then explores as far as possible along each branch before back tracking. There are 3 different types of methods that we'll look over for this:
@@ -1393,7 +1382,7 @@ A **traversal** is a method that "looks at" or "touches" every element in the da
   
 A search and a traversal are similar but they are not the same. With a search, it isn't always necessary to visit every element in the list. In contrast, a traversal always requires every node to be visited.
 
-###### Inorder
+##### Inorder
 
 The inorder traversal is literally what it sounds like, it is inorder. The strategy for an inorder traversal is:
 
@@ -1421,7 +1410,7 @@ void inorder(TreeNode* head)
 
 The inorder of *Tree 7* is $2, 4, 5, 30, 35, 40, 45$.
 
-###### Preorder
+##### Preorder
 
 The preorder traversal is like the inorder but the steps are:
 
@@ -1449,7 +1438,7 @@ void preorder(TreeNode* head)
 
 The preorder of *Tree 7* is $30, 4, 2, 5, 40, 35, 45$.
 
-###### Postorder
+##### Postorder
 
 The postorder traversal is like the preorder but the steps are:
 
@@ -1477,7 +1466,7 @@ void postorder(TreeNode* head)
 
 The postorder of *Tree 7* is $2, 5, 4, 35, 45, 40, 30$.
 
-###### Levelorder
+##### Levelorder
 
 The levelorder traversal is a lot different than the rest because it is a BFS not a DFS traversal. The general idea is to traversal all nodes in level 0 up to level $n - 1$, where $n$ is the height of the tree. This can be done with queues:
 
@@ -1512,15 +1501,131 @@ In this method, we basically are breaking down the tree each level. We start wit
 
 The levelorder traversal of *Tree 7* is $30, 4, 40, 2, 5, 35, 45$.
 
-##### Tree Representation
+#### Tree Representation
 
-![](https://coleton.io/post-images/algo/treearray1.png#center)
+![](https://coleton.io/post-images/algo/treearray1.png)
 |:--:|
 | An array representation of *Tree 5* |
 
-
 Previous examples of trees used a node based design, where nodes contained pointers to children nodes. This is called a **linked representation**. Technically there are other ways to do it. One such way is an **array representation**. In an array representation, each element in the array represents an element in the tree. Given $i$ being the index of the array, the left child of an element is $2i + 1$, and the right child of an element is $2i + 2$. This array pictured above represents the same tree as *Tree 5*. The disadvantage of this method is wasted memory. In the case of the children of $40$, we can see that a right child is present, $45$, but there is an empty space at index $5$. Another disadvantage is the fact that there is a finite amount of space for a tree. An advantage is random access is now possible.
 
+#### Operation Performance
+
+When considering the time complexities of these operations, it is important to consider the characteristics of a binary search tree. When we think of a perfect tree, it must be noted that the maximum number of nodes in a tree is $n = 2^{h-1}$. The minimum number of nodes in a tree is $n = h$, as we can see below in *Tree 8*. Thus, the number of nodes falls in the range $h \le n \le 2^{h-1}$. Inversely, the height of the tree falls between $(\text{ceil}(\log (n+1)) - 1) \le h \le n -1$. The operations time complexity is at worst $O(h)$, where $h$ is the height of the tree. When considering how $h$ grows with $n$, we must consider the difference between balanced and unbalanced trees. A **balanced** tree is a tree in which the left and right subtrees of every node differ in their height by no more than 1. For the most part, the trees we have considered are pretty balanced. There height is approximately $\log n$. However, consider a tree like the following:
+
+![](https://coleton.io/post-images/algo/tree8.png)
+|:--:|
+| Tree 8 |
+
+We can see how in this tree, every parent has only one node. This is called a **degenerate** tree and in this case, the $h = n$. Thus, for a balanced tree the worst case time complexity of the above operations are $O(\log n)$ and for an unbalanced tree the worst case time complexity is $O(n)$. The best case for these operations is $O(1)$, where the element is found either found at the root node or can be inserted right after the root node. Note that the time complexity for a traversal is always $O(n)$, this is because a traversal visits every node in the tree. When can we say a tree is balanced or unbalanced? Trees that are considered either only non-full or full can be considered unbalanced. Trees that are perfect or complete can be considered balanced. Please note that a [full tree can be balanced](https://stackoverflow.com/a/66020848/8620234) though. If you are told that a tree is full though with no further information, it is safe to assume that it can be unbalanced, and its worst case time complexity for the operations above should be described as $O(n)$. This means that for optimal performance, we want a tree that is as balanced as possible, or as perfect as possible. Surmising things, an operation takes $O(h)$, but $h$ can be proportional the elements, $n$, depending on the structure of the tree. We want the height to grow with $\log n$, not with $n$, for optimal performance. 
+
+#### Insertion Permutations & The Catalan Number
+
+When inserting a set of individual elements into a tree, there are $n!$ number of combinations that can be generated. The different **unique combinations** of binary trees that can be generated with a set of nodes is called the **Catalan number**. This can be calculated with the following, where $n$ is the number of nodes being inserted:
+
+$\displaystyle C_n = \frac{1}{n+1}(\begin{smallmatrix}2n \\ n\end{smallmatrix}) = \frac{(2n)!}{(n+1)!n!}= \prod_{k=2}^n \frac{n+k}{k}$
+
+So, when the $n$ nodes is equal to 1, the Catalan number is 1, when it is 2, the Catalan number is 2, when it is 3, the Catalan number is 5, etc. etc.
+
+#### Rotations
+
+Given the performance benefits of having a tree that is more balanced, when we have a tree like *Tree 8* it is in our best interest to perform a **rotation.** A rotation a is a tool that can be used to rearrange the tree without affecting its semantics (i.e. it doesn't break the rules.) Imagine for a moment we are given a set of nodes, $N$, such that $N = \{1,2,3\}$. The Catalan Number $C_3 = 5$, so there are 5 unique combinations for this set of nodes:
+
+![](https://coleton.io/post-images/algo/combinationosf321tree.png)
+|:--:|
+| Combinations of a 3,2,1 BST |
+
+As we can see from above, out of the five possible combinations, only the final tree is balanced, that being the $\{2,3,1\}$ or $\{2,1,3\}$ tree. The rest are unbalanced. The goal of a rotation is to turn the four other trees into that fifth tree. This means that rotations only operate on **3 nodes** at a time. They are used recursively to operate on an entire tree. There are four different types of rotations, and we will demonstrate them on each individual tree above, showing how we can convert the tree into the balanced fifth tree.
+
+##### Left Rotation: RR Case
+
+When the nodes are structured right, right, we use a **left rotation**. With a left rotation, we rotate the root to the left, making the root's right child the new root:
+
+![](https://coleton.io/post-images/algo/lrr1.png)
+|:--:|
+| A left rotation on the RR case |
+
+As we can see, for these three nodes, we "grab" 2 and let 1 and 3 hang from it, setting 1's right to 2's left. The triangles represent branches, their size and contents arbitrary, they can be empty for all we care, they just need to be accounted for in the algorithm. The code for a left rotation is as follows:
+
+```cpp
+TreeNode* rotateLeft(TreeNode* root)
+{
+  TreeNode* grandchild = root->right->left; // Triangle B
+  TreeNode* newParent = root->right;        // Node 2
+  newParent->left = root;                   // Set Node 2's left to be Node 1
+  root->right = grandchild;                 // Set Node 1's right to be B
+  return newParent;                         // Return the new root/parent
+}
+```
+
+##### Right Rotation: LL Case
+
+When the nodes are structured left, left, we use a **right rotation**. With a right rotation, we rotate the root to the right, making the root's left child the new root:
+
+![](https://coleton.io/post-images/algo/rll1.png)
+|:--:|
+| A right rotation on the LL case |
+
+Like before, we kind of "grab" 2 and 1 and 3 hang, but we set 3's left to be 2's right. The code for a right rotation is as follows:
+
+```cpp
+TreeNode* rotateRight(TreeNode* root)
+{
+  TreeNode* grandchild = root->left->right; // Triangle C
+  TreeNode* newParent = root->left;         // Node 2
+  newParent->right = root;                  // Set Node 2's right to be Node 3
+  root->left = grandchild;                  // Set Node 3's left to be B
+  return newParent;                         // Return the new root/parent
+}
+```
+
+##### Right Left Rotation: RL Case
+
+When the nodes are structured right, left, we use a **right left rotation.** With a right left rotation, we rotate at the right element, 3, and then at the root element, 1:
+
+![](https://coleton.io/post-images/algo/rlrl1.png)
+|:--:|
+| A right left rotation on the RL case |
+
+As we can see, this case requires two rotations. First, a right rotation on 3 such that 3 is now the right child of 2, inheriting the right child of 2. Afterwards, we perform a left rotation on 1, and this follows just like the other left rotation as outlined earlier. The code for an operation like this:
+
+```cpp
+TreeNode* rotateRightLeft(TreeNode* root)
+{
+  TreeNode* newChild = root->right->left; // Node 2
+  root->right->left = newChild->right;    // 3's left is now C
+  newChild->right = root->right;          // 2's right now points to 3
+  root->right = newChild;                 // 1's right now points to 2
+  root = rotateLeft(root);                // Perform the left rotation on 1
+  return root;
+}
+```
+
+##### Left Right Rotation: LR Case
+
+When the nodes are structured as left, right, we use a **left right rotation.** With a left right rotation, we rotate at left element, 1, and then at the root element, 3:
+
+![](https://coleton.io/post-images/algo/lrlr1.png)
+|:--:|
+| A left right rotation on the LR case |
+
+As we can see, this case requires two rotations, similar to RL rotation. First, a left rotation on 1 such that 1 is now the left child of 2. Afterwards, we perform a right rotation on 3, and this follows just like the other right rotation as outlined earlier. The code for an operation like this:
+
+```cpp
+TreeNode* rotateLeftRight(TreeNode* root)
+{
+  TreeNode* newChild = root->left->right; // Node 2
+  root->left->right = newChild->left;     // 1's right is now B
+  newChild->left = root->left;            // 2's left now points to 1
+  root->left = newChild;                  // 3's left now points to 2
+  root = rotateRight(root);               // Perform the right rotation on 3
+  return root;
+}
+```
+
+##### The Issue With Rotations
+
+Rotations are great, but the issue is that for prebuilt BST trees using these rotations is very impractical. Utilizing these rotations in an unbalanced tree to make them balanced is hard, and it is much wiser to use what is called an **AVL Tree** to get this done.
 
 # Matrices
 
