@@ -1543,18 +1543,7 @@ When the nodes are structured right, right, we use a **left rotation**. With a l
 |:--:|
 | A left rotation on the RR case |
 
-As we can see, for these three nodes, we "grab" 2 and let 1 and 3 hang from it, setting 1's right to 2's left. The triangles represent branches, their size and contents arbitrary, they can be empty for all we care, they just need to be accounted for in the algorithm. The code for a left rotation is as follows:
-
-```cpp
-TreeNode* rotateLeft(TreeNode* root)
-{
-  TreeNode* grandchild = root->right->left; // Triangle B
-  TreeNode* newParent = root->right;        // Node 2
-  newParent->left = root;                   // Set Node 2's left to be Node 1
-  root->right = grandchild;                 // Set Node 1's right to be B
-  return newParent;                         // Return the new root/parent
-}
-```
+As we can see, for these three nodes, we "grab" 2 and let 1 and 3 hang from it, setting 1's right to 2's left. The triangles represent branches, their size and contents arbitrary, they can be empty for all we care, they just need to be accounted for in the algorithm.
 
 ##### Right Rotation: LL Case
 
@@ -1564,18 +1553,7 @@ When the nodes are structured left, left, we use a **right rotation**. With a ri
 |:--:|
 | A right rotation on the LL case |
 
-Like before, we kind of "grab" 2 and 1 and 3 hang, but we set 3's left to be 2's right. The code for a right rotation is as follows:
-
-```cpp
-TreeNode* rotateRight(TreeNode* root)
-{
-  TreeNode* grandchild = root->left->right; // Triangle C
-  TreeNode* newParent = root->left;         // Node 2
-  newParent->right = root;                  // Set Node 2's right to be Node 3
-  root->left = grandchild;                  // Set Node 3's left to be B
-  return newParent;                         // Return the new root/parent
-}
-```
+Like before, we kind of "grab" 2 and 1 and 3 hang, but we set 3's left to be 2's right.
 
 ##### Right Left Rotation: RL Case
 
@@ -1585,19 +1563,7 @@ When the nodes are structured right, left, we use a **right left rotation.** Wit
 |:--:|
 | A right left rotation on the RL case |
 
-As we can see, this case requires two rotations. First, a right rotation on 3 such that 3 is now the right child of 2, inheriting the right child of 2. Afterwards, we perform a left rotation on 1, and this follows just like the other left rotation as outlined earlier. The code for an operation like this:
-
-```cpp
-TreeNode* rotateRightLeft(TreeNode* root)
-{
-  TreeNode* newChild = root->right->left; // Node 2
-  root->right->left = newChild->right;    // 3's left is now C
-  newChild->right = root->right;          // 2's right now points to 3
-  root->right = newChild;                 // 1's right now points to 2
-  root = rotateLeft(root);                // Perform the left rotation on 1
-  return root;
-}
-```
+As we can see, this case requires two rotations. First, a right rotation on 3 such that 3 is now the right child of 2, inheriting the right child of 2. Afterwards, we perform a left rotation on 1, and this follows just like the other left rotation as outlined earlier. 
 
 ##### Left Right Rotation: LR Case
 
@@ -1607,19 +1573,7 @@ When the nodes are structured as left, right, we use a **left right rotation.** 
 |:--:|
 | A left right rotation on the LR case |
 
-As we can see, this case requires two rotations, similar to RL rotation. First, a left rotation on 1 such that 1 is now the left child of 2. Afterwards, we perform a right rotation on 3, and this follows just like the other right rotation as outlined earlier. The code for an operation like this:
-
-```cpp
-TreeNode* rotateLeftRight(TreeNode* root)
-{
-  TreeNode* newChild = root->left->right; // Node 2
-  root->left->right = newChild->left;     // 1's right is now B
-  newChild->left = root->left;            // 2's left now points to 1
-  root->left = newChild;                  // 3's left now points to 2
-  root = rotateRight(root);               // Perform the right rotation on 3
-  return root;
-}
-```
+As we can see, this case requires two rotations, similar to RL rotation. First, a left rotation on 1 such that 1 is now the left child of 2. Afterwards, we perform a right rotation on 3, and this follows just like the other right rotation as outlined earlier.
 
 ##### The Issue With Rotations
 
@@ -1659,174 +1613,338 @@ When do we know when to balance? Well, using our definition before of the balanc
 
 In the case that $\text{BF}(n)$ is defined instead as $\text{BF}(n) = \text{Height(Right Child)} - \text{Height(Left Child)}$, which is common, just reverse the signs here. This means that because the rotations as discussed earlier are $O(1)$, the cost to insert, delete, and search is just the height of the tree, and because the height is maintained around $\log n$, this means that the worst and average case performance for these operations is $O(\log n)$.
 
-#### AVL Tree Operations
+#### AVL Tree Operations and Time Complexity
 
-For search, AVL Tree's operate the same as a BST. For insertion and deletion though, this is a bit different. After an insertion and deletion, the height of all the nodes in the search path might change, and as a result if the balance factor rule is broken, we rotate from the deepest node that breaks the balance factor rule up the search path. The search path is important to understand. If we insert on the right subtree and not on the left, it makes no sense to check the left for any adjustments in the balance factor, because it wasn't effected. Let's first change our rotation methods:
+For search, AVL Tree's operate the same as a BST. For insertion and deletion though, this is a bit different. After an insertion and deletion, the height of all the nodes in the search path might change, and as a result if the balance factor rule is broken, we rotate from the deepest node that breaks the balance factor rule up the search path. The search path is important to understand. If we insert on the right subtree and not on the left, it makes no sense to check the left for any adjustments in the balance factor, because it wasn't effected. These rotations earlier are basically the same, but depending on the implementation height adjustments may have to be made. Because AVL Trees are heavily used in the coursework for COP3530, any code associated with them has been removed. The time complexity for these operations is as follows:
+
+| Operation | Average Case | Worst Case  |
+| --------- | ------------ | ----------- |
+| Space     | $O(n)$       | $O(n)$      |
+| `search`  | $O(\log n)$  | $O(\log n)$ |
+| `insert`  | $O(\log n)$  | $O(\log n)$ |
+| `delete`  | $O(\log n)$  | $O(\log n)$ |
+
+This is because the height of the AVL Tree, $h$, grows with $\log n$, as it is balanced. This means that all of these operations are $O(h)$, just like a BST, but because this AVL tree is balanced, $O(h) = O(\log n)$.
+
+### Red-Black Trees
+
+A **red-black tree** is a binary search tree with one extra bit that dictates its "**color**," either **red** or **black**. These colors are used to constrain the path these nodes can take, ensuring that no path is greater than twice the length as any other. This means that it is approximately balanced. An example red-black tree node would be:
 
 ```cpp
-int getHeight(AVLTreeNode* root)
+struct RedBlackTreeNode
 {
-  if ((root->right && root->left && root->right->height > root->left->height) ||
-  (root->right && !root->left))
-    return root->right->height + 1;
-  else if (root->left)
-    return root->left->height + 1;
+	int value;
+	RedBlackTreeNode* parent; // pointer to parent, a nullptr
+	RedBlackTreeNode* left;   // if the parent doesn't exist
+	RedBlackTreeNode* right;
+	bool color; // true -> red, false -> black
+
+  RedBlackTreeNode(int value) : value(value), parent(nullptr),
+  left(nullptr), right(nullptr), color(true) {}
+};
+```
+
+To maintain balance, a red-black tree must maintain the following properties:
+
+1. Every node is either red or black.
+2. The root must be black.
+3. Every leaf (`nullptr`) must be black.
+4. If a node's color is red, its children must be black.
+5. For every node, each path from the current node to its leaves must contain the same number of black nodes.
+
+An example of a red-black tree is as follows:
+
+![](https://coleton.io/post-images/algo/redblacktree1.png)
+|:--:|
+| *Red-Black Tree 1* |
+
+Every node is either red or black, fulfilling property one. As we can see, the root node is 30, and it is black, fulfilling property two. 30's children are black, and the grandchildren of 30 are red. The leaf nodes are included, these are all `nullptr` and black, this fulfills property three. Because the leaf nodes are considered black and red's children are black, this fulfills property four. Each path from root contains 3 black nodes inclusive, 2 black nodes exclusive. In other words, if we include the root every path from the root contains 3 black nodes (leaf nodes considered) and if don't include the root every path from the root contains 2 black nodes (leaf nodes considered.) The red nodes do not count towards this path consideration. Each exclusive path is included to the right of each node. Notice that the paths from any node includes the same number of black nodes. This fulfills property five.
+
+#### Rotations
+
+Red-Black trees are a little different than AVL rotations.
+
+![](https://coleton.io/post-images/algo/RedBlackLeftRotate.png)
+|:--:|
+| *Red-Black Tree Left Rotation* |
+
+```cpp
+void RedBlackTree::leftRotate(RedBlackTreeNode* element)
+{
+  RedBlackTreeNode* rchild = element->right;
+  element->right = rchild->left;
+  rchild->left = element;
+  rchild->parent = element->parent;
+  if (!rchild->parent)
+    this->root = rchild;
+  else if (element == element->parent->left)
+    element->parent->left = rchild;
   else
-    return 1;
-}
-
-AVLTreeNode* rotateLeft(AVLTreeNode* root)
-{
-  AVLTreeNode* grandchild = root->right->left;
-  AVLTreeNode* newParent = root->right;
-  newParent->left = root;
-  root->right = grandchild;
-
-  newParent->left->height = getHeight(newParent->left);
-  newParent->right->height = getHeight(newParent->right);
-  newParent->height = getHeight(newParent);
-
-  return newParent;
-}
-
-AVLTreeNode* rotateRight(AVLTreeNode* root)
-{
-  AVLTreeNode* grandchild = root->left->right;
-  AVLTreeNode* newParent = root->left;
-  newParent->right = root;
-  root->left = grandchild;
-
-  newParent->left->height = getHeight(newParent->left);
-  newParent->right->height = getHeight(newParent->right);
-  newParent->height = getHeight(newParent);
-
-  return newParent;
-}
-
-AVLTreeNode* rotateRightLeft(AVLTreeNode* root)
-{
-  AVLTreeNode* newChild = root->right->left; 
-  root->right->left = newChild->right;    
-  newChild->right = root->right;
-  root->right = newChild;
-
-  root->right->right->height = getHeight(root->right->right);
-  root->right->height = getHeight(root->right);
-
-  root = rotateLeft(root);
-  return root;
-}
-
-AVLTreeNode* rotateLeftRight(AVLTreeNode* root)
-{
-  AVLTreeNode* newChild = root->left->right; 
-  root->left->right = newChild->left;
-  newChild->left = root->left;  
-  root->left = newChild;
-
-  root->left->left->height = getHeight(root->left->left);
-  root->left->height = getHeight(root->left);
-
-  root = rotateRight(root);
-  return root;
+    element->parent->right = rchild;
+  element->parent = rchild;
 }
 ```
 
-These new methods change the height variable after each rotation. Next we modify our original `insert` method:
+![](https://coleton.io/post-images/algo/RedBlackRightRotate.png)
+|:--:|
+| *Red-Black Tree Right Rotation* |
 
 ```cpp
-AVLTreeNode* insert(AVLTreeNode* root, int key)
+void RedBlackTree::rightRotate(RedBlackTreeNode* element)
 {
-  if (root == nullptr) 
-    return new AVLTreeNode(key, 1);
-  if (key < root->value)
-    root->left = insert(root->left, key);
-  else if (key > root->value)
-    root->right = insert(root->right, key);
+  RedBlackTreeNode* lchild = element->left;
+  element->left = lchild->right;
+  lchild->right = element;
+  lchild->parent = element->parent;
+  if (!element->parent)
+    this->root = lchild;
+  else if (element == element->parent->left)
+    element->parent->left = lchild;
   else
-    return root;
-
-  root->height = getHeight(root);
-
-  int bf = getBF(root);
-
-  if (bf > 1 && key < root->left->value)   // LL
-    return rotateRight(root);
-  
-  if (bf < -1 && key > root->right->value) // RR
-    return rotateLeft(root);
-  
-  if (bf > 1 && key > root->left->value)   // LR
-    return rotateLeftRight(root);
-
-  if (bf < -1 && key < root->right->value) // RL
-    return rotateRightLeft(root);
-
-  return root;
+    element->parent->right = lchild;
+  element->parent = lchild;
 }
 ```
 
-This method changes the height and then grabs the balance factor, after getting the balance factor, it checks to see if it goes past the threshold of 1. In a similar vain, we do the same modifications to delete:
+#### Insertion
+
+When we insert a node, its color is set to red. If the parent is also red, this will break some rules, so we need to test for some cases. In the event that the parent and the uncle of the node is red, that falls into case 1 which means we need to set the uncle and parent to black, and the grandparent to red. In the event that the parent is the left (right) child of the grandparent and the inserted node is the right (left) child of the parent, then we need to perform a left (right) rotation on the parent, that falls into case 2. Finally in the event that the parent is the left (right) child of the grandparent and the inserted node is the left (right) child of the parent, then we need to set the parent to black, grandparent to red, and then perform a right (left) rotation on the grandparent. Here are some visualizations for these cases:
+
+* Case 1, Element's uncle is red
+
+![](https://coleton.io/post-images/algo/redblacktreecase1.png)
+|:--:|
+| *Insertion Case 1* |
+
+
+* Case 2, Element's uncle is black and element is a right child and Case 3, element's uncle is black and element is a left child.
+
+![](https://coleton.io/post-images/algo/redblacktreecase23.png)
+|:--:|
+| *Insertion Case 2 & 3* |
+
+Here is a possible implementation the insert operation inspired from *Cormen's* psuedocode:
 
 ```cpp
-AVLTreeNode* deleteNode(AVLTreeNode* root, int key)
+bool insert(int element)
 {
-  if (root == nullptr)
-    return root;
-
-  if (key < root->value)
-    root->left = deleteNode(root->left, key);
-  else if (key > root->value)
-    root->right = deleteNode(root->right, key);
-  else
+  RedBlackTreeNode* y = nullptr; // leaf node
+  RedBlackTreeNode* x = this->root;
+  while (x != nullptr) // determine leaf node to insert at
   {
-    if (root->left == nullptr and root->right == nullptr) 
-    {
-      delete root;
-      return nullptr;
-    }
-    else if (root->left == nullptr)
-    {
-      AVLTreeNode* temp = root->right;
-      delete root;
-      return temp;
-    }
-    else if (root->right == nullptr)
-    {
-      AVLTreeNode* temp = root->left;
-      delete root;
-      return temp;
-    }
-
-    AVLTreeNode* current_node = root->right;
-
-    while (current_node && current_node->left != nullptr)
-      current_node = current_node->left;
-
-    root->value = current_node->value;
-    root->right = deleteNode(root->right, current_node->value);
+    y = x;
+    if (element < x->value)
+      x = x->left;
+    else
+      x = x->right;
   }
 
-  root->height = getHeight(root);
+  RedBlackTreeNode* newNode = new RedBlackTreeNode(element);
+  newNode->parent = y;
+  if (y == nullptr)            // empty tree
+    this->root = newNode;
+  else if (element < y->value) // insert new node to left
+    y->left = newNode;
+  else if (element > y->value) // insert new node to right
+    y->right = newNode;
+  else                         // duplicate node
+    return false;              // couldn't be inserted
 
-  int bf = getBF(root);
+  fixInsertTree(newNode);
+  return true;                 // successful insert
+}
 
-  if (bf > 1 && getBF(root->left) >= 0) // LL
-    return rotateRight(root);
-  
-  if (bf < -1 && getBF(root->right) <= 0) // RR
-    return rotateLeft(root);
-  
-  if (bf > 1 && getBF(root->left) < 0) // LR
-    return rotateLeftRight(root);
-
-  if (bf < -1 && getBF(root->right) > 0) // RL
-    return rotateRightLeft(root);
-
-  return root;
+void fixInsertTree(RedBlackTreeNode* element)
+{
+  while (element->parent && element->parent->color == true) // while parent is red
+  {
+    RedBlackTreeNode* grandparent = element->parent->parent;
+    if (element->parent == grandparent->left) // parent is left child
+    {
+      RedBlackTreeNode* rightUncle = grandparent->right;
+      if (rightUncle && rightUncle->color == true) // Case 1
+      {
+        element->parent->color = false;
+        rightUncle->color = false;
+        grandparent->color = true;
+        if (grandparent == this->root) { break; }
+        element = grandparent;
+      }
+      else 
+      {
+        if (element == element->parent->right)     // Case 2
+        {
+          element = element->parent;
+          leftRotate(element);    // LR = Left rotate
+        }                                        
+        element->parent->color = false;            // Case 3
+        grandparent->color = true;
+        rightRotate(grandparent); // LL = Right rotate
+        element = element->parent;
+      }
+    }
+    else // parent is right child
+    {
+      RedBlackTreeNode* leftUncle = grandparent->left;
+      if (leftUncle && leftUncle->color == true) // Case 1
+      {
+        element->parent->color = false;
+        leftUncle->color = false;
+        grandparent->color = true;
+        if (grandparent == this->root) { break; }
+        element = grandparent;
+      }
+      else 
+      {
+        if (element == element->parent->left)    // Case 2
+        {
+          element = element->parent;
+          rightRotate(element);  // RL = Right rotate
+        }                                        
+        element->parent->color = false;          // Case 3
+        grandparent->color = true;
+        leftRotate(grandparent); // RR = Left rotate
+        element = element->parent;
+      }
+    }
+  }
+  this->root->color = false;
 }
 ```
 
+For the sake of the course work and such, I won't go over the deletion here. It is a similar method though, check out the Red-Black Tree chapter in "Introduction to Algorithms" for a deep dive into it.
+
+#### Operation Performance
+
+The operation performance for Red-Black trees is identical to AVL Trees.
+
+| Operation | Average Case | Worst Case  |
+| --------- | ------------ | ----------- |
+| Space     | $O(n)$       | $O(n)$      |
+| `search`  | $O(\log n)$  | $O(\log n)$ |
+| `insert`  | $O(\log n)$  | $O(\log n)$ |
+| `delete`  | $O(\log n)$  | $O(\log n)$ |
+
+The explanation also being the same, these trees are balanced, all operations are $O(h)$, and because $h$ grows with $\log n$, $O(h) = O(\log n)$.
+
+### Splay Trees
+
+**Splay trees** are a unique balanced tree that allows faster access to previous accessed elements. To do this, special rotations are used. 
+
+#### Rotations
+
+* The Zig Rotation
+
+The zig rotation is the simplest rotation, and it is identical to the rotations described in the Red-Black Tree. As such, they will be skipped.
+
+* The Zig-Zig and Zag-Zag Rotation
+
+The Zig-Zig is the case where a splayed node is the left child of a left child, and the Zag-Zag is the case where a splayed node is the right child of a right child.
+
+![](https://coleton.io/post-images/algo/zigzigzagzag.png)
+|:--:|
+| *Zig-Zig and Zag-Zag Rotation* |
+
+* The Zig-Zag Rotation
+
+The Zig Zag case is when the splayed node is the left child of a right child or vice-versa. 
+
+![](https://coleton.io/post-images/algo/zigzag.png)
+|:--:|
+| *Zig-Zag Rotation* |
+
+#### Operation Performance
+
+The time-complexity of a splay tree averages at $O(\log n)$ but at worst is $O(n)$.
+
+| Operation | Average Case | Worst Case |
+| --------- | ------------ | ---------- |
+| Space     | $O(n)$       | $O(n)$     |
+| `search`  | $O(\log n)$  | $O(n)$     |
+| `insert`  | $O(\log n)$  | $O(n)$     |
+| `delete`  | $O(\log n)$  | $O(n)$     |
+
+Though the worst case is $O(n)$, subsequent operations are faster, and for repeated duplicate lookups (e.g. searching for the number "5" 30 times in a row) incredibly quick. These trees are mainly used in Cache and Garbage Collection applications.
+
+### B Trees
+
+In **B Trees**, each "node" is a block containing at most $l$ keys. So when $l = 4$, the node can contain 1 value or 4 values, but not 5. Also, a B Tree can have at maximum $n$ children. Let's go over the properties of a B tree with this knowledge. The maximum number of keys in a tree given its height $h$ (assuming the height of a root with no children is 0, thus this is a 0-indexed height), its maximum children $n$, and its maximum key count $l$ is:
+
+$$\displaystyle ln^h + (n-1) \sum_{a=0}^{h-1}(n^a) = ln^h+n^h - 1$$
+
+If a tree's height is instead 1-indexed, meaning that a root with no children's height is instead defined as 1, the formula is instead:
+
+$$\displaystyle ln^{h - 1} + (n-1) \sum_{a=0}^{h-2}(n^a) = ln^{h-1}+n^{h-1}-1$$
+
+* Property 1
+
+Each node is a block containing multiple "keys," where the maximum number of keys is $l$.
+
+* Property 2
+
+Each node can have at max $n$ children. In the case $n = 2$ and $l = 1$, that is just a BST.
+
+* Property 3
+
+B Trees are n-ary trees and they follow the BST property of everything on the left of a node is lesser, and everything on the right is greater. There can also be "middle" values, where these values fall between the minimum and the maximum. To visualize this, see the following:
+
+![](https://coleton.io/post-images/algo/btree1.png)
+|:--:|
+| *A B Tree where* $n = 3$ |
+
+* Property 4
+
+If after an assertion a node's key count is greater than $l$, then a node must be split. To do this, a tree is built from the bottom up. This split operation can be visualized here where $l = 4$:
+
+![](https://coleton.io/post-images/algo/btree2.png)
+|:--:|
+| *A B Tree split where* $l = 4$ |
+
+* Property 5
+
+Leaf nodes are always at the same depth
+
+* Property 6
+
+A non-leaf node with $k$ children contains at most $k - 1$ keys. Leaf nodes have $[l / 2, l]$ keys and the maximum number of keys is no more than $n - 1$. 
+
+* Property 7
+
+If root is a leaf, it has $0$ children, otherwise it has $[2, n]$ children. Internal nodes have $[\text{ceil}(n/2), n]$ children.
+
+#### Insertion
+
+For insertion, keys are added to a node until they reach $l + 1$, at which they are split. The middle value is chosen as the new root. For instance, when $l = 3$, and we are using 1-indexes, key number 2 would be chosen. This is because there are 4 values in the node, which means the max index is 4, and because this is even, the "middle" value chosen is 2. So, the index chosen to split is $\text{ceil}((l + 1) / 2)$. Let's take a look at an example where $l = 2$ and $n = 3$:
+
+![](https://coleton.io/post-images/algo/btree3.png)
+|:--:|
+| *Inserting element 2 where* $l = 4$ *and* $n = 3$ |
+
+#### Operation Performance
+
+Similar to Red-Black and AVL Trees, B trees are self balancing. The average and worst case for major operations is $O(\log n)$.
+
+| Operation | Average Case | Worst Case  |
+| --------- | ------------ | ----------- |
+| Space     | $O(n)$       | $O(n)$      |
+| `search`  | $O(\log n)$  | $O(\log n)$ |
+| `insert`  | $O(\log n)$  | $O(\log n)$ |
+| `delete`  | $O(\log n)$  | $O(\log n)$ |
+
+### B+ Trees
+
+In B+ Trees, the leaves contain all of the keys. Copies of the keys are held above the leaves. Also, the leaf nodes contain pointers to other leaves, forming a linked list. They have the added benefit for applications like hard drives, databases, etc. where data must be accessed at a specific point but more has to be accessed. The maximum number of values in a B+ tree given the height $h$ starting at 0, max number of children $n$, and max number of keys per node $l$, is $ln^h$. If a height is instead starting at 1, the formula is $ln^{h-1}$.
+
+#### Operation Performance
+
+Same as B trees.
+
+| Operation | Average Case | Worst Case  |
+| --------- | ------------ | ----------- |
+| Space     | $O(n)$       | $O(n)$      |
+| `search`  | $O(\log n)$  | $O(\log n)$ |
+| `insert`  | $O(\log n)$  | $O(\log n)$ |
+| `delete`  | $O(\log n)$  | $O(\log n)$ |
 
 # Matrices
 
