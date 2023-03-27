@@ -2173,15 +2173,6 @@ $$
 
 There are a ton of sorting algorithms, some are better suited depending on the situation. The analysis of a sort will be based on this criteria to determine its situational efficiency:
 
-1. Number of comparisons
-2. Number of swaps
-3. Adaptive or Stable
-4. Extra Memory
-
-# Sorting
-
-The definition of sorting is pretty easy to understand, it is an algorithm that sorts data. Some sorts are better for certain applications. The analysis of a sort will be based on this criteria to determine its situational efficiency:
-
 1. Time Complexity
 2. Space Complexity
 3. Adaptive and/or Stable
