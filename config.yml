@@ -36,7 +36,7 @@ outputs:
 
 params:
   env: production
-  description: "The blog and online hub of Coleton O'Donnell, a Computer Science student at the University of Florida who is interested in math, music, and theoretical CS."
+  description: "The blog and online hub of Coleton O'Donnell, a Computer Science undergraduate major at the University of Florida who is interested in math, music, and theoretical CS."
   author: Coleton
   ShowToc: true
   defaultTheme: dark 
@@ -55,9 +55,9 @@ params:
     - posts
   homeInfoParams:
     enabled: true
-    Title: "Hi."
+    Title: "Hello."
     Content: > 
-      Welcome to my site! My name is Coleton O'Donnell, I am a student at the University of Florida, studying Computer Science. My interests include music, data archiving, math, advocating for privacy, Linux, and all things low level. This site acts as a hub for my online presence and doubles as a blog. If you'd like to contact me, my email is the best way to reach me, though you can utilize my socials but it may take longer. When contacting me, feel free to [use my PGP key :)](https://coleton.io/publickey.txt)
+      Welcome to my site! My name is Coleton O'Donnell, I'm an undergraduate student at the University of Florida majoring in Computer Science. My topics of interest include Programming Language Theory, Formal Languages, Type Theory, and Compilers. My hobbies include music listening, collecting, and playing, data hoarding, learning about math and history, advocating for privacy, and doing Linux stuff. I run Gentoo on my main PC and Void Linux on my Thinkpad X230T. This site acts as a hub for my online presence and doubles as a blog. If you'd like to contact me, my email is the best way to reach me, though you can utilize my socials but it may take longer. When contacting me, feel free to [use my PGP key :)](https://coleton.io/publickey.txt)
               
   socialIcons:
     - name: email
