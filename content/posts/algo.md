@@ -2042,6 +2042,451 @@ In regards to the binary heap, the returnRoot/findMin/findMax operation is very 
 | `insert`   | $O(1)$       | $O(\log n)$ |
 | `findMin`  | $O(1)$       | $O(1)$      |
 
+# Not Ordered Data Structures
+
+## Set ADT
+
+A set is a collection that contains no duplicate elements. It is based on the mathematical set, e.g. a set $S = {3,1,4,9,2}$. Other sets are like sets of numbers, like the set of integer, $\Z$, or the set of real numbers, $\R$. A set object has the follow property:
+
+1. They aren't indexed.
+2. They don't reveal the order of insertion of items.
+3. They enable efficient search and retrieval of information.
+4. They allow removal of elements without moving other elements around.
+
+The operations include:
+
+1. find - Find an element in the set.
+2. insert - Add an element to the set.
+3. remove - Remove an element from the set.
+4. union - Perform a set union operation between two sets, e.g. $A \cup B$.
+5. intersection - Perform a set intersection operation between two sets, e.g. $A \cap B$.
+6. difference - Perform a set difference operation between two sets, e.g. $A - B$.
+7. subset - Return a subset.
+
+The difference between sets and list are the following:
+
+|                                        | Lists | Sets |
+| -------------------------------------- | ------------------------ | ---- |
+| Order and access through element index | Yes                      | No   |
+| Duplicates                             | Yes                      | No   |
+| Implementations                        | Array Based, Linked List | Array Based, Tree Based, Hash Table |
+
+### C++ Set
+
+C++ contains two major set implementations:
+
+|                 | `std::set`      | `std::unordered_set`      |
+| --------------- | --------------- | ------------------------- |
+| Initialization  | `std::set<T> s` | `std::unordered_set<T> s` |
+| Common Methods  | insert, erase, find, count, size, empty | insert, erase, find, count, size, empty, bucket_size, load_factor |
+| Implementations | BST (TreeSet)   | Hash Table (HashSet)      |
+| Time Complexity | $O(\log n)$     | $O(1)$ + $O(k)$           |
+
+## Map ADT
+
+A map is a collection of key-value pairs that doesn't contain duplicate keys.
+
+1. Maps are a kind of an abstraction over Sets
+2. The Keys in a map are a Set.
+3. Values can be non-unique (e.g. multiple values, unique keys)
+4. If you store values along with keys in a Set data structure, you get a Map.
+
+For instance a valid Map would be:
+
+$$\{(A, 1), (B, 5), (C, 1), (D, 6), ...\}$$
+
+This is laid out such that it is (key, value). An invalid Map would be:
+
+$$\{(A, 1), (A, 5), (C, 1), (D, 6), ...\}$$
+
+Some very simple examples of where a map is useful:
+
+| Type of Item       | Key        | Value                               |
+| ------------------ | ---------- | ----------------------------------- |
+| University Student | Student ID | Name, address, major, etc.          |
+| Online Customer    | Email      | Name, address, cart, etc.           |
+| Inventory          | Part ID    | Quantity, price, manufacturer, etc. |
+
+### Maps in C++
+
+|                   | `std::map`          | `std::unordered_map`                 |
+| ----------------- | ------------------- | ------------------------------------ |
+| Order in Elements | Yes                 | No                                   |
+| Initialization    | `std::map<T, T> m;` | `std::unordered_map <type, type> m;` |
+| Common Methods    | insert, [], erase, find, count, size, empty | insert, [], erase, find, count, size, empty, bucket_size, load_factor |
+| Implementations   | BST (TreeMap)       | Hash Table (HashMap)                 |
+
+## Hash Table
+
+We've learned the meaning of the Set and the Map. We can see that in the case of the C++ set and map, they are actually ordered. Why is that? Well this because they are built using Binary Search Trees. This makes the time complexity for most operations $O(\log n)$. This isn't bad, but we can do better. This is where a hash table comes in. With a hash table we can get $O(1)$ access. 
+
+How? Well the idea isn't terribly hard to understand. Imagine we have an array with 1, element, what is the access time to find the element at $A[0]$? The answer is $O(1)$. How about an array with 1,000,000 elements, and we want to access the 493,382 element, e.g. $A[493382]$? The answer is also $O(1)$. This idea behind constant lookup is very intuitive, notice though that to access data, we effectively use the following formula:
+
+$$A[\text{key}] = \text{value}$$
+
+This is very interesting, but has a fatal flaw, if memory doesn't exist at this region, we'll end up in trouble. Perhaps instead we can initialize everything with a default value. Say we create a boolean array:
+
+```cpp
+bool[] set[100] = {0};
+```
+
+Now everything is false, and then when something exists at a specific index, we set it to true. This is cool, but what about other data types? Also that is a lot of wasted memory. One idea is to use something called **hashing.** For instance, imagine we have strings. How would we store "cat" or "dog?" Well we could convert "cat" or "dog" into a number, e.g. perhaps the first letter, c = 3, d = 4. Well that is cool, but what if we wanted to store "cap"? That is a collision. One way to get around this is by multiplying each letter by a power of 27. So cat turns into:
+
+$$(3 \times 27^2) + (1 \times 27^1) + (20 \times 27^0) = 2234$$
+
+This is our index. Because the base is always greater than or equal to 26, we are going to get a unique number and no collisions. Less than 26, we aren't guaranteed no collisions by the pigeonhole principle. This works great for the alphabet. How about ASCII? That is 128 values. How about unicode? That is 143,859 values. Using this method is practically impossible. It'll lead to overflows, which means collisions!
+
+These hash codes have some issues, although cool. They can waste memory, and they still have collisions at their core. The solution? Allow for collisions but build it so that the algorithm resolves collisions and utilize small table sizes and then increase. This means that a number is **reduced**, e.g utilizing $\%~10$ for example. This allows us to reduce the size of our table. So when given a key $2145$, we can do $2145~\%~10 = 5$. This is fine and dandy buttt what if we do $25~\%~10$... that is also 5. This is where utilize something called **collision resolution.** In the event an element already exists at a specific index, collision resolution is utilized. This is the idea behind a **hash function.**
+
+### Hash Functions
+
+A hash function is a function that converts a data object into a hash code. Its properties include:
+
+* Input: Object $x$
+* Output: An integer representation of $x$
+* If $x$ is equal to $y$, $H(x) = H(y)$
+* If $x$ isn't equal to $y$, it *should* mean $H(x) \ne H(y)$
+
+So, a function that always returns 0 is technically a hash function, but a really bad one at that. A function returns the sum of the powers of 31 of an ASCII string is a much better hash function. A function that just returns a random number isn't a hash function. Hash functions then usually utilize primes and smaller primes are preferred. Hash functions should be easy to compute, so smaller primes are faster to compute. So the hash functions spits out a number for a given input, it then puts it in the hash code, and then the hash code reduces the hash function output and resolves collisions. These are the different strategies for collision resolution:
+
+* Open Hashing
+  * Buckets
+    * For a given index, multiple values *could* exist inside a bucket (doesn't mean they have to though), basically acting as a linked list.
+    * Load factor is a metric to show how full our hash table is. It is the number of elements divided by the number of buckets. For a load factor where buckets only store one element, the load factor has to be between $0 \le L \le 1$, where $L$ is the load factor. If a bucket can store more than one element, the load factor can be $L \ge 1$.
+  * Separate Chaining
+    * Fixed: This means that buckets can just grow, the linked list will keep going forward, this means that the time complexity will become $O(n)$, and that isn't good. Instead, we can use the following resizable method.
+    * Resizable: This is complicated to explain, but basically once the load factor exceeds a set amount, what you can do is double the number of buckets and double the reduce number, e.g. if the no. of buckets is 10, now it is 20, and if the reduce number is 10, it is now 20.
+* Closed Hashing (Open Addressing)
+  * The probing equation is defined as $h'(x) = (h(x) + f(i))$, where $x$ is our input, $i$ is an index being tested, $h(x)$ being our hash function, $f(i)$ being our probe. If the index revealed by $h'(x)$ already has an element present, increase $i$ by one and try again.
+  * Linear probing: This is where if a spot is taken, it goes to the next available spot, and if a next available spot doesn't exist, it jumps to the beginning of the storage container.
+    * $f(i) = i$
+  * Quadratic probing: This is similar to linear probing, but instead of jumping to the next spot, we jump to a spot following a specific sequence, for instance, $\{1^2, 2^2, 3^3, ...\}$. This is more efficient than linear probing. 
+    * $f(i) = i^2$
+
+# Sorting
+
+Data often has to be manipulated for it to be useful. One very useful manipulation you can do is **sorting.** Sorting is where an element, x, has a characteristic that can place it before or after another element, y. When a characteristic is determined, a sorting algorithm will take unsorted data and then place it in a specific order such that it can be traversed in order. For example:
+
+$$\text{Unsorted: } \{3, 1, 7, 2, 9...\}
+\\ \text{Sorted: } \{1, 2, 3, 7, 9...\}
+$$
+
+There are a ton of sorting algorithms, some are better suited depending on the situation. The analysis of a sort will be based on this criteria to determine its situational efficiency:
+
+1. Number of comparisons
+2. Number of swaps
+3. Adaptive or Stable
+4. Extra Memory
+
+# Sorting
+
+The definition of sorting is pretty easy to understand, it is an algorithm that sorts data. Some sorts are better for certain applications. The analysis of a sort will be based on this criteria to determine its situational efficiency:
+
+1. Time Complexity
+2. Space Complexity
+3. Adaptive and/or Stable
+
+## Stable
+
+Stable sorting algorithms preserve the relative order of equal elements. For example, imagine I have a list of student names with corresponding grades. Currently, the list is sorted alphabetically, but imagine I want to sort numerically. A stable sorting algorithm would not change the relative order of duplicates, thus a student with a first name A with a score of say 80 would be ahead of a student with a first name B with a score of 80. The use of a stable algorithm is that it makes it more efficient when there are duplicate cases, as we don't have to sort by another key when a duplicate is present.
+
+## Adaptive
+
+Adaptive sorting algorithms take advantage of existing order in its inputs, and this advantage makes it faster by not trying to reorder if it is already ordered. Bubble Sort and Insertion Sort are examples of adaptive sorting algorithms.
+
+## Quadratic Sorts
+
+### Selection Sort
+
+Selection sort is an incredibly simple sort to understand. The premise as follows:
+
+1. Find the smallest/largest element, $e_1$ in a collection of data, $C$.
+2. Move this element, $e_1$, to its correct position.
+3. Find the next smallest/largest element, $e_2$ in a $C$.
+4. Move this element, $e_2$ to its correct position.
+5. Repeat this process $\text{size}(C) - 1$ times.
+
+The code follows like so:
+
+```cpp
+#include <algorithm>
+
+void selectionSort(int[] arr, int size)
+{
+  for (int i = 0; i < size - 1; i++)
+  {
+    int min_pos = i;
+    for (int j = i + 1; j < size; j++)
+    {
+      if (arr[j] < arr[min_pos])
+        min_pos = j;
+    }
+    if (min_pos != i)
+      std::swap(arr[min_pos], arr[i]);
+  }
+}
+```
+
+A visual of this for an array $\{3, 1, 7, 2, 9, 4\}$:
+
+![](https://coleton.io/post-images/algo/selectionsort.png)
+|:--:|
+| *Example of Selection Sort* |
+
+### Bubble Sort
+
+Bubble sort is also a very simple sort to understand. It is similar to selection sort, just a bit different. The premise is as follows:
+
+1. Swap adjacent elements, $e_i$ and $e_{i+1}$, in a collection $C$ if they are out of order
+2. Repeat swapping till you reach the end of the collection to bubble up the largest element after each iteration
+3. Repeat this entire process $\text{size}(C) - 1$ times stopping at $\text{size}(C) - i$ after the $i^\text{th}$ iteration.
+
+The code follows like so:
+
+```cpp
+void bubbleSort(int[] arr, int size)
+{
+  for (int i = 0; i < size - 1; i++)
+  {
+    bool swapped = false;
+    for (int j = 0; j < size - 1 - 1; ++j)
+    {
+      if (arr[j] > arr[j + 1])
+      {
+        int temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+        swapped = true;
+      }
+    }
+    if (!swapped)
+      break;
+  }
+}
+```
+
+A visual of this for an array $\{8,6,7,5,9,4\}$:
+
+![](https://coleton.io/post-images/algo/bubblesort.png)
+|:--:|
+| *Example of Bubble Sort* |
+
+
+### Insertion Sort
+
+Insertion sort is the last of the common quadratic sorts. It is probably the easiest one to understand. The premise is as follows:
+
+1. Keep track of two regions, the Sorted region and the Unsorted region.
+2. Initially, the sorted region will have one element.
+3. Insert the first element in the unsorted region in the correct place of the sorted region.
+4. Repeat this until there are no more elements in the unsorted region.
+
+The code follows like so:
+
+```cpp
+void insertionSort(int[] arr, int size)
+{
+  for (int i = 1; i < size; i++)
+  {
+    int key = arr[i];
+    int j = i - 1;
+
+    while (key < arr[j] && j >= 0)
+    {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = key;
+  }
+}
+```
+
+A visual of this for an array $\{8,6,7,5,9,4\}$:
+
+![](https://coleton.io/post-images/algo/insertionsort.png)
+|:--:|
+| *Example of Insertion Sort* |
+
+### Comparison
+
+| Details      | Selection Sort | Bubble Sort | Insertion Sort |
+| ------------ | -------------- | ----------- | -------------- |
+| Worst Case   | $O(n^2)$       | $O(n^2)$    | $O(n^2)$       |
+| Average Case | $O(n^2)$       | $O(n^2)$    | $O(n^2)$       |
+| Best Case    | $O(n^2)$       | $O(n)$      | $O(n)$         |
+| Space        | $O(1)$         | $O(1)$      | $O(1)$         |
+| Adaptive?    | No             | Yes         | Yes            |
+| Stable?      | No             | Yes         | Yes            |
+
+## Shell Sort
+
+Shell Sort is a modified version of Insertion Sort that is much more efficient. In this sort, things are divided into gaps, and then an insertion sort is conducted on each gap. The code for this looks like this:
+
+```cpp
+void shellSort(int[] arr, int size)
+{
+  for (int gap = size / 2; gap >= 1; gap /= 2)
+  {
+    for (int j = gap; j < size; j++)
+    {
+      int temp = arr[j];
+      int i = j - gap;
+
+      while (i >= 0 && arr[i] > temp)
+      {
+        arr[i + gap] = arr[i];
+        i = i - gap;
+      }
+      arr[i + gap] = temp;
+    }
+  }
+}
+```
+
+### Performance
+
+The performance of a shell sort is largely based on the sequence of decreasing values. For the power of 2 sequence as described above, performance is $O(n^2)$. For gaps based on Hibbard's sequence, the performance is $O(n^\frac{3}{2})$.
+
+## Linearithmic
+
+### Merge Sort
+
+Merge sort uses the property of divide and conquer. The premise is as follows:
+
+1. Merge sort splits the array in half, sorts the two smaller halves, then merges the two sorted halves together.
+2. Divide the array to be sorted subarrays till you reach a size 1.
+3. In the conquer step, sort the two subarrays.
+4. In the combine step, combine two sorted arrays.
+5. Repeat this until you merge all elements in one array.
+
+The code for this looks like this:
+
+```cpp
+void mergeSort(int[] arr, int low, int high)
+{
+  if (low < high)
+  {
+    int mid = low + (high - low) / 2;
+
+    mergeSort(arr, low, mid);
+    mergeSort(arr, mid + 1, high);
+
+    merge(arr, low, mid, high);
+  }
+}
+
+void merge(int[] arr, int low, int mid, int high)
+{
+  int x = mid - low + 1;
+  int y = high - mid;
+
+  int X[x], Y[y];
+
+  for (int i = 0; i < x; i++)
+    X[i] = arr[low + i];
+  for (int j = 0; j < y; j++)
+    Y[j] = arr[mid + low + j];
+
+  int i = 0;
+  int j = 0;
+  int k = 1;
+  while (i < x && j < y)
+  {
+    if (X[i] <= Y[j])
+    {
+      arr[k] = X[i];
+      i++
+    }
+    else
+    {
+      arr[k] = Y[j];
+      j++
+    }
+    k++;
+  }
+  while (i < x)
+  {
+    arr[k] = X[i];
+    i++;
+    k++;
+  }
+  while (j < y)
+  {
+    arr[k] = Y[j];
+    j++;
+    k++;
+  }
+}
+```
+
+### Quick Sort
+
+Quick Sort is similar to merge sort, but instead uses something called a pivot. The premise as follows:
+
+1. Quicksort rearranges the array into two parts, called partitioning
+2. A pivot is selected and the following is executed:
+   1. All the elements in the left subarray are less than or equal to the pivot
+   2. All the elements in the right subarray are larger than the pivot
+3. Repeat this until the array is sorted.
+
+The code for this looks like this:
+
+```cpp
+#include <algorithm>
+
+void quickSort(int[] arr, int low, int high)
+{
+  if (low < high)
+  {
+    int pivot = partition(arr, low, high);
+    quickSort(arr, low, pivot - 1);
+    quickSort(arr, pivot + 1, high);
+  }
+}
+
+int partition(int[] arr, int low, int high)
+{
+  int pivot = array[low];
+  int up = low, down = high;
+
+  while (up < down)
+  {
+    for (int j = up; j < high; j++)
+    {
+      if (arr[up] > pivot)
+        break;
+      up++;
+    }
+    for (int j = down; j > low; j--)
+    {
+      if (arr[down] < pivot)
+        break;
+      down--;
+    }
+    if (up < down)
+      std::swap(arr[up], arr[down]);
+  }
+
+  std::swap(arr[low], arr[down]);
+  return down;
+}
+```
+
+### Heap Sort
+
+One of the interesting things we've covered is the heaps from earlier. One thing we can do is utilize a heap data structure, insert elements into the heap, then remove the elements from the heap and place it in the array. This comes out to be $O(n \log n)$.
+
+### Comparison
+
+| Details      | Merge Sort    | Quick Sort    | Heap Sort     |
+| ------------ | ------------- | ------------- | ------------- |
+| Worst Case   | $O(n \log n)$ | $O(n^2)$      | $O(n \log n)$ |
+| Average Case | $O(n \log n)$ | $O(n \log n)$ | $O(n \log n)$ |
+| Best Case    | $O(n \log n)$ | $O(n \log n)$ | $O(n \log n)$ |
+| Space        | $O(n)$        | $O(\log n)$   | $O(1)$        |
+| Adaptive?    | No            | No            | Yes           |
+| Stable?      | Yes           | No            | No            |
+
 # Matrices
 
 ## Diagonal Matrix
@@ -2598,1089 +3043,5 @@ int main() {
     cout << "S2" << endl << s2;
     cout << "Sum" << endl << sum;
     return 0;
-}
-```
-
-# Sorting
-
-The definition of sorting is pretty easy to understand, it is an algorithm that sorts data. Some sorts are better for certain applications. The analysis of a sort will be based on this criteria to determine its situational efficiency:
-
-1. Number of comparisons
-2. Number of swaps
-3. Adaptive
-4. Stable
-5. Extra Memory
-
-## General Overview
-
-### Comparison Based Sorts
-
-#### $O(n^2)$
-
-1. Bubble Sort
-2. Insertion Sort
-3. Selection Sort
-
-#### $O(n \log n)$
-
-1. Heap Sort
-2. Merge Sort
-3. Quick Sort
-4. Tree Sort
-
-#### $O(n^{\frac{3}{4}})$
-
-1. Shell Sort
-
-### Index Based Sorts
-
-#### $O(n)$
-
-1. Count Sort
-2. Bucket/Bin Sort
-3. Radix Sort
-
-## Stable
-
-Stable sorting algorithms preserve the relative order of equal elements. For example, imagine I have a list of student names with corresponding grades. Currently, the list is sorted alphabetically, but imagine I want to sort numerically. A stable sorting algorithm would not change the relative order of duplicates, thus a student with a first name A with a score of say 80 would be ahead of a student with a first name B with a score of 80. The use of a stable algorithm is that it makes it more efficient when there are duplicate cases, as we don't have to sort by another key when a duplicate is present.
-
-## Adaptive
-
-Adaptive sorting algorithms take advantage of existing order in its inputs, and this advantage makes it faster by not trying to reorder if it is already ordered. Bubble Sort and Insertion Sort are examples of adaptive sorting algorithms.
-
-## Synopsis and Implementation of Each Sort
-
-### Bubble Sort
-
-#### Synopsis
-
-Bubble sort is the most intuitive sorting algorithm, it basically just passes over a list of elements, comparing the first element with every other element, and then does the same thing for the second, third, fourth, etc.
-
-#### Implementation
-
-```cpp
-void BubbleSort(int A[], int n) {
-  int flag = 0;
-  for (int i = 0; i < n - 1; i++) {
-    for (int j = 0; j < n - 1- i; j++) {
-      if (A[j] > A[j + 1]) {
-        swap(&A[j], &A[j + 1]);
-        flag = 1;
-      }
-    }
-    if (flag == 0) {
-      return;
-    }
-  }
-}
-```
-
-##### `Print`
-
-It can be assumed that this print method will be included with every implementation from here onwards:
-
-```cpp
-#include <iostream>
-
-using namespace std;
-
-template <class T>
-void Print(T& vec, int n, string s) {
-  cout << s << ": [" << flush;
-  for (int i = 0; i < n; i++) {
-    cout << vec[i] << flush;
-    if (i < n - 1) {
-      cout << ", " << flush;
-    }
-  }
-  cout << "]" << endl;
-}
-```
-
-##### `swap`
-
-It can be assumed that this swap method will be included with every implementation from here onwards (when required):
-
-```cpp
-void swap(int* x, int* y) {
-  int temp = *x;
-  *x = *y;
-  *y = temp;
-}
-```
-
-### Insertion Sort
-
-#### Synopsis
-
-Insertion is a pretty basic principle, given the sorted array below:
-
-```
-A | 2   4   8   16  32
-    0   1   2   3   4
-```
-
-We want to insert the value `9`. To do this, we'd logically have to shift values rightward, but we can't shift every element at once. The easiest way to do this is the following:
-
-Is 9 > 32? No. Shift rightward.
-
-```
-A | 2   4   8   16      32
-    0   1   2   3   4   5
-```
-
-Is 9 > 16? No. Shift rightward.
-
-```
-A | 2   4   8       16  32
-    0   1   2   3   4   5
-```
-
-Is 9 > 8? Yes. Place at empty:
-
-```
-A | 2   4   8   9   16  32
-    0   1   2   3   4   5
-```
-
-In this way, we are only shifting the elements we need at any point, all in one scan. This principle of shifting with each insert is how insert sort works. Given an unsorted array:
-
-```
-A | 8   2   12  4   6   20
-    0   1   2   3   4   5
-```
-
-Each step in an insertion sort requires breaking the array into separate parts. First step is breaking off the 0 index, which is sorted by definition as it is only one element. Second step is adding an extra spot, and doing an insertion:
-
-Is 2 > 8? No. Shift rightward.
-
-```
-I | 2   8
-    0   1
-
-A |    [2]  12  4   6   20
-    0   1   2   3   4   5
-```
-
-Break off next element, 12:
-
-Is 12 > 8? Yes. Place at empty.
-
-```
-I | 2   8   12
-    0   1   2
-
-A |       [12]  4   6   20
-    0   1   2   3   4   5
-```
-
-Break off next element, 4:
-
-Is 4 > 12? No. Shift rightward.
-
-```
-I | 2   8       12
-    0   1   2   3
-
-A |            [4]  6   20
-    0   1   2   3   4   5
-```
-
-Is 4 > 8? No. Shift rightward.
-
-```
-I | 2       8   12
-    0   1   2   3
-
-A |            [4]  6   20
-    0   1   2   3   4   5
-```
-
-Is 4 > 2? Yes. Place at empty.
-
-```
-I | 2   4   8   12
-    0   1   2   3
-
-A |            [4]  6   20
-    0   1   2   3   4   5
-```
-
-We continue this process until the very end.
-
-#### Implementation
-
-```cpp
-void InsertionSort(int A[], int n) {
-  for (int i = 1; i < n; i++) {
-    int j = i - 1;
-    int x = A[i];
-    while (j > -1 && A[j] > x) {
-      A[j + 1] = A[j];
-      j--;
-    }
-    A[j + 1] = x;
-  }
-}
-```
-
-### Bubble Sort vs. Insertion Sort
-
-| Comparisons | Bubble Sort | Insertion Sort |
-| ----------- | ----------- | -------------- |
-| Min Comp    | $O(n)$      | $O(n)$         |
-| Max Comp    | $O(n^2)$    | $O(n^2)$       |
-| Min Swap    | $O(1)$      | $O(1)$         |
-| Max Swap    | $O(n^2)$    | $O(n^2)$       |
-| Adaptive    | Yes         | Yes            |
-| Stable      | Yes         | Yes            |
-| Linked List | No          | Yes            |
-| k passes    | Yes         | No             |
-
-### Selection Sort
-
-#### Synopsis
-
-Selection sort utilizes three variables, `i` which denotes current position, `k` which denotes next smallest value, and `j` which denotes current index being scanned. When `j` goes outside index, the pass is complete. Each pass stores the minimum value, and swaps it with the current index. Let's see this in action:
-
-```
-A | 8 6 3 2 5 4
-    0 1 2 3 4 5
-```
-
-i = 0, scan for smallest value:
-
-```
-i = 0
-k = 3
-j = 6
-
-Swap:
-
-A | 2 6 3 8 5 4
-    0 1 2 3 4 5
-```
-
-i = 1, scan for smallest value:
-
-```
-i = 1
-k = 2
-j = 6
-
-Swap:
-
-A | 2 3 6 8 5 4
-    0 1 2 3 4 5
-```
-
-i = 2, scan for smallest value
-
-```
-i = 2
-k = 5
-j = 6
-
-Swap:
-
-A | 2 3 4 8 5 6
-    0 1 2 3 4 5
-```
-
-We continue this process until the list is sorted. Selection sort is neither adaptive or stable, but it has a low memory footprint and works exceptionally well on small sets of data.
-
-#### Implementation
-
-```cpp
-void SelectionSort(int A[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        int j;
-        int k;
-        for (j = k = i; j < n; j++) {
-            if (A[j] < A[k]) {
-                k = j;
-            }
-        }
-        swap(&A[i], &A[k]);
-    }
-}
-```
-
-### Quick Sort
-
-#### Synopsis
-
-Quick Sort can be confusing, but this is because the sort has a lot of steps that aren't intuitive. But, once you understand the steps, it becomes rather easy. To begin, let's look at this array:
-
-```
-A | 50  70  60  90  40  80  10  20  30
-    0   1   2   3   4   5   6   7   8
-```
-
-To begin, set the first element as the pivot element. The idea behind quicksort is that we determine a place that is sorted, so each value left of the pivot is less than or equal to the pivot, and everything to the right of the pivot is greater than or equal to the pivot. So, `i` looks for everything greater than to the pivot, and `j` looks for everything less than or equal to the pivot. So i starts at 0, and j starts at length of array:
-
-1. ```
-   // First element greater than 50 is 70 at 1:
-   i = 1
-   ```
-
-// First element less than or equal to 50 is 30 at 8:
-j = 8
-
-Swap:
-A | 50  30  60  90  40  80  10  20  70
-    0   1   2   3   4   5   6   7   8
-
-```
-2.
-```
-
-// Next element greater than 50 is 60 at 2:
-i = 2
-
-// Next element less than or equal to 50 is 20 at 7:
-j = 8
-
-Swap:
-A | 50  30  20  90  40  80  10  60  70
-    0   1   2   3   4   5   6   7   8
-
-```
-3.
-```
-
-// Next element greater than 50 is 90 at 3:
-i = 3
-
-// Next element less than or equal to 50 is 10 at 6:
-j = 6
-
-Swap:
-A | 50  30  20  10  40  80  90  60  70
-    0   1   2   3   4   5   6   7   8
-
-```
-4.
-```
-
-// Next element greater than 50 is 80 at 5:
-i = 5
-
-// Next element less than or equal to 50 is 40 at 4:
-j = 4
-
-j < i, swap pivot with j:
-A | 40  30  20  10  50  80  90  60  70
-    0   1   2   3   4   5   6   7   8
-
-```
-Now that we have swapped pivot with j, we are in a position where pivot is sorted. Everything to the left of 50 is less than or equal to 50, and everything to the right 50 is greater than or equal to 50. This position is called the partitioning position. And with it, we can apply, recursively, quick sort to the left and quick sort to the right. If the list is already sorted, Quick Sort is at worst time, which is $O(n^2)$. The average and best case time complexity is $O(n\log n)$
-
-#### Implementation
-
-##### Pivot First
-```cpp
-int partition(int A[], int low, int high) {
-  int pivot = A[low];
-  int i = low + 1;
-  int j = high;
-
-  while (true) {
-    while (i <= j && A[i] <= pivot) {
-      i++;
-    }
-    while (A[j] >= pivot && j >= i) {
-      j--;
-    }
-    if (j < i) {
-      break;
-    } else {
-      swap(&A[i], &A[j]);
-    }
-  }
-  swap(&A[low], &A[j]);
-  return j;
-}
-
-void QuickSort(int A[], int low, int high) {
-  if (low < high) {
-    int p = partition(A, low, high);
-    QuickSort(A, low, p - 1);
-    QuickSort(A, p + 1, high);
-  }
-}
-```
-
-##### Pivot Last
-
-```cpp
-int partitionLast(int A[], int low, int high) {
-  int pivot = A[high];
-  int i = low - 1;
-  for (int j = low; j <= high - 1; j++) {
-    if (A[j] < pivot) {
-      i++;
-      swap(&A[i], &A[j]);
-    }
-  }
-  swap(&A[i + 1], &A[high]);
-  return i + 1;
-}
-
-void QuickSortLast(int A[], int low, int high) {
-  if (low < high) {
-    int p = partitionLast(A, low, high);
-    QuickSortLast(A, low, p - 1);
-    QuickSortLast(A, p + 1, high);
-  }
-}
-```
-
-### Merge Sort
-
-#### Synopsis
-
-##### Ideas Behind Merging
-
-Given two sorted arrays, we are going to increment over each and merge, e.g.:
-
-```
-n = 0
-A | 1 5 12
-    0 1 2
-
-m = 0
-B | 3 4 9 10
-    0 1 2 3
-
-New Array:
-C |
-    0 1 2 3 4 5 6
-
-n = 0
-m = 0
-A[n] = 1
-B[m] = 3
-A[n] < B[m]:
-C | 1
-    0 1 2 3 4 5 6
-n++
-
-n = 1
-m = 0
-A[n] = 5
-B[m] = 3
-B[m] < A[n]:
-C | 1 3
-    0 1 2 3 4 5 6
-m++
-
-n = 1
-m = 1
-A[n] = 5
-B[m] = 4
-B[m] < A[n]:
-C | 1 3 4
-    0 1 2 3 4 5 6
-m++
-
-n = 1
-m = 2
-A[n] = 5
-B[m] = 9
-
-A[n] < B[m]
-C | 1 3 5
-    0 1 2 3 4 5 6
-n++
-
-n = 2
-m = 2
-A[n] = 12
-B[m] = 9
-B[m] < A[n]
-C | 1 3 5 9
-    0 1 2 3 4 5 6
-m++
-
-n = 2
-m = 3
-A[n] = 12
-B[m] = 10
-B[m] < A[n]
-C | 1   3   5   9   10
-    0   1   2   3   4
-m++
-
-n = 2
-m = 4
-A[n] = 12
-B[m] Does Not Exist
-C | 1   3   5   9   10    12
-    0   1   2   3   4     5
-```
-
-###### Implementation of Merge Concepts
-
-```cpp
-void Merge(int x[], int y[], int z[], int m, int n) {
-  int i = 0;
-  int j = 0;
-  int k = 0;
-
-  // Copy least greatest element from each array at each index pair
-  while (i < m && j < n) {
-    if (x[i] < y[j]) {
-      z[k++] = x[i++];
-    } else {
-      z[k++] = y[j++];
-    }
-  }
-
-  // Only one of the following return
-  // Copy remaining items in x if present
-  while (i < m) {
-    z[k++] = x[i++];
-  }
-
-  // Copy remaining items in y if present
-  while (j < n) {
-    z[k++] = x[j++];
-  }
-}
-
-void MergeSingle(int A[], int low, int mid, int high) {
-  // Lowest Index
-  int i = low;
-  // Middle Index
-  int j = mid + 1;
-  // Highest Index
-  int k = low;
-
-  int B[high + 1];
-  while (i <= mid && j <= high) {
-    if (A[i] < A[j]) {
-      B[k++] = A[i++];
-    } else {
-      B[k++] = A[j++];
-    }
-  }
-  while (i <= mid) {
-    B[k++] = A[i++];
-  }
-  while (j <= high) {
-    B[k++] = A[j++];
-  }
-  for (int i=low; i<=high; i++) {
-    A[i] = B[i];
-  }
-}
-```
-
-#### Implementation
-
-##### Iterative Merge Sort
-
-```cpp
-void IterativeMergeSort(int A[], int n) {
-  int p;
-  for (p = 2; p <= n; p = p * 2) {
-    for (int i = 0; i + p - 1 < n; i = i + p) {
-      int low = i;
-      int high = i + p - 1;
-      int mid = (low + high) / 2;
-      Merge(A, low, mid, high);
-    }
-  }
-  if (p / 2 < n) {
-    Merge(A, 0, p / 2 - 1, n - 1);
-  }
-}
-```
-
-##### Recursive Merge Sort
-
-```cpp
-void RecursiveMergeSort(int A[], int low, int high) {
-  if (low < high) {
-    // Calculate mid point
-    int mid = low + (high - low) / 2;
-
-    // Sort sub-lists
-    RecursiveMergeSort(A, low, mid);
-    RecursiveMergeSort(A, mid + 1, high);
-
-    // Merge sorted sub-lists
-    Merge(A, low, mid, high);
-  }
-}
-```
-
-### Count Sort
-
-#### Synopsis
-
-First, find the largest value in your array. Create an array where the last index is equal to that value, e.g.. a max value of 15 would be an array size 16. Initialize the array with zeros. This is important for what we are about to do. So with the given array, create another array with this directions:
-
-```
-A | 6   3   9   10  15  6   8   12  3   6
-    0   1   2   3   4   5   6   7   8   9
-
-15 is max value:
-C | 0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
-```
-
-Next, scan the array and increment with each value, e.g:
-
-```
-A | 6   3   9   10  15  6   8   12  3   6
-    0   1   2   3   4   5   6   7   8   9
-
-C | 0   0   0   2   0   0   3   0   1   1   1   1   0   0   0   1
-    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
-```
-
-Notice, there are 3 6 values in our `A` array, and there is only one 8. We denote each count. Next, we clear the `A` array, and scan the `B` array, copying the number of times we see each value:
-
-```
-A | 3   3   6   6   6   8   9   10  12  15
-    0   1   2   3   4   5   6   7   8   9
-```
-
-The time complexity for count sort is $O(n)$! But, the space complexity is large, being $O(k)$, where k is the largest value in our set. For small values, this sorting method is incredibly good, but for large sets, it can be very memory intensive.
-
-#### Implementation
-
-```cpp
-int Max(int A[], int n) {
-  int max = -32768;
-  for (int i=0; i<n; i++) {
-    if (A[i] > max) {
-      max = A[i];
-    }
-  }
-  return max;
-}
-
-void CountSort(int A[], int n) {
-  int max = Max(A, n);
-
-  // Create count array
-  int* count = new int [max + 1];
-
-  // Initialize count array with 0
-  for (int i=0; i<max+1; i++) {
-    count[i] = 0;
-  }
-
-  // Update count array values based on A values
-  for (int i=0; i<n; i++) {
-    count[A[i]]++;
-  }
-
-  // Update A with sorted elements
-  int i = 0;
-  int j = 0;
-  while (j < max+1) {
-    if (count[j] > 0) {
-      A[i++] = j;
-      count[j]--;
-    } else {
-      j++;
-    }
-  }
-
-  // Delete heap memory
-  delete [] count;
-}
-```
-
-### Bucket Sort
-
-#### Synopsis
-
-Bucket Sort is very similar to Count Sort, especially with the initial step, where we create an array the size of the max step. Each value will be set to null. The type of array is a linked list, it is an array of linked lists. So the "buckets" are linked lists, so at L[6], where L is an array of linked lists, there is a linked list of every 6 element in the list.
-
-#### Implementation
-
-Include the nodes:
-
-```cpp
-int Delete(Node** ptrBins, int idx) {
-  Node* p = ptrBins[idx];  // ptrBins[idx] is head ptr
-  ptrBins[idx] = ptrBins[idx]->next;
-  int x = p->value;
-  delete p;
-  return x;
-}
-
-void BinSort(int A[], int n) {
-  int max = Max(A, n);
-
-  // Create bins array
-  Node** bins = new Node* [max + 1];
-
-  // Initialize bins array with nullptr
-  for (int i=0; i<max+1; i++) {
-    bins[i] = nullptr;
-  }
-
-  // Update count array values based on A values
-  for (int i=0; i<n; i++) {
-    Insert(bins, A[i]);
-  }
-
-  // Update A with sorted elements
-  int i = 0;
-  int j = 0;
-  while (i < max+1) {
-    while (bins[i] != nullptr) {
-      A[j++] = Delete(bins, i);
-    }
-    i++;
-  }
-
-  // Delete heap memory
-  delete [] bins;
-}
-```
-
-### Radix Sort
-
-#### Synopsis
-
-Radix sort also works on the bin principle, but instead of taking max value as the size, it uses the base. So for the decimal system, base 10, we have 10 bins, 0-9. So for value say, 278, it goes in bin 8. Well that is cool, but the issue is that this isn't sorted, well, drop everything and then extract. Set bins to null again, and then sort by second space, e.g.. 257 goes in the 5 bin. Do this again for each space, and you'll get a sorted array:
-
-#### Implementation
-
-```cpp
-int getBinIndex(int x, int idx) {
-  return (int)(x / pow(10, idx)) % 10;
-}
-
-void RadixSort(int A[], int n) {
-  int max = Max(A, n);
-  int nPass = countDigits(max);
-
-  // Create bins array
-  Node** bins = new Node* [10];
-
-  // Initialize bins array with nullptr
-  initializeBins(bins, 10);
-
-  // Update bins and A for nPass times
-  for (int pass=0; pass<nPass; pass++) {
-
-    // Update bins based on A values
-    for (int i=0; i<n; i++) {
-      int binIdx = getBinIndex(A[i], pass);
-      Insert(bins, A[i], binIdx);
-    }
-
-    // Update A with sorted elements from bin
-    int i = 0;
-    int j = 0;
-    while (i < 10) {
-      while (bins[i] != nullptr) {
-        A[j++] = Delete(bins, i);
-      }
-      i++;
-    }
-    // Initialize bins with nullptr again
-    initializeBins(bins, 10);
-  }
-
-  // Delete heap memory
-  delete [] bins;
-}
-```
-
-### Shell Sort
-
-#### Synopsis
-
-The grand finale, quite honestly this sort is definitely the weirdest, and probably the most complex. Basic principle is insert sort modified, where we form arrays based on gaps, e.g.
-
-```
-A | 2   1   3   5   6
-    0   1   2   3   4
-
-Gap = 5 / 2 = 2
-
-First gap set:
-
-A | 2   1   3   5   6
-    0   1   2   3   4
-    *       *       *
-[2, 3, 6]
-```
-
-We perform insertion sort on each set, looking at the first pair of each gap while increasing rightward.
-
-#### Implementation
-
-```cpp
-void ShellSort(int A[], int n) {
-  for (int gap = n / 2; gap >= 1; gap /= 2) {
-    for (int j = gap; j < n; j++) {
-      int temp = A[j];
-      int i = j - gap;
-      while (i >= 0 && A[i] > temp) {
-        A[i + gap] = A[i];
-        i = i - gap;
-      }
-      A[i + gap] = temp;
-    }
-  }
-}
-```
-
-## Hashing
-
-So far we have looked at two searching algorithms, the Linear Search with a time complexity of $O(n)$ and the Binary Search with a time complexity of $O(\log n)$. These algorithms aren't bad by any means, and in the case of Binary Search, relatively efficient. But, we can go further, we can do searching in $O(1)$. This is done with Hashing.
-
-### Ideal Hashing
-
-Ideal Hashing is the most straightforward Hashing method. How it is done is that there is a one-to-one correspondence between key value and key location. So, imagine we have these set of keys:
-
-[1, 12, 3, 7, 10, 15]
-
-Then, the hashtable will look like this:
-
-```
-/   1   /   3   /   /   /   7   /   /   10  /   12
-0   1   2   3   4   5   6   7   8   9   10  11  12
-```
-
-Where there isn't a value, it is null, otherwise the hashtable returns the value at that index. Thus, the mathematical representation for this hashtable is $h(x) = x$. This is cool but what if one of our keys is 100? 1000? That'd make so much wasted space. This is the largest drawback of ideal hashing, its memory footprint is massive.
-
-### Modulus Hashing
-
-Instead of just returning x, let's instead use the modulus operator. This means that the space taken up by the hashtable is 0-9, 10 spaces. The drawback is that 15 % 10 = 5, and 25 % 10 = 5, which means that if both of these elements are present, for instance, there would be a collision. It is not one-to-one, it is many-to-one. So we have to resolve these collisions.
-
-### Open Hashing (Chaining)
-
-Remember, the modulus hash function is $h(x) = x \bmod 10$, but we also are running into the problem of conflicts. An intuitive idea is to use a linked list for conflicts, so we create an array of nodes, and each node contains a linked list of the elements. So for the 5, we can shovel any value that ends with 5, and if we wanted to search for 25, we can just search the linked list belonging to the 5th element. So, what is the time complexity? Well, first we have to determine what is called the loading factor. The loading factor $\lambda = \frac{n}{\text{size}}$. The size of the hashtable is 10, so for example if we have 100 keys, then our loading factor $\lambda$ is equal to 10. The average successful search time complexity is $t = 1 + \frac{\lambda}{2}$. The average unsuccessful search time complexity is $t = 1 + \lambda$.
-
-#### Implementation
-
-```cpp
-class Node{
-  public:
-    int data;
-    Node* next;
-};
-
-class HashTable{
-  public:
-    Node** HT;
-    HashTable() {
-      HT = new Node* [10];
-      for (int i = 0; i < 10; i++) {
-        HT[i] = nullptr;
-      }
-    }
-
-    int hash(int key) {
-      return key % 10;
-    }
-
-    void Insert(int key) {
-      int hIdx = hash(key);
-      Node* t = new Node;
-      t->data = key;
-      t->next = nullptr;
-      // Case: No nodes in the linked list
-      if (HT[hIdx] == nullptr) {
-        HT[hIdx] = t;
-      } else {
-        Node* p = HT[hIdx];
-        Node *q=HT[hIdx];
-        // Traverse to find insert position
-        while (p && p->data < key) {
-          q=p;
-          p = p->next;
-        }
-        // Case: insert position is first
-        if (q == HT[hIdx]) {
-          t->next = HT[hIdx];
-          HT[hIdx] = t;
-        } else {
-          t->next = q->next;
-          q->next = t;
-        }
-      }
-    }
-
-    int Search(int key) {
-      int hIdx = hash(key);
-      Node* p = HT[hIdx];
-      while (p) {
-        if (p->data == key) {
-          return p->data;
-        }
-        p = p->next;
-      }
-      return -1;
-    }
-
-    ~HashTable() {
-      for (int i = 0; i < 10; i++) {
-        Node* p = HT[i];
-        while (HT[i]) {
-          HT[i] = HT[i]->next;
-          delete p;
-          p = HT[i];
-        }
-      }
-      delete [] HT;
-    }
-};
-```
-
-### Closed Hashing
-
-Closed Hashing is the idea that the hashing doesn't take up any more memory than just the space set out for it. With chaining, we increase outside of the space of it.
-
-#### Linear Probing
-
-Linear Probing is a way to solve the collisions in a finite space. To do this, we use our hash function $h(x) = x \bmod 10$, and we use a new function, $\h'(x) = (h(x) + f(i)) \bmod 10$, where $f(i) = i$. So for instance, we have the following hashtable:
-
-```
-H | 30  /   /   23  /   45  26  /   /   /
-    0   1   2   3   4   5   6   7   8   9
-```
-
-We want to insert the value 25, but oh no we have a collision. Let's use $h'(x)$. $h'(x) = (h(25) + f(0)) \bmod 10 = (5 + 0) \bmod 10 = 5$. Well here, index 5 isn't available, so let's try again. $h'(x) = (h(25) + f(1)) \bmod 10 = (5 + 1) \bmod 10 = 6$. Well here, index 6 isn't available, so let's try again. $h'(x) = (h(25) + f(2)) \bmod 10 = (5 + 2) \bmod 10 = 7$. Well here, index 7 is available, so we insert our new key here.
-
-##### Implementation
-
-```cpp
-#define SIZE 10
-
-int Hash(int key) {
-  return key % SIZE;
-}
-
-int LinearProbe(int H[], int key) {
-  int idx = Hash(key);
-  int i = 0;
-  while (H[(idx + i) % SIZE] != 0) {
-    i++;
-  }
-  return (idx + i) % SIZE;
-}
-
-void Insert(int H[], int key) {
-  int idx = Hash(key);
-
-  if (H[idx] != 0) {
-    idx = LinearProbe(H, key);
-  }
-  H[idx] = key;
-}
-
-int Search(int H[], int key) {
-  int idx = Hash(key);
-  int i = 0;
-  while (H[(idx + i) % SIZE] != key) {
-    i++;
-    if (H[(idx + i) % SIZE] == 0) {
-      return -1;
-    }
-  }
-  return (idx + i) % SIZE;
-}
-```
-
-#### Quadratic Probing
-
-Quadratic Probing is just like linear probing, but $h'(x)$ is redefined as $h'(x) = (h(x) + f(i)) \bmod 0$, where $f(i) = i^2$.
-
-##### Implementation
-
-```cpp
-int Hash(int key) {
-  return key % SIZE;
-}
-
-int QuadraticProbe(int H[], int key) {
-  int idx = Hash(key);
-  int i = 0;
-  while (H[(idx+i * i) % SIZE] != 0) {
-    i++;
-  }
-  return (idx + i * i) % SIZE;
-}
-
-void Insert(int H[], int key) {
-  int idx = Hash(key);
-
-  if (H[idx] != 0) {
-    idx = QuadraticProbe(H, key);
-  }
-  H[idx] = key;
-}
-
-int Search(int H[], int key) {
-  int idx = Hash(key);
-  int i = 0;
-  while (H[(idx + i * i) % SIZE] != key) {
-    i++;
-    if (H[(idx + i * i) % SIZE] == 0) {
-      return -1;
-    }
-  }
-  return (idx + i*i) % SIZE;
-}
-```
-
-#### Double Hashing
-
-Double Hashing uses two hash functions to try and fix conflicts. So, $h_1(x) = x \bmod 10$ and $h_2(x) = R - (x \bmod R)$, where $R$ is the nearest prime number of the size of our hashtable. So for a size of 10, $R = 7$, so $h_2(x) = 7 - (x \bmod 7)$. $h_2$ never returns 0 and it covers all of the indices. Now, $h'(x) = (h_1(x) + i * h_2(x)) \bmod 10$, where $i = 0, 1, 2...$.
-
-##### Implementation
-
-```cpp
-#define SIZE 10
-#define PRIME 7
-
-int Hash(int key) {
-  return key % SIZE;
-}
-
-int PrimeHash(int key) {
-  return PRIME - (key % PRIME);
-}
-
-int DoubleHash(int H[], int key) {
-  int idx = Hash(key);
-  int i = 0;
-  while (H[(Hash(idx) + i * PrimeHash(idx)) % SIZE] != 0) {
-    i++;
-  }
-  return (idx + i * PrimeHash(idx)) % SIZE;
-}
-
-void Insert(int H[], int key) {
-  int idx = Hash(key);
-
-  if (H[idx] != 0) {
-    idx = DoubleHash(H, key);
-  }
-  H[idx] = key;
-}
-
-int Search(int H[], int key) {
-  int idx = Hash(key);
-  int i = 0;
-  while (H[(Hash(idx) + i * PrimeHash(idx)) % SIZE] != key) {
-    i++;
-    if (H[(Hash(idx) + i * PrimeHash(idx)) % SIZE] == 0) {
-      return -1;
-    }
-  }
-  return (Hash(idx) + i * PrimeHash(idx)) % SIZE;
 }
 ```
