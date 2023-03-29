@@ -84,5 +84,13 @@
         "memory_resource": "cpp",
         "stop_token": "cpp",
         "cinttypes": "cpp"
-    }
+    },
+    "cSpell.words": [
+        "Hibbard's",
+        "lparen",
+        "pseudograph",
+        "rparen",
+        "subarray",
+        "subarrays"
+    ]
 }

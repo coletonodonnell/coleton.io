@@ -108,16 +108,16 @@ The pros of counting is that it is independent of the computer and its input dep
 An order of growth are functions whose asymptotic behavior is seen as equivalent. For example, $8n$, $100n$, and $n + 1$ all fall into the same order of growth, $n$. The major order of growths that algorithms follow with inputs are:
 
 | Inputs: $n$ | $O(1)$, Constant | $O(\log n)$, Logarithmic | $O(n)$, Linear | $O(n \log n)$, Linearithmic | $O(n^2)$, Quadratic | $O(n^3)$, Cubic | $O(2^n)$, Exponential | $O(n!)$, Factorial |
-|:-----------:|:----------------:|:------------------------:|:--------------:|:---------------------------:|:-------------------:|:---------------:|:---------------------:|:------------------:|
-| 1           | 1                | 0                        | 1              | 0                           | 1                   | 1               | 2                     | 1                  |
-| 10          | 1                | 3                        | 10             | 30                          | 100                 | 1000            | 1024                  | 3628800            |
-| 100         | 1                | 7                        | 100            | 700                         | 10000               | 1000000         | 1.26765E+30           | 9.3326E+157        |
-| 1000        | 1                | 10                       | 1000           | 10000                       | 1000000             | 1E+9            | 1.0715E+301           | Too Big            |
-| 10000       | 1                | 13                       | 10000          | 130000                      | 1E+8                | 1E+12           | Too Big               | Too Big            |
-| 100000      | 1                | 17                       | 100000         | 1700000                     | 1E+10               | 1E+15           | Too Big               | Too Big            |
-| 1000000     | 1                | 20                       | 1000000        | 20000000                    | 1E+12               | 1E+18           | Too Big               | Too Big            |
-| 10000000    | 1                | 23                       | 10000000       | 230000000                   | 1E+14               | 1E+21           | Too Big               | Too Big            |
-| 100000000   | 1                | 27                       | 100000000      | 2700000000                  | 1E+16               | 1E+24           | Too Big               | Too Big            |
+| :---------: | :--------------: | :----------------------: | :------------: | :-------------------------: | :-----------------: | :-------------: | :-------------------: | :----------------: |
+|      1      |        1         |            0             |       1        |              0              |          1          |        1        |           2           |         1          |
+|     10      |        1         |            3             |       10       |             30              |         100         |      1000       |         1024          |      3628800       |
+|     100     |        1         |            7             |      100       |             700             |        10000        |     1000000     |      1.26765E+30      |    9.3326E+157     |
+|    1000     |        1         |            10            |      1000      |            10000            |       1000000       |      1E+9       |      1.0715E+301      |      Too Big       |
+|    10000    |        1         |            13            |     10000      |           130000            |        1E+8         |      1E+12      |        Too Big        |      Too Big       |
+|   100000    |        1         |            17            |     100000     |           1700000           |        1E+10        |      1E+15      |        Too Big        |      Too Big       |
+|   1000000   |        1         |            20            |    1000000     |          20000000           |        1E+12        |      1E+18      |        Too Big        |      Too Big       |
+|  10000000   |        1         |            23            |    10000000    |          230000000          |        1E+14        |      1E+21      |        Too Big        |      Too Big       |
+|  100000000  |        1         |            27            |   100000000    |         2700000000          |        1E+16        |      1E+24      |        Too Big        |      Too Big       |
 
 This can be further illustrated by:
 
@@ -448,11 +448,11 @@ Characteristics:
 
 ##### Operation Performance
 
-| Placement | Add    | Remove |
-|:---------:|:------:|:------:|
+| Placement |  Add   | Remove |
+| :-------: | :----: | :----: |
 | Beginning | $O(n)$ | $O(n)$ |
-| End       | $O(1)$ | $O(1)$ |
-| Middle    | $O(n)$ | $O(n)$ |
+|    End    | $O(1)$ | $O(1)$ |
+|  Middle   | $O(n)$ | $O(n)$ |
 
 To add or remove anything from the beginning, it requires shifting $n$ elements to the right, resulting in $O(n)$. Similar is true for the middle, but instead shifting all elements to the right of the indice being considered. This is still $O(n)$ because this indice grows with $n$. In the case of the end, it is constant because the size of the array is known, and this means that it is free to add and remove from the end of it (i.e. no shifts are required.)
 
@@ -776,13 +776,13 @@ class StackArray
 
 We utilize an array to store the values, and an integer to track the current position on the stack. Operations complexity is as follows:
 
-| Operation   | Complexity |
-|:-----------:|:----------:|
-| `push()`    | $O(1)$     |
-| `pop()`     | $O(1)$     |
-| `peek()`    | $O(1)$     |
-| `size()`    | $O(1)$     |
-| `isEmpty()` | $O(1)$     |
+|  Operation  | Complexity |
+| :---------: | :--------: |
+|  `push()`   |   $O(1)$   |
+|   `pop()`   |   $O(1)$   |
+|  `peek()`   |   $O(1)$   |
+|  `size()`   |   $O(1)$   |
+| `isEmpty()` |   $O(1)$   |
 
 As we can see, this implementation is very efficient. All the operations are constant time. The issue is that this implementation is of a fixed size at compile time. In the implementation above, the `SIZE` variable is a constant, and is set to $1024$. Of course, we can always raise this but this means that at compile time the stack size can't be increased or decreased in this implementation.
 
@@ -851,13 +851,13 @@ class ListArray
 
 Just like the array implementation, all of the operations are $O(1)$:
 
-| Operation   | Complexity |
-|:-----------:|:----------:|
-| `push()`    | $O(1)$     |
-| `pop()`     | $O(1)$     |
-| `peek()`    | $O(1)$     |
-| `size()`    | $O(1)$     |
-| `isEmpty()` | $O(1)$     |
+|  Operation  | Complexity |
+| :---------: | :--------: |
+|  `push()`   |   $O(1)$   |
+|   `pop()`   |   $O(1)$   |
+|  `peek()`   |   $O(1)$   |
+|  `size()`   |   $O(1)$   |
+| `isEmpty()` |   $O(1)$   |
 
 So what is the difference? Well we have a dynamically changing stack, instead of it being limited to a specific size, it can grow and shrink to our needs. The drawback is that this requires more memory to implement.
 
@@ -1049,11 +1049,11 @@ class CircularQueue
 This better implementation of an array queue results in the following time complexity:
 
 | Operation | Complexity |
-|:---------:|:----------:|
-| `enqueue` | $O(1)$     |
-| `dequeue` | $O(1)$     |
-| `size`    | $O(1)$     |
-| `isEmpty` | $O(1)$     |
+| :-------: | :--------: |
+| `enqueue` |   $O(1)$   |
+| `dequeue` |   $O(1)$   |
+|  `size`   |   $O(1)$   |
+| `isEmpty` |   $O(1)$   |
 
 The benefit of this queue is that it takes up less space. The downside is that it has a fixed size.
 
@@ -1135,11 +1135,11 @@ class ListQueue
 This implementation similarly has the same time complexity:
 
 | Operation | Complexity |
-|:---------:|:----------:|
-| `enqueue` | $O(1)$     |
-| `dequeue` | $O(1)$     |
-| `size`    | $O(1)$     |
-| `isEmpty` | $O(1)$     |
+| :-------: | :--------: |
+| `enqueue` |   $O(1)$   |
+| `dequeue` |   $O(1)$   |
+|  `size`   |   $O(1)$   |
+| `isEmpty` |   $O(1)$   |
 
 The benefits is that this implementation avoids the static size issue of the circular queue, but that also means it requires more memory.
 
@@ -1525,13 +1525,13 @@ So, when the $n$ nodes is equal to 1, the Catalan number is 1, when it is 2, the
 
 #### Rotations
 
-Given the performance benefits of having a tree that is more balanced, when we have a tree like *Tree 8* it is in our best interest to perform a **rotation.** A rotation a is a tool that can be used to rearrange the tree without affecting its semantics (i.e. it doesn't break the rules.) These rotations all take $O(1)$ time. Imagine for a moment we are given a set of nodes, $N$, such that $N = \{1,2,3\}$. The Catalan Number $C_3 = 5$, so there are 5 unique combinations for this set of nodes:
+Given the performance benefits of having a tree that is more balanced, when we have a tree like *Tree 8* it is in our best interest to perform a **rotation.** A rotation a is a tool that can be used to rearrange the tree without affecting its semantics (i.e. it doesn't break the rules.) These rotations all take $O(1)$ time. Imagine for a moment we are given a set of nodes, $N$, such that $N = \lbrace1,2,3\rbrace$. The Catalan Number $C_3 = 5$, so there are 5 unique combinations for this set of nodes:
 
 ![](https://coleton.io/post-images/algo/combinationosf321tree.png)
 |:--:|
 | Combinations of a 3,2,1 BST |
 
-As we can see from above, out of the five possible combinations, only the final tree is balanced, that being the $\{2,3,1\}$ or $\{2,1,3\}$ tree. The rest are unbalanced. The goal of a rotation is to turn the four other trees into that fifth tree. This means that rotations only operate on **3 nodes** at a time. They are used recursively to operate on an entire tree. There are four different types of rotations, and we will demonstrate them on each individual tree above, showing how we can convert the tree into the balanced fifth tree.
+As we can see from above, out of the five possible combinations, only the final tree is balanced, that being the $\lbrace2,3,1\rbrace$ or $\lbrace2,1,3\rbrace$ tree. The rest are unbalanced. The goal of a rotation is to turn the four other trees into that fifth tree. This means that rotations only operate on **3 nodes** at a time. They are used recursively to operate on an entire tree. There are four different types of rotations, and we will demonstrate them on each individual tree above, showing how we can convert the tree into the balanced fifth tree.
 
 ##### Left Rotation: RR Case
 
@@ -1579,7 +1579,7 @@ Rotations are great, but the issue is that for prebuilt BST trees using these ro
 
 ### AVL Trees
 
-An AVL Tree is named after its inventors, Adelson-Velsky and Landis. It is a **self-balancing binary search tree**, meaning that it is designed to keep its height small. AVL tree's are just a fancy binary tree when considering its properties. What it possesses is what is called a **balance factor.** The balance factor is a number that each node possesses that speaks about the height difference between its left and right children. Thus, for a node $n$, the balance factor $\text{BF}(n) = \text{Height(Left Child)} - \text{Height(Right Child)}$. A Binary Tree is an AVL tree if the invariant $\text{BF}(n) \in \{-1,0,1\}$ is true for ever node, $n$, in the tree. Here is an example of an AVL tree:
+An AVL Tree is named after its inventors, Adelson-Velsky and Landis. It is a **self-balancing binary search tree**, meaning that it is designed to keep its height small. AVL tree's are just a fancy binary tree when considering its properties. What it possesses is what is called a **balance factor.** The balance factor is a number that each node possesses that speaks about the height difference between its left and right children. Thus, for a node $n$, the balance factor $\text{BF}(n) = \text{Height(Left Child)} - \text{Height(Right Child)}$. A Binary Tree is an AVL tree if the invariant $\text{BF}(n) \in \lbrace-1,0,1\rbrace$ is true for ever node, $n$, in the tree. Here is an example of an AVL tree:
 
 ![](https://coleton.io/post-images/algo/avl1.png)
 |:--:|
@@ -1602,12 +1602,12 @@ class AVLTreeNode
 When do we know when to balance? Well, using our definition before of the balance factor, $\text{BF}(n)$, we can use our previous rotations discussed on the AVL tree as we're inserting. The cases to change are as follows:
 
 
-| Case (Alignment) | Parent $\text{BF}$ | Child $\text{BF}$ | Rotation   |
+| Case (Alignment) | Parent $\text{BF}$ | Child $\text{BF}$ |  Rotation  |
 | :--------------: | :----------------: | :---------------: | :--------: |
-| Left Left        | $+2$               | $+1$              | Right      |
-| Right Right      | $-2$               | $-1$              | Left       |
-| Left Right       | $+2$               | $-1$              | Left Right |
-| Right Left       | $-2$               | $+1$              | Right Left |
+|    Left Left     |        $+2$        |       $+1$        |   Right    |
+|   Right Right    |        $-2$        |       $-1$        |    Left    |
+|    Left Right    |        $+2$        |       $-1$        | Left Right |
+|    Right Left    |        $-2$        |       $+1$        | Right Left |
 
 In the case that $\text{BF}(n)$ is defined instead as $\text{BF}(n) = \text{Height(Right Child)} - \text{Height(Left Child)}$, which is common, just reverse the signs here. This means that because the rotations as discussed earlier are $O(1)$, the cost to insert, delete, and search is just the height of the tree, and because the height is maintained around $\log n$, this means that the worst and average case performance for these operations is $O(\log n)$.
 
@@ -2034,15 +2034,89 @@ void heapifyDown(int[] arr, int index, int size)
 
 In regards to the binary heap, the returnRoot/findMin/findMax operation is very very fast, and insert and delete are also very fast. Search with binary heap is slow, but this isn't its primary purpose.
 
-| Operation  | Average Case | Worst Case  |
-| ---------- | ------------ | ----------- |
-| Space      | $O(n)$       | $O(n)$      |
-| `search`   | $O(n)$       | $O(n)$      |
-| `deleteMin`| $O(\log n)$  | $O(\log n)$ |
-| `insert`   | $O(1)$       | $O(\log n)$ |
-| `findMin`  | $O(1)$       | $O(1)$      |
+| Operation   | Average Case | Worst Case  |
+| ----------- | ------------ | ----------- |
+| Space       | $O(n)$       | $O(n)$      |
+| `search`    | $O(n)$       | $O(n)$      |
+| `deleteMin` | $O(\log n)$  | $O(\log n)$ |
+| `insert`    | $O(1)$       | $O(\log n)$ |
+| `findMin`   | $O(1)$       | $O(1)$      |
 
-# Not Ordered Data Structures
+## Graphs
+
+Trees are hierarchical, acyclic, and have exactly one path between two nodes. Trees are a type of graph. Graphs don't have to be hierarchy, they can be cyclic, and there can be multiple paths between one path and another. Graphs are basically an ordered pair of a set of vertices and a set of edges.
+
+### Terminology
+
+![](https://coleton.io/post-images/algo/graphterms.png)
+|:--:|
+| An example graph with terms |
+
+The **vertex** is a node in a graph. Vertices are a set, the set of vertices for the graph above are:
+
+$$V = \lbrace A, B, C, D, E \rbrace$$
+
+The number of vertices in a graph is given with $\vert V \vert$. In this case $\vert V \vert = 5$, as there are 5 elements.
+
+The **edge** is a connection in a graph between two nodes. Edges are ordered pairs. The edges for the graph above are:
+
+$$E = \lbrace \lparen A, B \rparen, \lparen B, B \rparen , \lparen B, C \rparen, \lparen C, A \rparen, \lparen C, D \rparen, \lparen D, E \rparen \rbrace $$
+
+The number of edges in a graph is given with $\vert E \vert$. In this case, $\vert E \vert = 6$, because there are 6 elements. If you notice, one of the pairs is $\lparen B, B \rparen$, this indicates a **self-loop.** Simple graphs do not have self-loops. Self-loops are a "degenerate edge" and indicates that the graph above is a "pseudograph."
+
+The **weight** of an edge is an associated value of that edge. You can think of it as basically the cost to travel from one vertex to another over that edge.
+
+**Adjacent vertices** is where a vertex is adjacent to another vertex if there is an edge to it from that other vertex. For example, C is adjacent to D, but D is not adjacent to C.
+
+**Simple graphs** are graphs that don't connect a vertex to itself (e.g. no self-loops) and there aren't edges that connect the same vertices, i.e. no **parallel edges.** The graph above isn't a simple graph, if you removed the loop, it would be a simple graph.
+
+A **path** is a sequence of vertices in which each successive vertex is adjacent to its predecessor. For example, the path from A to D is A, B, C, D. The path from E to C doesn't exist because E isn't adjacent to D, and D isn't adjacent to C. A **simple path** is one in which the path has no repeated vertices, except for the first and the last vertex.
+
+A **cycle** is a simple path in which only the first and final vertices are the same. So, the path A, B, C, A is a cycle. 
+
+**Connected vertex** is when two vertices have a path between them. For example, A and E are connected, but E and D aren't connected.
+
+### Types
+
+![](https://coleton.io/post-images/algo/graphdirections.png)
+|:--:|
+| Directed graph vs. Undirected graph |
+
+A **directed** graph (digraph) has directions of "flow." This dictates things like paths and adjacency. An undirected graph is bidirectional. A directed graph can be converted into an undirected graph by duplicating any directional paths to a node, and then flipping its orientation.
+
+![](https://coleton.io/post-images/algo/weightedgraphs.png)
+|:--:|
+| Weighted graph vs. Unweighted graph |
+
+A **weighted** graph is a graph in which its edges carry a number that indicates a specific property. For instance, in the case of traffic indicators where each edge represents a street, these weights could represent the speed of getting through that specific path. 
+
+![](https://coleton.io/post-images/algo/connectedgraphs.png)
+|:--:|
+| Connected graph vs. Not Connected graph |
+
+If we are given an **undirected graph** (a graph that doesn't have arrow connectors, e.g. they aren't one way, but both ways), it is a **connected graph** if there is a path from every vertex to every other vertex. This can be visualized by the following:
+
+![](https://coleton.io/post-images/algo/cyclicgraphs.png)
+|:--:|
+| Cyclic graph vs. Acyclic graph |
+
+I defined cyclic above. Here are possible cyclic graphs for undirected and directed graph.
+
+![](https://coleton.io/post-images/algo/densegraphs.png)
+|:--:|
+| Dense graph vs. Sparse graph |
+
+When classifying graphs, we can assume that $\vert E \vert$ is $O(\vert V \vert^2)$ for a dense graph and $O(\vert V \vert)$ for a sparse graph. Sparse graphs have a small number of edges, close to $n$ where $n$ is the number of nodes, and for dense graphs they have a large number of edges, close to $n^2$. The actual minimums and maximums for each can be expressed as:
+
+* Directed Graphs:
+
+$$0 \le \vert E \vert \le (\vert V \vert)(\vert V \vert - 1)$$
+
+* Undirected Graphs:
+
+$$0 \le \vert E \vert \le (\vert V \vert)(\vert V \vert - 1) / 2$$
+
+# Non-ordered Data Structures
 
 ## Set ADT
 
@@ -2065,22 +2139,22 @@ The operations include:
 
 The difference between sets and list are the following:
 
-|                                        | Lists | Sets |
-| -------------------------------------- | ------------------------ | ---- |
-| Order and access through element index | Yes                      | No   |
-| Duplicates                             | Yes                      | No   |
+|                                        | Lists                    | Sets                                |
+| -------------------------------------- | ------------------------ | ----------------------------------- |
+| Order and access through element index | Yes                      | No                                  |
+| Duplicates                             | Yes                      | No                                  |
 | Implementations                        | Array Based, Linked List | Array Based, Tree Based, Hash Table |
 
 ### C++ Set
 
 C++ contains two major set implementations:
 
-|                 | `std::set`      | `std::unordered_set`      |
-| --------------- | --------------- | ------------------------- |
-| Initialization  | `std::set<T> s` | `std::unordered_set<T> s` |
+|                 | `std::set`                              | `std::unordered_set`                                              |
+| --------------- | --------------------------------------- | ----------------------------------------------------------------- |
+| Initialization  | `std::set<T> s`                         | `std::unordered_set<T> s`                                         |
 | Common Methods  | insert, erase, find, count, size, empty | insert, erase, find, count, size, empty, bucket_size, load_factor |
-| Implementations | BST (TreeSet)   | Hash Table (HashSet)      |
-| Time Complexity | $O(\log n)$     | $O(1)$ + $O(k)$           |
+| Implementations | BST (TreeSet)                           | Hash Table (HashSet)                                              |
+| Time Complexity | $O(\log n)$                             | $O(1)$ + $O(k)$                                                   |
 
 ## Map ADT
 
@@ -2093,11 +2167,11 @@ A map is a collection of key-value pairs that doesn't contain duplicate keys.
 
 For instance a valid Map would be:
 
-$$\{(A, 1), (B, 5), (C, 1), (D, 6), ...\}$$
+$$\lbrace(A, 1), (B, 5), (C, 1), (D, 6), ...\rbrace$$
 
 This is laid out such that it is (key, value). An invalid Map would be:
 
-$$\{(A, 1), (A, 5), (C, 1), (D, 6), ...\}$$
+$$\lbrace(A, 1), (A, 5), (C, 1), (D, 6), ...\rbrace$$
 
 Some very simple examples of where a map is useful:
 
@@ -2109,12 +2183,12 @@ Some very simple examples of where a map is useful:
 
 ### Maps in C++
 
-|                   | `std::map`          | `std::unordered_map`                 |
-| ----------------- | ------------------- | ------------------------------------ |
-| Order in Elements | Yes                 | No                                   |
-| Initialization    | `std::map<T, T> m;` | `std::unordered_map <type, type> m;` |
+|                   | `std::map`                                  | `std::unordered_map`                                                  |
+| ----------------- | ------------------------------------------- | --------------------------------------------------------------------- |
+| Order in Elements | Yes                                         | No                                                                    |
+| Initialization    | `std::map<T, T> m;`                         | `std::unordered_map <type, type> m;`                                  |
 | Common Methods    | insert, [], erase, find, count, size, empty | insert, [], erase, find, count, size, empty, bucket_size, load_factor |
-| Implementations   | BST (TreeMap)       | Hash Table (HashMap)                 |
+| Implementations   | BST (TreeMap)                               | Hash Table (HashMap)                                                  |
 
 ## Hash Table
 
@@ -2160,15 +2234,15 @@ So, a function that always returns 0 is technically a hash function, but a reall
   * The probing equation is defined as $h'(x) = (h(x) + f(i))$, where $x$ is our input, $i$ is an index being tested, $h(x)$ being our hash function, $f(i)$ being our probe. If the index revealed by $h'(x)$ already has an element present, increase $i$ by one and try again.
   * Linear probing: This is where if a spot is taken, it goes to the next available spot, and if a next available spot doesn't exist, it jumps to the beginning of the storage container.
     * $f(i) = i$
-  * Quadratic probing: This is similar to linear probing, but instead of jumping to the next spot, we jump to a spot following a specific sequence, for instance, $\{1^2, 2^2, 3^3, ...\}$. This is more efficient than linear probing. 
+  * Quadratic probing: This is similar to linear probing, but instead of jumping to the next spot, we jump to a spot following a specific sequence, for instance, $\lbrace1^2, 2^2, 3^3, ...\rbrace$. This is more efficient than linear probing. 
     * $f(i) = i^2$
 
 # Sorting
 
 Data often has to be manipulated for it to be useful. One very useful manipulation you can do is **sorting.** Sorting is where an element, x, has a characteristic that can place it before or after another element, y. When a characteristic is determined, a sorting algorithm will take unsorted data and then place it in a specific order such that it can be traversed in order. For example:
 
-$$\text{Unsorted: } \{3, 1, 7, 2, 9...\}
-\\ \text{Sorted: } \{1, 2, 3, 7, 9...\}
+$$\text{Unsorted: } \lbrace3, 1, 7, 2, 9...\rbrace
+\\ \text{Sorted: } \lbrace1, 2, 3, 7, 9...\rbrace
 $$
 
 There are a ton of sorting algorithms, some are better suited depending on the situation. The analysis of a sort will be based on this criteria to determine its situational efficiency:
@@ -2218,7 +2292,7 @@ void selectionSort(int[] arr, int size)
 }
 ```
 
-A visual of this for an array $\{3, 1, 7, 2, 9, 4\}$:
+A visual of this for an array $\lbrace3, 1, 7, 2, 9, 4\rbrace$:
 
 ![](https://coleton.io/post-images/algo/selectionsort.png)
 |:--:|
@@ -2256,7 +2330,7 @@ void bubbleSort(int[] arr, int size)
 }
 ```
 
-A visual of this for an array $\{8,6,7,5,9,4\}$:
+A visual of this for an array $\lbrace8,6,7,5,9,4\rbrace$:
 
 ![](https://coleton.io/post-images/algo/bubblesort.png)
 |:--:|
@@ -2292,7 +2366,7 @@ void insertionSort(int[] arr, int size)
 }
 ```
 
-A visual of this for an array $\{8,6,7,5,9,4\}$:
+A visual of this for an array $\lbrace8,6,7,5,9,4\rbrace$:
 
 ![](https://coleton.io/post-images/algo/insertionsort.png)
 |:--:|
