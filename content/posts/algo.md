@@ -2114,7 +2114,139 @@ $$0 \le \vert E \vert \le (\vert V \vert)(\vert V \vert - 1)$$
 
 * Undirected Graphs:
 
-$$0 \le \vert E \vert \le (\vert V \vert)(\vert V \vert - 1) / 2$$
+$$0 \le \vert E \vert \le \frac{(\vert V \vert)(\vert V \vert - 1)}{2}$$
+
+### Application of Graphs
+
+Common examples of graph problems include:
+
+* Social Networks, they utilize unweighted and undirected graphs.
+* World Wide Web, they utilize unweighted and directed graphs.
+* Maps, they utilize weighted and undirected graphs.
+
+Common questions that can be answered with a graph include things like:
+
+* Are there cycles in this path?
+* What is the shortest route between points A and B?
+* Is there a tour of this graph that uses each edge exactly once?
+
+### Implementation of Graphs
+
+Graphs don't really have an "ADT." They existed before OOP. The API though must include graph methods and define how it should be used. The choices for this API have tradeoffs, and things we need to worry about is the runtime performance and the memory usage. 
+
+Nodes that are made with just labeled with letters or numbers are pretty useless. This is where the map data structure (see later for a description of that) comes into play. We can map a string to an int. E.g.
+
+| Label        | Graph Index |
+| ------------ | ----------- |
+| google.com   | 0           |
+| gmail.com    | 1           |
+| facebook.com | 2           |
+| maps.com     | 3           |
+| ufl.edu      | 4           |
+
+Common operations that are useful is determining the connectedness of two nodes, as well as the adjacency of nodes. 
+
+#### Edge List
+
+An edge list just lists all the edges, and optionally gives the weight per edge. For example:
+
+![](https://coleton.io/post-images/algo/edgelist.png)
+|:--:|
+| Example Graph with Weights |
+
+In the above example, we can draw out this as an edge list as the following:
+
+| First | Second | Weight |
+| ----- | ------ | ------ |
+| A     | D      | 30     |
+| B     | A      | 30     |
+| B     | D      | 30     |
+| C     | A      | 40     |
+| D     | C      | 50     |
+
+The weights and adjacency here are completely arbitrary, but we can see the point. Common operations for an edge list are connectedness and adjacency, both of which are on average $O(E)$. The space taken up by an edge list implementation is also $O(E)$ on average, a well. At worst, all of these are $O(V^2)$.
+
+#### Adjacency Matrix
+
+An adjacency matrix is a way of representing adjacency. For the graph above, here is the matrix, where the rows represent from and the columns represent to:
+
+|     | A   | B   | C   | D   |
+| --- | --- | --- | --- | --- |
+| A   | 0   | 0   | 0   | 30  |
+| B   | 30  | 0   | 0   | 30  |
+| C   | 40  | 0   | 0   | 0   |
+| D   | 0   | 0   | 50  | 0   |
+
+If given a matrix, $M$, to insert a weighted element would be `M[from][to] = weight`, otherwise the default is `M[from][to] = 0`. If it unweighted, we would insert 1 if it is adjacent, 0 if it isn't. The code to generate a matrix is the following:
+
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+#define VERTICES 4;
+
+int main()
+{
+  int no_lines, weight, j = 0;
+  std::string from, to;
+  int graph[VERTICES][VERTICES] = {0};
+  std::map<std::string, int> mapper;
+
+  std::cin >> no_lines;
+  for (int i = 0; i < no_lines; i++)
+  {
+    std::cin >> from >> to >> weight;
+    if (mapper.find(from) == mapper.end())
+      mapper[from] = j++;
+    if (mapper.find(to) == mapper.end())
+      mapper[to] = j++;
+    graph[mapper[from]][mapper[to]] = weight;
+  }
+
+  return 0;
+} 
+```
+
+The time complexity to determine connectedness is $O(1)$. The time complexity to determine adjacency is $O(\vert V \vert)$. The space is $O(\vert V \vert^2)$.
+
+### Adjacency List
+
+The Adjacency Matrix has its pros, its cons though is that its space is massive. To alleviate this, an adjacency list can be utilized. An adjacency list is effectively a map, with each key pointing to a vector containing the adjacent vertices, and if weighted, its weight. A possible object to represent this would be like this:
+
+```cpp
+std::map<int, std::vector<std::pair<int, int>>>
+```
+
+This is a map that stores `int`s as keys, and vectors of pairs of ints as values. The vector stores pairs because the first element is the vertex and the second element is the weight of the edge. To illustrate, this is the adjacency list of the graph above:
+
+![](https://coleton.io/post-images/algo/adjacencylist.png)
+|:--:|
+| Example of Adjacency List |
+
+As you can see, unlike an edge list, each individual vertex has a list, and this list then can be accessed. The time complexity for both connectedness and adacency is $O(\text{outdegree}\vert V \vert)$. The outdegree is the number of edges which are going out of a vertex, $V$. The space is $O(\vert V \vert + \vert E \vert) \approx O(\vert V \vert)$. At worst it is $O(\vert V \vert^2)$. The implementation for this is as follows. In this implementation, each vertex is labeled as a string inside of an integer.
+
+```cpp
+#include <iostream>
+#include <string>
+#include <map>
+#include <vector>
+#include <iterator>
+
+int main()
+{
+  int no_lines;
+  std::string from, to, weight;
+  std::map<std::string, std::vector<std::pair<std::string, int>>> graph;
+  std::cin >> no_lines;
+  for (int i = 0; i < no_lines; i++)
+  {
+    std::cin >> from >> to >> weight;
+    graph[from].push_back(make_pair(to, std::stoi(weight)));
+    if (graph.find(to) == graph.end())
+      graph[to] = {};
+  }
+}
+```
 
 # Non-ordered Data Structures
 
