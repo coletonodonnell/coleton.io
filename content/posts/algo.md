@@ -1,7 +1,7 @@
 ---
 author: "Coleton O'Donnell"
 title: "Data Structures and Algorithms Notes"
-date: "2023-01-25"
+date: "2023-04-02"
 description: "Notes from my DSA study, including UF's COP3530 with Professor Kapoor, Abdul Bari's Udemy Course, and 'Introduction to Algorithms' by Cormen & Leiserson."
 tags: ["math", "algorithms", "computer science"]
 math: true
@@ -28,7 +28,7 @@ These notes are on the COP3530 Data Structures and Algorithm class with the exce
 |                         | Algorithm           | Code or Program      |
 | ----------------------- | ------------------- | -------------------- |
 | Focus                   | Design              | Implement a Solution |
-| Form                    | Psuedocode          | Language Specific    |
+| Form                    | pseudocode          | Language Specific    |
 | Dependence on H/W or OS | No                  | Yes                  |
 | Cognitive State         | Thinking            | Doing                |
 | Correctness/Performance | Mathematical Proofs | Test Cases           |
@@ -1721,7 +1721,7 @@ When we insert a node, its color is set to red. If the parent is also red, this 
 |:--:|
 | *Insertion Case 2 & 3* |
 
-Here is a possible implementation the insert operation inspired from *Cormen's* psuedocode:
+Here is a possible implementation the insert operation inspired from *Cormen's* pseudocode:
 
 ```cpp
 bool insert(int element)
@@ -2005,7 +2005,7 @@ The algorithm above minus the insertion part is **heapify up**. This is where th
 
 ##### Deletion (Heapify Down)
 
-Deletion for a heap is removing the root node. To do this, we return the minimum value, and then delete it from the heap by swapping the last element in our array with the root. Afterwards, we compare the root to the children until it is in its proper place, swapping until then. The psuedocode would look something like this for a min heap:
+Deletion for a heap is removing the root node. To do this, we return the minimum value, and then delete it from the heap by swapping the last element in our array with the root. Afterwards, we compare the root to the children until it is in its proper place, swapping until then. The pseudocode would look something like this for a min heap:
 
 ```cpp
 int returnRoot()
@@ -2146,6 +2146,36 @@ Nodes that are made with just labeled with letters or numbers are pretty useless
 
 Common operations that are useful is determining the connectedness of two nodes, as well as the adjacency of nodes. 
 
+A One Graph API would look something like this:
+
+```cpp
+class Graph
+{
+  private:
+    // Graph Implementation
+
+  public:
+    Graph();      // Graph constructor
+    Graph(int V); // Construct Graph with vertex
+    int V();      // Returns number of vertices
+    int E();      // Returns number of edges
+
+    void insertEdge(int from, int to, int weight);
+    bool isEdge(int from, int to);
+    int getWeight(int from, int to);
+    std::vector<int> getAdjacent(int vertex);
+    void printGraph();
+}
+
+class Path
+{
+  public:
+    Path(Graph g, int s);
+    bool hasPathTo(int s);
+    std::vector<int> pathTo(int s);
+}
+```
+
 #### Edge List
 
 An edge list just lists all the edges, and optionally gives the weight per edge. For example:
@@ -2209,7 +2239,7 @@ int main()
 
 The time complexity to determine connectedness is $O(1)$. The time complexity to determine adjacency is $O(\vert V \vert)$. The space is $O(\vert V \vert^2)$.
 
-### Adjacency List
+#### Adjacency List
 
 The Adjacency Matrix has its pros, its cons though is that its space is massive. To alleviate this, an adjacency list can be utilized. An adjacency list is effectively a map, with each key pointing to a vector containing the adjacent vertices, and if weighted, its weight. A possible object to represent this would be like this:
 
@@ -2223,7 +2253,7 @@ This is a map that stores `int`s as keys, and vectors of pairs of ints as values
 |:--:|
 | Example of Adjacency List |
 
-As you can see, unlike an edge list, each individual vertex has a list, and this list then can be accessed. The time complexity for both connectedness and adacency is $O(\text{outdegree}\vert V \vert)$. The outdegree is the number of edges which are going out of a vertex, $V$. The space is $O(\vert V \vert + \vert E \vert) \approx O(\vert V \vert)$. At worst it is $O(\vert V \vert^2)$. The implementation for this is as follows. In this implementation, each vertex is labeled as a string inside of an integer.
+As you can see, unlike an edge list, each individual vertex has a list, and this list then can be accessed. The time complexity for both connectedness and adjacency is $O(\text{outdegree}\vert V \vert)$. The outdegree is the number of edges which are going out of a vertex, $V$. The space is $O(\vert V \vert + \vert E \vert) \approx O(\vert V \vert)$. At worst it is $O(\vert V \vert^2)$. The implementation for this is as follows. In this implementation, each vertex is labeled as a string inside of an integer.
 
 ```cpp
 #include <iostream>
@@ -2247,6 +2277,40 @@ int main()
   }
 }
 ```
+
+### Graph Traversal
+
+Because trees are just a sort of graph, the idea of having a traversals make sense for a graph as well. Just like trees, there are two types of searches, breadth first search and depth first search.
+
+#### Breadth First Search
+
+The pseudocode for the breadth first search is as follows:
+
+* Take an arbitrary start vertex, mark it identified, and place it in a queue.
+* `while` the queue is not empty
+  * Take a vertex, $u$, out of the queue and visit $u$.
+  * `for` all vertices, $v$, adjacent to this vertex, $u$
+    * `if` $v$ has not been identified or visited
+      * Mark it identified
+      * Insert vertex $v$ into the queue.
+  * We are now finished visiting $u$.
+
+To mark if something has been identified, we can use an array of boolean values with the size $\vert V \vert$ to mark if they are true. Another implementation could use a map, with the vertex ID being the key, and the boolean indicating if it has been found or not as the value.
+
+#### Depth First Search
+
+The pseudocode for the depth first search is as follows:
+
+* Take an arbitrary start vertex, mark it visited, and place it in a stack.
+* `while` the stack is not empty
+  * the item on the top of the stack is $u$.
+  * `if` there is a vertex, $v$, which is adjacent to this vertex, $u$, that has not been visited
+    * Mark $v$ as visited.
+    * Push vertex $v$ onto the top of the stack.
+  * `else`
+    * Pop from the stack. 
+
+Just like the breadth first search, what we use to keep track of already searched for values is up to us, I prefer a map honestly.
 
 # Non-ordered Data Structures
 
