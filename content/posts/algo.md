@@ -2312,6 +2312,186 @@ The pseudocode for the depth first search is as follows:
 
 Just like the breadth first search, what we use to keep track of already searched for values is up to us, I prefer a map honestly.
 
+
+### Spanning Trees
+
+Given a graph, a **spanning tree** is a subset of the edges such that there is only one edge connecting each vertex and all the verticies are connected. The tree must be connected and acyclic. The cost of the spanning tree is defined as the sum of the weights of the edges. The **minimum spanning tree** is the spanning tree with the smallest possible cost in weight. A spanning tree with $n$ vertices will have $n-1$ edges. Here are some possible, unweighted, spanning tree examples to visualize the point, the red edges represent the subset:
+
+![](https://coleton.io/post-images/algo/spanningtree.png)
+|:--:|
+| Examples of Spanning Trees |
+
+
+### Graph Algorithms
+
+#### s-t Path Algorithm
+
+Given a graph, how can we figure out if there is a path between vertices $s$ and $t$? This isn't asking what is the path, we are instead asking if there is a path. The easiest way to do this is to perform either a DFS or BFS on the vertex $s$ and if we ever encounter $t$, then we return true, else we return false.
+
+##### Iterative Implementation
+
+We can use an iterative implementation with a stack to determine the s-t path:
+
+```cpp
+#include <set>
+#include <stack>
+
+bool stPathDFS(const Graph& graph, int src, int dest)
+{
+  std::set<int> visited;
+  std::stack<int> stk;
+  visited.insert(src);
+  stk.push(src);
+  while(!stk.empty()) 
+  {
+    int z = stk.top();
+    stk.pop();
+    for (auto v: graph.adjList[u])
+    {
+      if (v == dest)
+        return true;
+      if ((visited.find(v) == visited.end()))
+      {
+        visited.insert(v);
+        stk.push(v);
+      }
+    }
+  }
+  return false;
+}
+```
+
+##### Recursive Implementation
+
+Unlike the iterative implementation, we can instead use recursion:
+
+```cpp
+bool stPathDFSHelper(const Graph& graph, int src, int dest, std::vector<bool>& visited) 
+{
+  visited[src] = true;
+
+  if (src == dest)
+    return true;
+
+  for (int neighbor: graph.adjList[src])
+  {
+    if (!visited[neighbor])
+    {
+      if (stPathDFSHelper(graph, neighbor, dest, visited))
+        return true;
+    }
+  }
+
+  return false;
+}
+
+bool stPathDFS(const Graph& graph, int src, int dest)
+{
+  std::vector<bool> visited(graph.numVertices);
+  return stPathDFSHelper(graph, src, dest, visited);
+}
+```
+
+##### Problems
+
+Imagine that a graph is weighted. Say we want to figure out if A and C are connected. So, if we were to imagine this graph, say that there is a path from A to B, and then B to D, and then finally D to C. The weight from A to B is 10, the weight from B to D is 20, and the weight from D to C is 20. Imagine also another path from A to C exists, this being A to C directly with a weight of 25. A DFS would pick the A to B first on the basis of weight, and the path it would reveal would be A-B-D-C which has a weight of 50. A BFS would reveal this hidden path, so A-C would be chosen at 25, but imagine instead that the weight from A-C is 250, then A-B-D-C is indeed the path with the less weight. Other algorithm's can figure this out. Some example algorithms include Dijkstra's Algorithm, Bellman Ford Algorithm, Floyd-Warshall Algorithm, and A* Search Algorithm. We will be focusing on Dijkstra's Algorithm and the Bellman Ford
+algorithm.
+
+#### Dijkstra's Algorithm
+
+Dijkstra's Algorithm allows us to find the shortest weighted path between two vertices. The characteristics are as follows:
+
+* Single Source: Returns path to all vertices.
+* Directed Graphs.
+* No negative weights are allowed.
+* No negative weight cycles allowed.
+* Guaranteed to return a correct result if the edges are non-negative.
+* Guaranteed to be optimal so long as there are no negative edges.
+* It is a greedy algorithm.
+
+There will be 4 data structures used to implement this algorithm, 2 arrays and 2 sets.
+
+* Source vertex is called $s$
+* Set $S$ will contain the vertices for which we have computed the shortest distance. $S$ at first will be empty.
+* Set $V$ will contain all the vertices we still need to process. $V$ will be initialized with every vertex inside of it.
+* Array $d$ will contain shortest distance from $s$ to some vertex, $v$. Initially all of $d$'s values will be set to infinity except for the $s$ index, which will be 0 (the path from source to source for a simple graph is 0.)
+* Array $p$ will contain the predecessor of $v$ in the path from $s$ to $v$. This means that if the path from to $s$ to $v$ is $s$ to $a$ to $v$, $p \lbrack v \rbrack = a$. Initially all of $p$'s values will be set to -1.
+
+Next comes the principle of **relaxation.** Relaxation is something I wish I had right now as I am studying for the final. Jokes aside, relaxation is the following formula:
+
+* if dist[v] > dist[u] + weight(u, v)
+  * dist[v] = dist[u] + weight(u, v)
+
+This means for a vertex $v$ and a source vertex $s$, if the previous distance from $s$ to $v$ is greater than the distance from $s$ to $u$ plus the weight from $u$ to $v$, that means the weight of the previous path from $s$ to $v$ is greater than the current path of $s$ to $u$ to $v$.
+
+With this in mind, we basically visit a vertex, relax its edges, and then visit the next vertex $v$ if $d \lbrack v \rbrack < d \lbrack \text{all other remaining vertices} \rbrack$, e.g. visit the next vertex with the least sized weight. While this is being done, we are updating array $p$ so that we are keeping track of the predecessors. After we have visited and computed every vertex, we return the paths. The idea behind returning the paths is actually quite ingenious. Imagine the following example graph, with a completed $d$ and $p$ arrays. Basically, this graph has had the algorithm run over it already:
+
+![](https://coleton.io/post-images/algo/dijkstragraph.png)
+|:--:|
+| Example Graph |
+
+Thus a table can be formed with the values generated by the algorithm:
+
+| $v$ | $d \lbrack v \rbrack$ | $p \lbrack v \rbrack$ |
+| --- | --------------------- | --------------------- |
+| $0$ | $0$                   | $-1$                  |
+| $1$ | $10$                  | $0$                   |
+| $2$ | $50$                  | $3$                   |
+| $3$ | $30$                  | $0$                   |
+| $4$ | $60$                  | $2$                   |
+
+So, the path from the source $s$, $0$, to $4$, would mean looking at $p\lbrack 4 \rbrack = 2$, then looking at $p\lbrack 2 \rbrack = 3$, etc. until we get to $s$, $0$. This means the path is $4 \to 2 \to 3 \to 0$.
+
+##### Pseudocode
+
+* Initialize set $S$ with the start vertex, $s$, and initialize set $V$ with the remaining vertices.
+* for all $v$ in $V$
+  * Set $p \lbrack v \rbrack$ to $s$
+  * if there is an edge from $s$ to $v$
+    * Set $d \lbrack v \rbrack$ to the weight($s, v$).
+  * else
+    * Set $d \lbrack v \rbrack$ to $\infin$
+* while $V$ isn't empty
+  * for all $u$ in $V$, find the smallest $d \lbrack u \rbrack$.
+  * Remove $u$ from $V$ and add $u$ to $S$.
+  * for all $v$ adjacent to $u$ in $V$
+    * if $d \lbrack v \rbrack > d \lbrack u \rbrack +$ weight($u, v$).
+      * Set $d \lbrack v \rbrack$ to $d \lbrack u \rbrack +$ weight($u, v$).
+      * Set $p \lbrack v \rbrack$ to $u$.
+
+The time complexity of this pseudocode is $O(V \log V + V \log V + E \log V) = O(E \log V)$, assuming that $E > V$.
+
+#### Prim's Algorithm
+
+In regards to a minimum spanning tree, what are some ways that we can algorithmically determine a minimum spanning tree? One such algorithm that solves this conundrum is **Prim's Algorithm.** Prim's Algorithm analyzes all the connections between vertices and finds the set with minimum total weight that makes the graph connected. The vertices thus are divided into two sets:
+
+* $S$, the set of vertices in a spanning tree. This is initially empty.
+* $V$, the remaining vertices, ones that aren't in the spanning tree yet.
+
+After this, the algorithm chooses the edge with the smallest weight that connects a vertex, $a$, in $S$ to a vertex $b$ in $V$, and then it adds it to the the minimum spanning tree by placing $b$ into $S$. The principle is quite easy, select a vertex, find the minimum weight, that is the edge to that vertex.
+
+##### Pseudocode
+
+* Input: An undirected, connected, weighted graph, $G$
+* Output: $T$, a minimum spanning tree for $G$.
+* $T \coloneqq \empty$.
+* Pick any vertex in $G$ and add it to $T$.
+* for $j = 1$ to $n - 1$, where $n$ is the number of vertices.
+  * Let $C$ be the set of edges with one endpoint inside $T$ and one endpoint outside of $T$.
+  * Let $e$ be a minimum weight edge in $C$ and $v$ be its associated endpoint vertex.
+  * Add $e, v$ to $T$.
+
+The time complexity Prim's Algorithm is $O(EV)$, or $O(E \log V)$ if you utilize priority queues within the implementation.
+
+#### Kruskal's Algorithm
+
+Unlike Prim's Algorithm, **Kruskal's Algorithm** can take directed and undirected edges. It's approach is completely different. How the algorithm works is that it adds every possible edge to a list, and then sorts it in ascending order. Then a new minimum spanning tree is constructed from the list, avoiding any edges that generate a cycle. This rather straightforward up until here, how can we "detect" a cycle? One such method would be to utilize DFS, but its time complexity is very bad, its $O(E (V + E))$. A better method would be to use disjoint sets, or a "weighted union" sets. It consists of a group of sets, such that there is no item in common in any of the sets. This means that there are $n$ sets at first, each containing a vertex. From there, find and union set operations can take place, and a cycle can be detected. It stops whenever all the sets have been combined into one. For an operation called find($i$), which basically returns the set where an element $i$ exists, if for a given edge $i - j$:
+
+* if find($i$) != find($j$) (if $i$ and $j$ don't share the same set)
+  * union($i, j$)
+
+This simple method will always return a MST and its time complexity is $O(E \log V)$, much better than the DFS method.
+
 # Non-ordered Data Structures
 
 ## Set ADT
